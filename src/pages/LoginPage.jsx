@@ -15,7 +15,7 @@ function LoginPage() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-sofigrey">
       {/* Central Image Container */}
-      <div className="relative w-4/5 h-[85vh] rounded-xl overflow-hidden shadow-2xl flex ">
+      <div className="relative w-6/7 h-[85vh] rounded-xl overflow-hidden shadow-2xl flex ">
         {/* Background Image */}
         <img
           src="/LoginImage.jpg"
