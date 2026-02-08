@@ -1,5 +1,14 @@
-@import "tailwindcss";   
+@import "tailwindcss";
+@import "@fontsource/dm-sans";
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-sofiblue: oklch(0.3123 0.0699 261.3);
+  --color-sofigrey: oklch(0.9461 0 0);
+}
 
 body {
-  
+  @apply font-sans;
+   background-color: var(--color-sofigrey);
 }
+

@@ -1,0 +1,113 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+function LoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    navigate("/home"); // fake login
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-sofigrey">
+      {/* Central Image Container */}
+      <div className="relative w-4/5 h-[85vh] rounded-xl overflow-hidden shadow-2xl flex ">
+        {/* Background Image */}
+        <img
+          src="/LoginImage.jpg"
+          alt="Login"
+          className="absolute inset-0 w-full h-full object-cover "
+        />
+
+        {/* Overlay Content */}
+        <div className="relative z-10 flex w-full h-full">
+          {/* Left: Logo + Welcome Text */}
+          <div className="w-1/2 flex flex-col justify-center items-center text-white p-12 ">
+            {/* Retour button */}
+            <button
+              onClick={() => navigate(-1)}
+              className="absolute top-4 left-4 bg-white text-sofiblue px-6 py-3 rounded-lg font-bold shadow-lg hover:scale-105 transition-transform z-10"
+            >
+              Retour
+            </button>
+
+            {/* Logo */}
+
+            <img
+              src="/logo-sofinance-white.svg"
+              alt="Logo"
+              className="w-1/3 h-1/3 drop-shadow-3xl object-contain"
+            />
+
+            {/* Welcome Text */}
+            <h1 className="text-4xl  mt-6 font-bold drop-shadow-3xl text-center">
+              Bienvenue
+            </h1>
+            <h2 className="text-2xl font-medium mt-2 text-center drop-shadow-3xl">
+              sur l’outil de reporting Sofinance
+            </h2>
+          </div>
+
+          {/* Right: Form */}
+          <div className="w-1/2 flex justify-center items-center p-12">
+            <form
+              onSubmit={handleLogin}
+              className="w-full max-w-md bg-white rounded-xl p-8 shadow-lg"
+            >
+              <h2 className="text-3xl font-bold mb-6 text-sofiblue text-center">
+                Connexion
+              </h2>
+
+              {/* Username */}
+              <div className="mb-4">
+                <label className="block mb-1 font-medium">
+                  Nom d'utilisateur
+                </label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sofiblue"
+                />
+              </div>
+
+              {/* Password */}
+              <div className="mb-6">
+                <label className="block mb-1 font-medium">Mot de passe</label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full border rounded-md px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-sofiblue"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  >
+                    {showPassword ? "Masquer" : "Afficher"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full bg-sofiblue text-white py-2 rounded-md font-semibold hover:opacity-90 transition"
+              >
+                Se connecter
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default LoginPage;
