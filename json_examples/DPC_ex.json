@@ -1,0 +1,53 @@
+{
+  "Declaration": {
+    "CodeDeclaration": "DPC",
+    "Entete": {
+      "DateArrete": "2025-01-31",
+      "EtablissementDeclarant": "123"
+    },
+    "Annexes": {
+      "Annexe1": {
+        "NatureDevises": [
+          {
+            "Devise": "USD",
+            "ActifPositionLongue": 1500000.25,
+            "PassifPositionCourte": 1200000.00,
+            "HorsBilanPositionLongue": 300000.50,
+            "HorsBilanPositionCourte": 200000.00,
+            "AjustementPositionLongue": 50000.00,
+            "AjustementPositionCourte": 25000.00,
+            "PositionOperationnelleDevises": 125000.75
+          },
+          {
+            "Devise": "EUR",
+            "ActifPositionLongue": 2000000.00,
+            "PassifPositionCourte": 1800000.00,
+            "HorsBilanPositionLongue": 400000.00,
+            "HorsBilanPositionCourte": 300000.00,
+            "AjustementPositionLongue": 60000.00,
+            "AjustementPositionCourte": 45000.00,
+            "PositionOperationnelleDevises": -85000.00
+          }
+        ]
+      },
+      "Annexe2": {
+        "FondPropreNet": [
+          {
+            "Rubrique": "A",
+            "Montant": 5000000.00
+          },
+          {
+            "Rubrique": "B",
+            "Montant": 2500000.50
+          }
+        ]
+      }
+    },
+    "Signature": [
+      {
+        "SignedBy": "BankAuthority",
+        "SignatureDate": "2025-02-01"
+      }
+    ]
+  }
+}

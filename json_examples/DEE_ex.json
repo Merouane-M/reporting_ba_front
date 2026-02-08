@@ -1,0 +1,44 @@
+{
+  "Declaration": {
+    "CodeDeclaration": "DEE",
+    "Entete": {
+      "DateArrete": "2025-01-31",
+      "EtablissementDeclarant": "456"
+    },
+    "Annexes": {
+      "Detail": {
+        "AnnexeS1000": {
+          "Rubrique": [
+            {
+              "Code": "1001",
+              "Montant": 1250000.50
+            },
+            {
+              "Code": "1002",
+              "Montant": 875000.00
+            }
+          ]
+        },
+        "Annexe3001": {
+          "Engagement": [
+            {
+              "Code": "101",
+              "EngagementSignatureDonnes": 450000.00,
+              "DepotsGarantieProvisions": 125000.25
+            },
+            {
+              "Code": "102",
+              "EngagementSignatureDonnes": 300000.00,
+              "DepotsGarantieProvisions": 95000.00
+            }
+          ]
+        },
+        "Annexe3002": {
+          "FondsPropresDateArretePrecedente": 5000000.00,
+          "AccroissementFondsPropresDateArrete": 750000.00,
+          "DiminutionFondsPropresDateArrete": 250000.00
+        }
+      }
+    }
+  }
+}

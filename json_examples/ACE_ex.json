@@ -1,0 +1,49 @@
+{
+  "Declaration": {
+    "CodeDeclaration": "ACE",
+    "Entete": {
+      "DateArrete": "2025-01-31",
+      "EtablissementDeclarant": "654"
+    },
+    "Annexes": {
+      "Details": {
+        "Avoir": [
+          {
+            "Pays": "FRA",
+            "Correspondant": [
+              {
+                "Monnaie": "EUR",
+                "NomCorrespondant": "BANQUE CENTRALE DE FRANCE",
+                "MontantSoldCorrespondant": 1250000.750,
+                "MontantSoldAttente": -25000.000
+              },
+              {
+                "Monnaie": "USD",
+                "NomCorrespondant": "BNP PARIBAS NEW YORK",
+                "MontantSoldCorrespondant": 980000.125,
+                "MontantSoldAttente": 15000.000
+              }
+            ]
+          },
+          {
+            "Pays": "USA",
+            "Correspondant": [
+              {
+                "Monnaie": "USD",
+                "NomCorrespondant": "FEDERAL RESERVE BANK",
+                "MontantSoldCorrespondant": 2500000.000,
+                "MontantSoldAttente": 0.000
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "Signature": [
+      {
+        "SignedBy": "FinancialAuthority",
+        "SignatureDate": "2025-02-05"
+      }
+    ]
+  }
+}

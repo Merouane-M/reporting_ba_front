@@ -1,0 +1,72 @@
+{
+  "Declaration": {
+    "CodeDeclaration": "DGR",
+    "Entete": {
+      "DateArrete": "2025-03-31",
+      "EtablissementDeclarant": "789"
+    },
+    "Annexes": {
+      "Detail": {
+        "MODG1000": {
+          "EnteteMODG1000": {
+            "FPRDateArretePrecedente": 4500000.00,
+            "FPRDateArrete": 4800000.00
+          },
+          "DetailMODG1000": {
+            "Beneficiaire": [
+              {
+                "CodeOperateur": "123456789012345",
+                "NomBeneficiaire": "SOCIETE ALPHA",
+                "AdresseBeneficiaire": "10 Rue Centrale, Tunis",
+                "NotationInterne": "NI3",
+                "NotationExterne": "NE2",
+                "TypeOperateur": "1",
+                "MontantRisquesPonderes": 1250000.00,
+                "MODG2000": {
+                  "ElementsRisquesEncourus": {
+                    "Element": [
+                      {
+                        "CodeElement": "A",
+                        "SousElement": [
+                          {
+                            "CodeSousElement": "1",
+                            "SousMontantBrut": 800000.00,
+                            "SousMontantGaranties": 200000.00,
+                            "SousMontantProvisions": 50000.00,
+                            "SousMontantRisquePonderes": 550000.00
+                          },
+                          {
+                            "CodeSousElement": "2",
+                            "SousMontantBrut": 400000.00,
+                            "SousMontantGaranties": 100000.00,
+                            "SousMontantProvisions": 25000.00,
+                            "SousMontantRisquePonderes": 275000.00
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "PersonnesLiees": {
+                    "PersonneLiee": [
+                      {
+                        "NIF": "123456789012345",
+                        "NomPersonneliee": "DOE JOHN",
+                        "Capital": 250000.00
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Signature": [
+      {
+        "SignedBy": "RegulatoryAuthority",
+        "SignatureDate": "2025-04-05"
+      }
+    ]
+  }
+}

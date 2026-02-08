@@ -1,0 +1,104 @@
+{
+  "Declaration": {
+    "CodeDeclaration": "OAD",
+    "Entete": {
+      "DateArrete": "2025-01-31",
+      "EtablissementDeclarant": "123"
+    },
+    "Annexes": {
+      "Annexe1": {
+        "AgenceNeant": {
+          "Codeagence": ["012345"]
+        },
+        "Domiciliation": [
+          {
+            "NDomiciliation": "012345202311AB12345XYZ",
+            "CodeAgence": "012345",
+            "CodeOperateur": "123456789012345",
+            "DateOuverture": "2024-05-12",
+            "Produit": [
+              {
+                "TarifDouanierOuNatureServices": "1234567890",
+                "service": "Transport maritime",
+                "PaysMarchandise": ["FRA", "ESP"]
+              }
+            ],
+            "MontantOperationMonnaieOrigine": 250000.50,
+            "FournisseurOuClient": "SOCIETE EXPORT FRANCE",
+            "ChargesRisques": "FOB",
+            "CodeModeReglement": "R01",
+            "NumRegistreCommerce": "12A1234567",
+            "NomOperateur": "EXPORTATEUR FRANCE",
+            "TypeOperateur": "1",
+            "Monnaie": "EUR",
+            "CodePaysFornisseurOuClient": "FRA"
+          }
+        ]
+      },
+      "Annexe2": {
+        "Domiciliation": [
+          {
+            "NDomiciliation": "123456202312CD67890USA",
+            "CodeAgence": "123456",
+            "CodeOperateur": "123456789012345678",
+            "DateOuverture": "2024-01-10",
+            "Produit": [
+              {
+                "TarifDouanierOuNatureServices": "0000000000",
+                "service": "Consulting",
+                "PaysMarchandise": ["USA"]
+              }
+            ],
+            "MontantOperationMonnaieOrigine": 100000.00,
+            "FournisseurOuClient": "CLIENT INTERNATIONAL",
+            "ChargesRisques": "CIF",
+            "CodeModeReglement": "R02",
+            "NumRegistreCommerce": "34B123456789",
+            "NomOperateur": "IMPORTATEUR USA",
+            "TypeOperateur": "2",
+            "Monnaie": "USD",
+            "CodePaysFornisseurOuClient": "USA",
+            "DateApurement": "2025-01-15",
+            "MontantTotal": 100000.00,
+            "MontantContreValeurExecute": 108500.00
+          }
+        ]
+      },
+      "Annexe3": {
+        "Domiciliation": [
+          {
+            "NDomiciliation": "234567202411EF54321MAR",
+            "CodeAgence": "234567",
+            "CodeOperateur": "987654321098765",
+            "DateOuverture": "2023-09-01",
+            "Produit": [
+              {
+                "TarifDouanierOuNatureServices": "9876543210",
+                "service": "Maintenance industrielle",
+                "PaysMarchandise": ["MAR"]
+              }
+            ],
+            "MontantOperationMonnaieOrigine": 75000.00,
+            "FournisseurOuClient": "FOURNISSEUR MAGHREB",
+            "ChargesRisques": "EXW",
+            "CodeModeReglement": "R03",
+            "NumRegistreCommerce": "56A9876543",
+            "NomOperateur": "OPERATEUR MAROC",
+            "TypeOperateur": "1",
+            "Monnaie": "MAD",
+            "CodePaysFornisseurOuClient": "MAR",
+            "Observations": "A",
+            "MontantExecute": 70000.00,
+            "MontantContreValeurExecute": 76000.00
+          }
+        ]
+      }
+    },
+    "Signature": [
+      {
+        "SignedBy": "CentralAuthority",
+        "SignatureDate": "2025-02-05"
+      }
+    ]
+  }
+}

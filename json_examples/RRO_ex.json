@@ -1,0 +1,31 @@
+{
+  "Declaration": {
+    "CodeDeclaration": "RRO",
+    "Entete": {
+      "DateArrete": "2025-02-15",
+      "EtablissementDeclarant": "321"
+    },
+    "Annexes": {
+      "Detail": {
+        "Reserves": {
+          "ChapitreReserve": [
+            {
+              "Rubrique": "A",
+              "Montant": 1500000.00
+            },
+            {
+              "Rubrique": "B",
+              "Montant": 750000.50
+            }
+          ]
+        }
+      }
+    },
+    "Signature": [
+      {
+        "SignedBy": "SupervisoryAuthority",
+        "SignatureDate": "2025-02-20"
+      }
+    ]
+  }
+}
