@@ -7,6 +7,27 @@
   --color-sofigrey: oklch(0.9461 0 0);
 }
 
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 font-semibold 
+           text-base 
+        
+
+  }
+
+  .btn-primary{
+    @apply bg-sofiblue text-white  
+    hover:bg-sofigrey hover:border hover:border-sofiblue hover:text-sofiblue
+
+  }
+
+  .btn-secondary {
+    @apply bg-sofigrey border border-sofiblue
+    hover:bg-sofiblue hover:text-white
+
+  }
+}
+
 body {
   @apply font-sans;
    background-color: var(--color-sofigrey);

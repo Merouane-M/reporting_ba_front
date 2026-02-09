@@ -14,28 +14,22 @@ function LoginPage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-sofigrey">
-      {/* Central Image Container */}
       <div className="relative w-6/7 h-[85vh] rounded-xl overflow-hidden shadow-2xl flex ">
-        {/* Background Image */}
         <img
           src="/LoginImage.jpg"
           alt="Login"
           className="absolute inset-0 w-full h-full object-cover "
         />
 
-        {/* Overlay Content */}
         <div className="relative z-10 flex w-full h-full">
-          {/* Left: Logo + Welcome Text */}
-          <div className="w-1/2 flex flex-col justify-center items-center text-white p-12 ">
-            {/* Retour button */}
+          <div className="w-1/2 flex flex-col justify-center items-center  p-12 ">
             <button
               onClick={() => navigate(-1)}
-              className="absolute top-4 left-4 bg-white text-sofiblue px-6 py-3 rounded-lg font-bold shadow-lg hover:scale-105 transition-transform z-10"
+              className="btn btn-secondary absolute top-4 left-4"
             >
               Retour
             </button>
 
-            {/* Logo */}
 
             <img
               src="/logo-sofinance-white.svg"
@@ -43,16 +37,15 @@ function LoginPage() {
               className="w-1/3 h-1/3 drop-shadow-3xl object-contain"
             />
 
-            {/* Welcome Text */}
-            <h1 className="text-4xl  mt-6 font-bold drop-shadow-3xl text-center">
+            <h1 className="text-4xl text-white mt-6 font-bold drop-shadow-3xl text-center">
               Bienvenue
             </h1>
-            <h2 className="text-2xl font-medium mt-2 text-center drop-shadow-3xl">
+            <h2 className="text-2xl text-white font-medium mt-2 text-center drop-shadow-3xl">
               sur l’outil de reporting Sofinance
             </h2>
           </div>
 
-          {/* Right: Form */}
+       
           <div className="w-1/2 flex justify-center items-center p-12">
             <form
               onSubmit={handleLogin}
@@ -62,7 +55,6 @@ function LoginPage() {
                 Connexion
               </h2>
 
-              {/* Username */}
               <div className="mb-4">
                 <label className="block mb-1 font-medium">
                   Nom d'utilisateur
@@ -75,7 +67,6 @@ function LoginPage() {
                 />
               </div>
 
-              {/* Password */}
               <div className="mb-6">
                 <label className="block mb-1 font-medium">Mot de passe</label>
                 <div className="relative">
@@ -95,10 +86,10 @@ function LoginPage() {
                 </div>
               </div>
 
-              {/* Submit Button */}
+          
               <button
                 type="submit"
-                className="w-full bg-sofiblue text-white py-2 rounded-md font-semibold hover:opacity-90 transition"
+                className="btn btn-primary w-full "
               >
                 Se connecter
               </button>
