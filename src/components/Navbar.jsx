@@ -1,26 +1,33 @@
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContext";
 
-function Navbar({ hidden, isExpanded }) { // Accept isExpanded prop
+function Navbar({ hidden, isExpanded }) {
   const navigate = useNavigate();
+  const { logout, profile, loadingProfile } = useAuthContext();
 
-  const handleLogout = (e) => {
-    e.preventDefault();
+  const handleLogout = () => {
+    logout();
     navigate("/");
   };
 
   return (
     <header
-      className={`fixed top-0 right-0 z-50 h-1/14 bg-white shadow
-                  transition-all duration-300 ease-in-out // Added transition-all for left/width changes
-                  ${hidden ? "-translate-y-full" : "translate-y-0"}
-                  ${isExpanded ? "left-64 w-[calc(100%-16rem)]" : "left-16 w-[calc(100%-4rem)]"}`} // Dynamic left and width
+      className={`fixed top-0 right-0 z-10 h-1/14 bg-white shadow
+        transition-all duration-300 ease-in-out
+        ${hidden ? "-translate-y-full" : "translate-y-0"}
+        ${isExpanded ? "left-64 w-[calc(100%-16rem)]" : "left-16 w-[calc(100%-4rem)]"}
+      `}
     >
       <div className="h-full max-w-7xl mx-auto px-2 flex items-center justify-between">
         {/* Left */}
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl text-sofiblue font-medium mt-2 text-center drop-shadow-3xl">
-            Bonjour, Mr
-          </h1>
+          {!loadingProfile && profile ? (
+            <h1 className="text-2xl text-sofiblue font-medium mt-2">
+              Bonjour, {profile.prenom} {profile.nom}
+            </h1>
+          ) : (
+            <div className="w-48 h-6 bg-gray-200 animate-pulse rounded" />
+          )}
         </div>
 
         {/* Right */}

@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { documentTypes } from '../constants/documents';  // Adjust path if needed (e.g., './documents' if in same folder)
 
-function Sidebar({ isExpanded, isPinned, setIsPinned, files = ["DEE", "DGR"] }) {
+function Sidebar({ isExpanded, isPinned, setIsPinned }) {  // Removed documentTypes from props
   const navigate = useNavigate();
 
   return (
-    <aside className="h-screen flex flex-col ">
+    <aside className="h-screen flex flex-col">
       {/* Top section */}
       <div className="flex items-center justify-between p-4">
         <div className="flex items-center gap-2">
@@ -46,14 +47,14 @@ function Sidebar({ isExpanded, isPinned, setIsPinned, files = ["DEE", "DGR"] }) 
             </button>
 
             <div className="pt-2 border-t border-white/20 space-y-1">
-              {files.map((file) => (
+              {documentTypes.map((doc) => (
                 <button
-                  key={file}
-                  onClick={() => navigate(`/${file}`)}
+                  key={doc.abbr}  // Unique key using abbreviation
+                  onClick={() => navigate(`/documents/${doc.abbr}`)}  
                   className="w-full text-left rounded px-3 py-2 text-sm
                              hover:bg-white/10 transition"
                 >
-                  {file}
+                  {doc.abbr + " : " + doc.fullName}
                 </button>
               ))}
             </div>

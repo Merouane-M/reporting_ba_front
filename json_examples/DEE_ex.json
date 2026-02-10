@@ -1,44 +1,48 @@
 {
-  "Declaration": {
+    "ACCROISSEMENT_FONDS_PROPRES_DATE_ARRETE": "65000.00",
+    "C331_DEPOTS": "145000.00",
+    "C331_SIGNATURE": "135000.00",
+    "C332_DEPOTS": "140000.00",
+    "C332_SIGNATURE": "130000.00",
+    "C333_DEPOTS": "137000.00",
+    "C333_SIGNATURE": "132000.00",
+    "C334_DEPOTS": "138000.00",
+    "C334_SIGNATURE": "131000.00",
+    "C335_DEPOTS": "136000.00",
+    "C335_SIGNATURE": "133000.00",
     "CodeDeclaration": "DEE",
-    "Entete": {
-      "DateArrete": "2025-01-31",
-      "EtablissementDeclarant": "456"
-    },
-    "Annexes": {
-      "Detail": {
-        "AnnexeS1000": {
-          "Rubrique": [
-            {
-              "Code": "1001",
-              "Montant": 1250000.50
-            },
-            {
-              "Code": "1002",
-              "Montant": 875000.00
-            }
-          ]
-        },
-        "Annexe3001": {
-          "Engagement": [
-            {
-              "Code": "101",
-              "EngagementSignatureDonnes": 450000.00,
-              "DepotsGarantieProvisions": 125000.25
-            },
-            {
-              "Code": "102",
-              "EngagementSignatureDonnes": 300000.00,
-              "DepotsGarantieProvisions": 95000.00
-            }
-          ]
-        },
-        "Annexe3002": {
-          "FondsPropresDateArretePrecedente": 5000000.00,
-          "AccroissementFondsPropresDateArrete": 750000.00,
-          "DiminutionFondsPropresDateArrete": 250000.00
-        }
-      }
-    }
-  }
+    "DIMINUTION_FONDS_PROPRES_DATE_ARRETE": "50000.00",
+    "FONDS_PROPRES_DATE_ARRETE_PRECEDENTE": "90000.00",
+    "Frequence": "MONTHLY",
+    "M_1001": "155000.00",
+    "M_1002": "151000.00",
+    "M_1003": "160000.00",
+    "M_1004": "154000.00",
+    "M_1005": "163500.00",
+    "M_1006": "150000.00",
+    "M_1007": "156000.00",
+    "M_1009": "159000.00",
+    "M_1010": "152000.00",
+    "M_1011": "165000.00",
+    "M_1012": "158000.00",
+    "M_1013": "162000.00",
+    "M_1014": "156000.00",
+    "M_1015": "161000.00",
+    "M_1016": "149000.00",
+    "M_1019": "164000.00",
+    "M_1020": "139000.00",
+    "M_1021": "167000.00",
+    "M_1022": "154500.00",
+    "M_1023": "159500.00",
+    "M_1024": "157000.00",
+    "M_1026": "163500.00",
+    "M_1027": "155500.00",
+    "created_at": "Sun, 08 Feb 2026 14:46:51 GMT",
+    "date_arrete": "Fri, 01 Sep 2023 00:00:00 GMT",
+    "deleted_at": null,
+    "etablissement_declarant": "025",
+    "id": 12,
+    "is_deleted": false,
+    "status": "VALIDATED",
+    "updated_at": "Sun, 08 Feb 2026 14:46:51 GMT"
 }

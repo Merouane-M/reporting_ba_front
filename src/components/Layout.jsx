@@ -9,9 +9,9 @@ function Layout({ children }) {
 
   return (
     <div className="min-h-screen flex bg-gray-100"> {/* Outer container */}
-      {/* Sidebar - Fixed on the left, collapsible */}
+      {/* Sidebar - Fixed on the left, collapsible, hidden on small screens */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 transition-[width] duration-300 ease-in-out flex flex-col overflow-hidden ${
+        className={`hidden md:block fixed inset-y-0 left-0 z-50 transition-[width] duration-300 ease-in-out flex flex-col rounded-2xl m-1 overflow-hidden ${
           isExpanded ? "w-64 bg-sofiblue text-white" : "w-16 bg-sofiblue text-white"
         }`}
         onMouseEnter={() => setIsHovered(true)}
@@ -20,15 +20,19 @@ function Layout({ children }) {
         <Sidebar isExpanded={isExpanded} isPinned={isPinned} setIsPinned={setIsPinned} />
       </div>
       
-      {/* Main content area - Adjusts margin based on sidebar expansion */}
+      {/* Main content area - Adjusts margin based on sidebar expansion, no margin on small screens */}
       <div
         className={`flex flex-col flex-1 transition-all duration-300 ease-in-out ${
-          isExpanded ? "ml-64" : "ml-16"
+          isExpanded ? "md:ml-64 ml-0" : "md:ml-16 ml-0"
         }`}
       >
-        <Navbar isExpanded={isExpanded} />
-        <main className="flex-1 p-16 bg-sofigrey overflow-auto" role="main">
-          {children}
+        <div className="flex-shrink-0">
+          <Navbar isExpanded={isExpanded} />
+        </div>
+        <main className="flex-1 bg-sofigrey overflow-auto" role="main">
+          <div className="flex justify-center items-center h-full">
+            {children}
+          </div>
         </main>
       </div>
     </div>
