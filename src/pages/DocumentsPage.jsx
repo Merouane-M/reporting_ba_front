@@ -1,22 +1,64 @@
-// src/pages/DocumentsPage.jsx
 import { useParams } from "react-router-dom";
-import DocumentsTable from "../components/DocumentsTable";
+import { useEffect } from "react";
+import { useDocument } from "../context/DocumentContext";
 import { documentTypes } from "../constants/documents";
+import DocumentsTable from "../components/DocumentsTable";
 import Layout from "../components/Layout";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 function DocumentsPage() {
-  const { type } = useParams(); // expects route like /documents/:type
-  const docType = documentTypes.find(d => d.abbr === type.toUpperCase());
+  const { type } = useParams();
+  const { document, setDocument } = useDocument();
 
-  if (!docType) return <p>Document type introuvable</p>;
+  const upperType = type?.toUpperCase();
+
+  const docType = documentTypes.find(
+    (d) => d.abbr === upperType
+  );
+
+  // this component is only source of truth for Document context 
+  useEffect(() => {
+    if (upperType) {
+      setDocument(upperType);
+    }
+  }, [upperType, setDocument]);
+
+  if (!docType) {
+    return (
+      <Layout>
+        <p className="p-6 text-center text-red-600 font-semibold">
+          Document type introuvable
+        </p>
+      </Layout>
+    );
+  }
+
+  const handleAdd = () => {
+    console.log("Adding document of type:", document);
+    // TODO: open modal or navigate to create page
+  };
 
   return (
     <Layout>
+      <div className="flex flex-col w-9/10">
+        <div className="flex flex-row justify-between items-center mb-6">
+          <h1 className="text-xl font-bold text-sofiblue">
+            {docType.fullName}
+          </h1>
 
-      <h1 className="text-left text-xl font-bold text-sofiblue">{docType.fullName}</h1>
-      <DocumentsTable type={docType.abbr} />
+          <button
+            className="btn btn-primary gap-1 w-1/5 flex items-center justify-center"
+            onClick={handleAdd}
+            title="Add"
+          >
+            <PlusIcon className="h-5 w-5" />
+            Ajouter
+          </button>
+        </div>
+
+        <DocumentsTable />
+      </div>
     </Layout>
-    
   );
 }
 

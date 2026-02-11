@@ -9,7 +9,7 @@
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center rounded-md px-4 py-2 font-semibold 
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 font-semibold  gap-1
            text-base 
         
 
@@ -25,6 +25,10 @@
     @apply bg-sofigrey border border-sofiblue
     hover:bg-sofiblue hover:text-white
 
+  }
+    .btn-danger {
+    @apply bg-red-600 text-white
+           hover:bg-red-700 hover:border hover:border-red-600;
   }
 }
 

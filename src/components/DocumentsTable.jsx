@@ -1,127 +1,202 @@
+// src/components/DocumentsTable.jsx
 import { useEffect, useState } from "react";
 import { getDocuments, removeDocument } from "../services/document.service";
+import { useDocument } from "../context/DocumentContext";
+import DocumentActions from "./DocumentsTable/DocumentActions";
+import DocumentStatus from "./DocumentsTable/DocumentStatus";
+import ConfirmModal from "./DocumentsTable/ConfirmModal";
 
-// Assuming you have icons available (e.g., from Heroicons or React Icons). If not, install via npm i react-icons and import as needed.
-// Example imports (adjust based on your icon library):
-import { EyeIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';  // For view, edit, delete
-
-function DocumentsTable({ type }) {
+function DocumentsTable() {
+  const { document } = useDocument();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
+  // Filters & pagination
+  const [filterText, setFilterText] = useState("");
+  const [filterDate, setFilterDate] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 15;
+
+  // ================= FETCH DOCUMENTS =================
   const fetchData = async () => {
+    if (!document) return;
+
     setLoading(true);
     try {
-      const docs = await getDocuments(type);
+      const docs = await getDocuments(document);
       setData(docs);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to fetch documents:", err);
+      setData([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce document ?")) {
-      await removeDocument(type, id);
+  useEffect(() => {
+    if (!document) return;
+    fetchData();
+  }, [document]);
+
+  // ================= HANDLERS =================
+  const handleDeleteClick = (id) => {
+    setSelectedId(id);
+    setIsModalOpen(true); // open confirmation modal
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!selectedId) return;
+
+    try {
+      await removeDocument(document, selectedId);
       fetchData(); // refresh table
+      setIsModalOpen(false);
+      setSelectedId(null);
+    } catch (err) {
+      console.error("Erreur lors de la suppression :", err);
     }
   };
 
-  const handleView = (id) => {
-    console.log("View", id);
-    // Add navigation or modal logic here if needed
+  const handleCancelDelete = () => {
+    setIsModalOpen(false);
+    setSelectedId(null);
   };
 
-  const handleEdit = (id) => {
-    console.log("Edit", id);
-    // Add navigation or modal logic here if needed
-  };
+  const handleView = (id) => console.log("View", id, "Type:", document);
+  const handleEdit = (id) => console.log("Edit", id, "Type:", document);
+  const handleDownload = (id) => console.log("Download", id, "Type:", document);
 
-  useEffect(() => {
-    fetchData();
-  }, [type]);
+  // ================= SORT, FILTER, PAGINATE =================
+  const sortedData = [...data].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
 
+  const filteredData = sortedData.filter((doc) => {
+    const matchesText =
+      doc.id.toString().includes(filterText) ||
+      doc.status.toLowerCase().includes(filterText.toLowerCase());
+
+    const filterDateObj = filterDate ? new Date(filterDate) : null;
+    const matchesDate =
+      !filterDateObj ||
+      [doc.created_at, doc.updated_at, doc.date_arrete].some((d) => {
+        const date = new Date(d);
+        return (
+          date.getFullYear() === filterDateObj.getFullYear() &&
+          date.getMonth() === filterDateObj.getMonth() &&
+          date.getDate() === filterDateObj.getDate()
+        );
+      });
+
+    return matchesText && matchesDate;
+  });
+
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  // ================= LOADING =================
   if (loading) {
     return (
       <div className="flex justify-center items-center p-6">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
-        <span className="ml-2 text-gray-600">Chargement…</span>
+        <span className="ml-2 text-sofiblue font-bold">Chargement…</span>
       </div>
     );
   }
 
-  if (data.length === 0) {
+  // ================= EMPTY =================
+  if (!loading && data.length === 0) {
     return (
       <div className="p-6 text-center">
-        <p className="text-gray-500">Aucun document trouvé pour {type}.</p>
+        <p className="text-sofiblue font-bold">
+          Aucun document trouvé pour {document || "?"}.
+        </p>
       </div>
     );
   }
 
+  // ================= TABLE =================
   return (
     <div className="p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">{type} Declarations</h2>
-      
-      {/* Desktop Table View */}
+      {/* Header + Filters */}
+      <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
+        <h2 className="text-2xl font-bold text-sofiblue">
+          {document} Declarations
+        </h2>
+
+        <div className="flex flex-col md:flex-row gap-2 w-full md:w-1/2">
+          <input
+            type="text"
+            placeholder="Rechercher par ID ou status..."
+            value={filterText}
+            onChange={(e) => {
+              setFilterText(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="border border-sofiblue rounded-md px-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-sofiblue"
+          />
+
+          <input
+            type="date"
+            placeholder="Filtrer par date"
+            value={filterDate}
+            onChange={(e) => {
+              setFilterDate(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="border border-sofiblue rounded-md px-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-sofiblue"
+          />
+        </div>
+      </div>
+
       <div className="hidden md:block overflow-x-auto">
         <table className="w-full border-collapse bg-white rounded-lg overflow-hidden shadow-sm">
           <thead>
             <tr className="bg-sofiblue text-white">
               <th className="p-4 text-left font-semibold">ID</th>
               <th className="p-4 text-left font-semibold">Date d'arrêté</th>
-              <th className="p-4 text-left font-semibold">Created At</th>
-              <th className="p-4 text-left font-semibold">Updated At</th>
+              <th className="p-4 text-left font-semibold">Création</th>
+              <th className="p-4 text-left font-semibold">
+                Dernière modification
+              </th>
               <th className="p-4 text-left font-semibold">Status</th>
               <th className="p-4 text-center font-semibold">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {data.map((row, index) => (
+            {paginatedData.map((row, index) => (
               <tr
                 key={row.id}
-                className={`hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}
+                className={`hover:bg-gray-50 border-b border-sofiblue transition-colors ${
+                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                }`}
               >
-                <td className="p-4 text-gray-700">{row.id}</td>
-                <td className="p-4 text-gray-700">{new Date(row.date_arrete).toLocaleDateString('fr-FR')}</td>
-                <td className="p-4 text-gray-700">{new Date(row.created_at).toLocaleString('fr-FR')}</td>
-                <td className="p-4 text-gray-700">{new Date(row.updated_at).toLocaleString('fr-FR')}</td>
-                <td className="p-4">
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      row.status === 'Active' ? 'bg-green-100 text-green-800' :
-                      row.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
-                    }`}
-                  >
-                    {row.status}
-                  </span>
+                <td className="p-4 text-lg text-sofiblue">{row.id}</td>
+                <td className="p-4 text-lg font-bold text-sofiblue">
+                  {new Date(row.date_arrete).toLocaleDateString("fr-FR")}
                 </td>
-                <td className="p-4 flex justify-center gap-2">
-                  <button
-                    className="btn btn-primary flex items-center gap-1"
-                    onClick={() => handleView(row.id)}
-                    title="View"
-                  >
-                    <EyeIcon className="h-4 w-4" />
-                    View
-                  </button>
-                  <button
-                    className="btn btn-secondary flex items-center gap-1"
-                    onClick={() => handleEdit(row.id)}
-                    title="Edit"
-                  >
-                    <PencilIcon className="h-4 w-4" />
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-danger flex items-center gap-1"
-                    onClick={() => handleDelete(row.id)}
-                    title="Delete"
-                  >
-                    <TrashIcon className="h-4 w-4" />
-                    Delete
-                  </button>
+                <td className="p-4 text-lg text-sofiblue">
+                  {new Date(row.created_at).toLocaleDateString("fr-FR")}
+                </td>
+                <td className="p-4 text-lg text-sofiblue">
+                  {new Date(row.updated_at).toLocaleString("fr-FR")}
+                </td>
+                <td>
+                  <DocumentStatus status={row.status} />
+                </td>
+                <td className="p-4">
+                  <DocumentActions
+                    id={row.id}
+                    onView={handleView}
+                    onEdit={handleEdit}
+                    onDownload={handleDownload}
+                    onDelete={() => handleDeleteClick(row.id)}
+                  />
                 </td>
               </tr>
             ))}
@@ -129,51 +204,46 @@ function DocumentsTable({ type }) {
         </table>
       </div>
 
-      {/* Mobile Card View */}
-      <div className="md:hidden space-y-4">
-        {data.map((row) => (
-          <div key={row.id} className="bg-gray-50 p-4 rounded-lg shadow-sm border">
-            <div className="flex justify-between items-start mb-2">
-              <span className="font-semibold text-gray-800">ID: {row.id}</span>
-              <span
-                className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  row.status === 'Active' ? 'bg-green-100 text-green-800' :
-                  row.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
-                  'bg-red-100 text-red-800'
-                }`}
-              >
-                {row.status}
-              </span>
-            </div>
-            <p className="text-sm text-gray-600 mb-1">Date d'arrêté: {new Date(row.date_arrete).toLocaleDateString('fr-FR')}</p>
-            <p className="text-sm text-gray-600 mb-1">Created: {new Date(row.created_at).toLocaleString('fr-FR')}</p>
-            <p className="text-sm text-gray-600 mb-4">Updated: {new Date(row.updated_at).toLocaleString('fr-FR')}</p>
-            <div className="flex gap-2">
-              <button
-                className="btn btn-primary flex items-center gap-1 text-xs"
-                onClick={() => handleView(row.id)}
-              >
-                <EyeIcon className="h-3 w-3" />
-                View
-              </button>
-              <button
-                className="btn btn-secondary flex items-center gap-1 text-xs"
-                onClick={() => handleEdit(row.id)}
-              >
-                <PencilIcon className="h-3 w-3" />
-                Edit
-              </button>
-              <button
-                className="btn btn-danger flex items-center gap-1 text-xs"
-                onClick={() => handleDelete(row.id)}
-              >
-                <TrashIcon className="h-3 w-3" />
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center gap-2 mt-4">
+          <button
+            className="btn btn-secondary"
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => prev - 1)}
+          >
+            Précédent
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              className={`btn ${
+                currentPage === i + 1 ? "btn-primary" : "btn-secondary"
+              }`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          <button
+            className="btn btn-secondary"
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => prev + 1)}
+          >
+            Suivant
+          </button>
+        </div>
+      )}
+            {/* ================= CONFIRM MODAL ================= */}
+      <ConfirmModal
+        isOpen={isModalOpen}
+        title="Confirmer la suppression ⚠️"
+        message=" Êtes-vous sûr de vouloir supprimer ce document ? Cette action est irréversible."
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
     </div>
   );
 }
