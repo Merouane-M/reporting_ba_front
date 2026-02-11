@@ -1,14 +1,19 @@
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { useDocument } from "../context/DocumentContext";
 import { documentTypes } from "../constants/documents";
 import DocumentsTable from "../components/DocumentsTable";
 import Layout from "../components/Layout";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import CreateDocumentModal from "../components/deeform/CreateModal";
 
 function DocumentsPage() {
   const { type } = useParams();
   const { document, setDocument } = useDocument();
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+const navigate = useNavigate();
 
   const upperType = type?.toUpperCase();
 
@@ -33,10 +38,11 @@ function DocumentsPage() {
     );
   }
 
-  const handleAdd = () => {
-    console.log("Adding document of type:", document);
-    // TODO: open modal or navigate to create page
-  };
+
+const handleAdd = () => {
+  navigate("/documents/dee/create");
+};
+
 
   return (
     <Layout>
@@ -58,6 +64,11 @@ function DocumentsPage() {
 
         <DocumentsTable />
       </div>
+            <CreateDocumentModal
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+        documentType={document}
+      />
     </Layout>
   );
 }

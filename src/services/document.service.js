@@ -1,15 +1,46 @@
-import { fetchDocuments, deleteDocument } from "../api/document.api";
+import {
+  fetchDocuments,
+  fetchDocumentById,
+  createDocument,
+  updateDocument,
+  deleteDocument,
+} from "../api/document.api";
 
-// Get all documents by type
+/* =========================
+   GET ALL
+========================= */
 export const getDocuments = async (type) => {
-  console.log("getDocuments called with type:", type);
-  const data = await fetchDocuments(type);
-  console.log("Fetched documents:", data);
-  return data;
+  return await fetchDocuments(type);
 };
 
+/* =========================
+   GET ONE
+========================= */
+export const getDocumentById = async (type, id) => {
+  return await fetchDocumentById(type, id);
+};
 
-// Delete document by type and id
+/* =========================
+   CREATE
+========================= */
+export const addDocument = async (type, data) => {
+  const payload = {
+    ...data,
+    etablissement_declarant: "025", // ✅ always injected here
+  };
+
+  return await createDocument(type, payload);
+};
+/* =========================
+   UPDATE
+========================= */
+export const editDocument = async (type, id, data) => {
+  return await updateDocument(type, id, data);
+};
+
+/* =========================
+   DELETE
+========================= */
 export const removeDocument = async (type, id) => {
-  await deleteDocument(type, id);
+  return await deleteDocument(type, id);
 };
