@@ -1,29 +1,88 @@
-const fields = [
-  "ACCROISSEMENT_FONDS_PROPRES_DATE_ARRETE",
-  "FONDS_PROPRES_DATE_ARRETE_PRECEDENTE",
-  "DIMINUTION_FONDS_PROPRES_DATE_ARRETE",
-];
+import React from "react";
+import FormattedNumberInput from "../general/FormattedNumberInput";
 
 function StepFondsPropres({ formData, updateField }) {
+  const getValue = (field) => Number(formData[field] || 0);
+
+  const accroissement = getValue("ACCROISSEMENT_FONDS_PROPRES_DATE_ARRETE");
+  const precedente = getValue("FONDS_PROPRES_DATE_ARRETE_PRECEDENTE");
+  const diminution = getValue("DIMINUTION_FONDS_PROPRES_DATE_ARRETE");
+
+  const fondsPropresReglementaires =
+    accroissement + precedente - diminution;
+
   return (
-    <div>
-      <h3 className="text-lg font-semibold mb-4 text-sofiblue">
+    <div className="bg-white rounded-lg p-6">
+      <h3 className="text-xl font-bold mb-6 text-sofiblue">
         Fonds Propres
       </h3>
 
-      <div className="grid grid-cols-1 gap-4 w-1/2">
-        {fields.map((field) => (
-          <div key={field}>
-            <label className="text-sm font-medium">{field}</label>
-            <input
-              type="number"
-              step="0.01"
-              className="border rounded p-2 w-full"
-              value={formData[field] || ""}
-              onChange={(e) => updateField(field, e.target.value)}
-            />
+      <div className="flex flex-wrap gap-3">
+        
+
+
+        {/* PRECEDENTE */}
+        <div className="flex flex-col w-1/4">
+          <label className="text-base font-semibold mb-2">
+            Fonds propres à la date d'arrêté <br/> précédente
+          </label>
+          <FormattedNumberInput
+            value={formData.FONDS_PROPRES_DATE_ARRETE_PRECEDENTE}
+            onChange={(val) =>
+              updateField(
+                "FONDS_PROPRES_DATE_ARRETE_PRECEDENTE",
+                val
+              )
+            }
+          />
+        </div>
+        
+
+                {/* ACCROISSEMENT */}
+        <div className="flex flex-col w-1/4">
+          <label className="text-base font-semibold mb-2">
+            Accroissement des fonds propres à la date d'arrêté
+          </label>
+          <FormattedNumberInput
+            value={formData.ACCROISSEMENT_FONDS_PROPRES_DATE_ARRETE}
+            onChange={(val) =>
+              updateField(
+                "ACCROISSEMENT_FONDS_PROPRES_DATE_ARRETE",
+                val
+              )
+            }
+          />
+        </div>
+
+        {/* DIMINUTION */}
+        <div className="flex flex-col w-1/4">
+          <label className="text-base font-semibold mb-2">
+            Diminution des fonds propres à la date d'arrêté
+          </label>
+          <FormattedNumberInput
+            value={formData.DIMINUTION_FONDS_PROPRES_DATE_ARRETE}
+            onChange={(val) =>
+              updateField(
+                "DIMINUTION_FONDS_PROPRES_DATE_ARRETE",
+                val
+              )
+            }
+          />
+        </div>
+
+        {/* CALCULATED FIELD */}
+        <div className="flex flex-col w-1/5">
+          <label className="text-base font-semibold mb-2">
+            Fonds propres réglementaires à la date d'arrêté
+          </label>
+          <div className="bg-sofiblue text-white rounded p-2 text-right font-bold text-lg">
+            {fondsPropresReglementaires.toLocaleString("fr-FR", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
           </div>
-        ))}
+        </div>
+
       </div>
     </div>
   );

@@ -29,7 +29,7 @@ function Layout({ children }) {
         <div className="flex-shrink-0">
           <Navbar isExpanded={isExpanded} />
         </div>
-        <main className="flex-1 bg-sofigrey overflow-auto" role="main">
+        <main className="flex-1 bg-sofigrey pt-20 overflow-auto" role="main">
           <div className="flex justify-center items-center h-full">
             {children}
           </div>

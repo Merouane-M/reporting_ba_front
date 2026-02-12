@@ -12,7 +12,7 @@ export const fetchDocuments = async (type) => {
    GET SINGLE DOCUMENT
 ========================= */
 export const fetchDocumentById = async (type, id) => {
-  const res = await api.get(`/${type.toLowerCase()}_list/${id}/`);
+  const res = await api.get(`/${type.toLowerCase()}_list/${id}`);
   return res.data;
 };
 

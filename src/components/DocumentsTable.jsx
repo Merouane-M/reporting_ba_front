@@ -2,15 +2,17 @@
 import { useEffect, useState } from "react";
 import { getDocuments, removeDocument } from "../services/document.service";
 import { useDocument } from "../context/DocumentContext";
+import { useNavigate } from "react-router-dom"; // Add this import
 import DocumentActions from "./DocumentsTable/DocumentActions";
 import DocumentStatus from "./DocumentsTable/DocumentStatus";
 import ConfirmModal from "./DocumentsTable/ConfirmModal";
 
-function DocumentsTable() {
+function DocumentsTable({ type }) {
   const { document } = useDocument();
+  const navigate = useNavigate(); // Add navigate hook
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
   // Filters & pagination
@@ -21,11 +23,11 @@ function DocumentsTable() {
 
   // ================= FETCH DOCUMENTS =================
   const fetchData = async () => {
-    if (!document) return;
+    if (!type) return; // Early return if type is not set
 
     setLoading(true);
     try {
-      const docs = await getDocuments(document);
+      const docs = await getDocuments(type); // Use type prop instead of context
       setData(docs);
     } catch (err) {
       console.error("Failed to fetch documents:", err);
@@ -36,9 +38,8 @@ function DocumentsTable() {
   };
 
   useEffect(() => {
-    if (!document) return;
     fetchData();
-  }, [document]);
+  }, [type]); // Depend on type prop
 
   // ================= HANDLERS =================
   const handleDeleteClick = (id) => {
@@ -50,7 +51,7 @@ function DocumentsTable() {
     if (!selectedId) return;
 
     try {
-      await removeDocument(document, selectedId);
+      await removeDocument(type, selectedId); // Use type prop
       fetchData(); // refresh table
       setIsModalOpen(false);
       setSelectedId(null);
@@ -64,9 +65,11 @@ function DocumentsTable() {
     setSelectedId(null);
   };
 
-  const handleView = (id) => console.log("View", id, "Type:", document);
-  const handleEdit = (id) => console.log("Edit", id, "Type:", document);
-  const handleDownload = (id) => console.log("Download", id, "Type:", document);
+  const handleView = (id) => console.log("View", id, "Type:", type); // Use type
+  const handleEdit = (id) => {
+    navigate(`/documents/${type}/edit/${id}`); // Navigate to edit page
+  };
+  const handleDownload = (id) => console.log("Download", id, "Type:", type);
 
   // ================= SORT, FILTER, PAGINATE =================
   const sortedData = [...data].sort(
@@ -114,7 +117,7 @@ function DocumentsTable() {
     return (
       <div className="p-6 text-center">
         <p className="text-sofiblue font-bold">
-          Aucun document trouvé pour {document || "?"}.
+          Aucun document trouvé pour {type || "?"}.
         </p>
       </div>
     );
@@ -126,7 +129,7 @@ function DocumentsTable() {
       {/* Header + Filters */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-2">
         <h2 className="text-2xl font-bold text-sofiblue">
-          {document} Declarations
+          {type} Declarations
         </h2>
 
         <div className="flex flex-col md:flex-row gap-2 w-full md:w-1/2">
@@ -236,11 +239,12 @@ function DocumentsTable() {
           </button>
         </div>
       )}
-            {/* ================= CONFIRM MODAL ================= */}
+
+      {/* ================= CONFIRM MODAL ================= */}
       <ConfirmModal
         isOpen={isModalOpen}
         title="Confirmer la suppression ⚠️"
-        message=" Êtes-vous sûr de vouloir supprimer ce document ? Cette action est irréversible."
+        message="Êtes-vous sûr de vouloir supprimer ce document ? Cette action est irréversible."
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
       />

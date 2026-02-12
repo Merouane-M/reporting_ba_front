@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { documentTypes } from '../constants/documents';  // Adjust path if needed (e.g., './documents' if in same folder)
+import { documentTypes } from '../../constants/documents';  // Adjust path if needed (e.g., './documents' if in same folder)
 
 function Sidebar({ isExpanded, isPinned, setIsPinned }) {  // Removed documentTypes from props
   const navigate = useNavigate();

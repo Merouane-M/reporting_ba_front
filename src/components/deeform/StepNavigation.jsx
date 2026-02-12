@@ -1,5 +1,5 @@
 function StepNavigation({ step, setStep, maxStep }) {
-  const steps = ["Date", "M_100*", "C33*", "Fonds Propres"];
+  const steps = ["Date", "S1000", "3001", "3002"];
 
   return (
     <div className="flex gap-2 mt-8 border-t pt-4">

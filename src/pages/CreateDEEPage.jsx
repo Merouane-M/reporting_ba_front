@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../components/Layout";
 
 import StepDate from "../components/deeform/StepDate";
 import StepM100 from "../components/deeform/StepM100";
 import StepC33 from "../components/deeform/StepC33";
 import StepFondsPropres from "../components/deeform/StepFondsPropres";
 import StepNavigation from "../components/deeform/StepNavigation";
-
+import Layout from "../components/general/Layout";
 import { addDocument } from "../services/document.service"; // ✅ correct import
 
 function CreateDEEPage() {

@@ -5,7 +5,7 @@ import DashboardPage from './pages/DashboardPage';
 import NotFound from './pages/Notfound';
 import DocumentsPage from "./pages/DocumentsPage";
 import CreateDEEPage from './pages/CreateDEEPage';
-
+import EditDEEPage from './pages/EditDEEPage';
 import { DocumentProvider } from './context/DocumentContext';
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
 
           <Route path="/documents/:type" element={<DocumentsPage />} />
           <Route path="/documents/dee/create" element={<CreateDEEPage />} />
+          <Route path='/documents/dee/edit/:id' element={<EditDEEPage/>} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

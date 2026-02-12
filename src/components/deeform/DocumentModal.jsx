@@ -5,7 +5,7 @@ import StepC33 from "./StepC33";
 import StepFondsPropres from "./StepFondsPropres";
 import StepNavigation from "./StepNavigation";
 
-function CreateDocumentModal({ isOpen, onClose, documentType }) {
+function DocumentModal({ isOpen, onClose, documentType }) {
   const [step, setStep] = useState(0);
 
   const [formData, setFormData] = useState({
@@ -73,4 +73,4 @@ function CreateDocumentModal({ isOpen, onClose, documentType }) {
   );
 }
 
-export default CreateDocumentModal;
+export default DocumentModal;

@@ -1,31 +1,48 @@
 function StepDate({ formData, updateField }) {
+  const handleMonthChange = (e) => {
+    const [year, month] = e.target.value.split("-").map(Number);
 
-  const handleDateChange = (e) => {
-    const value = e.target.value;
-    const date = new Date(value);
+    // Get last day of month
+    const lastDay = new Date(year, month, 0).getDate();
 
-    const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    // Build YYYY-MM-DD manually 
+    const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
+      lastDay,
+    ).padStart(2, "0")}`;
 
-    if (date.getDate() !== lastDay.getDate()) {
-      alert("La date doit être la fin du mois.");
-      return;
-    }
-
-    updateField("date_arrete", value);
+    updateField("date_arrete", formattedDate);
   };
 
-  return (
-    <div>
-      <label className="block mb-2 font-semibold">
-        Date d'arrêté (fin du mois uniquement)
-      </label>
+  const currentMonthValue = formData.date_arrete
+    ? formData.date_arrete.slice(0, 7)
+    : "";
 
-      <input
-        type="date"
-        className="border rounded p-2 w-1/3"
-        value={formData.date_arrete || ""}
-        onChange={handleDateChange}
-      />
+  return (
+    <div className="bg-white flex justify-center rounded-lg shadow p-6 w-full">
+      <div className="flex flex-col gap-2">
+        <label className="text-xl font-bold text-sofiblue">Date d'arrêté</label>
+
+        <p className="text-sm text-gray-500">
+          Sélectionnez un mois. La date sera automatiquement fixée au dernier
+          jour du mois.
+        </p>
+
+        <input
+          type="month"
+          className="border border-gray-300 rounded-md p-3 w-64 
+                     focus:outline-none focus:ring-2 
+                     focus:ring-sofiblue focus:border-sofiblue
+                     transition duration-200"
+          value={currentMonthValue}
+          onChange={handleMonthChange}
+        />
+
+        {formData.date_arrete && (
+          <div className="mt-3 bg-sofiblue text-white rounded-md px-4 py-2 text-sm font-semibold w-fit">
+            Date générée : {formData.date_arrete}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

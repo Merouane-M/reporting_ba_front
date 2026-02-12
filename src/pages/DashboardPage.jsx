@@ -1,4 +1,4 @@
-import Layout from '../components/Layout';
+import Layout from '../components/general/Layout';
 import { documentTypes } from '../constants/documents'; 
 import { useNavigate } from "react-router-dom";
 
