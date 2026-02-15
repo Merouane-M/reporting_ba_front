@@ -1,24 +1,27 @@
 // src/components/DocumentsTable/DocumentActions.jsx
 import {
-  EyeIcon,
+  CheckIcon,
   PencilIcon,
   TrashIcon,
   ArrowDownTrayIcon
 } from "@heroicons/react/24/outline";
 
-export default function DocumentActions({ id, onView, onEdit, onDownload, onDelete }) {
+export default function DocumentActions({ id, dateArrete, status, onView, onEdit, onDownload, onDelete }) {
   return (
     <div className="flex justify-center gap-2">
-      <button
-        className="btn btn-primary flex items-center gap-1"
-        onClick={() => onView(id)}
-      >
-        <EyeIcon className="h-4 w-4" />
-        Consulter
-      </button>
+      {/* View button - appears only if status is VALIDATED */}
+      {status === "VALIDATED" && (
+        <button
+          className="btn btn-secondary flex items-center gap-1"
+          onClick={() => onView(id)}
+        >
+          <CheckIcon className="h-4 w-4" />
+          Terminer
+        </button>
+      )}
 
       <button
-        className="btn btn-secondary flex items-center gap-1"
+        className="btn btn-primary flex items-center gap-1"
         onClick={() => onEdit(id)}
       >
         <PencilIcon className="h-4 w-4" />
@@ -27,10 +30,10 @@ export default function DocumentActions({ id, onView, onEdit, onDownload, onDele
 
       <button
         className="btn btn-secondary flex items-center gap-1"
-        onClick={() => onDownload(id)}
+        onClick={() => onDownload(id, dateArrete, status)}  // Pass all three: id, dateArrete, status
       >
         <ArrowDownTrayIcon className="h-4 w-4" />
-        Télécharger
+        Valider et Télécharger
       </button>
 
       <button

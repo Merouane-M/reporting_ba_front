@@ -1,72 +1,128 @@
-{
-  "Declaration": {
-    "CodeDeclaration": "DGR",
-    "Entete": {
-      "DateArrete": "2025-03-31",
-      "EtablissementDeclarant": "789"
+[
+    {
+        "CodeDeclaration": "DGR",
+        "Frequence": "monthly",
+        "created_at": "Wed, 11 Feb 2026 14:25:17 GMT",
+        "date_arrete": "31.12.2023",
+        "deleted_at": null,
+        "etablissement_declarant": "025",
+        "fprDateArrete": "105000.00",
+        "fprDateArretePrecedente": "100000.00",
+        "id": 1,
+        "is_deleted": false,
+        "status": "IN_PROCESS",
+        "updated_at": "Wed, 11 Feb 2026 14:25:17 GMT"
     },
-    "Annexes": {
-      "Detail": {
-        "MODG1000": {
-          "EnteteMODG1000": {
-            "FPRDateArretePrecedente": 4500000.00,
-            "FPRDateArrete": 4800000.00
-          },
-          "DetailMODG1000": {
-            "Beneficiaire": [
-              {
-                "CodeOperateur": "123456789012345",
-                "NomBeneficiaire": "SOCIETE ALPHA",
-                "AdresseBeneficiaire": "10 Rue Centrale, Tunis",
-                "NotationInterne": "NI3",
-                "NotationExterne": "NE2",
-                "TypeOperateur": "1",
-                "MontantRisquesPonderes": 1250000.00,
-                "MODG2000": {
-                  "ElementsRisquesEncourus": {
-                    "Element": [
-                      {
-                        "CodeElement": "A",
-                        "SousElement": [
-                          {
-                            "CodeSousElement": "1",
-                            "SousMontantBrut": 800000.00,
-                            "SousMontantGaranties": 200000.00,
-                            "SousMontantProvisions": 50000.00,
-                            "SousMontantRisquePonderes": 550000.00
-                          },
-                          {
-                            "CodeSousElement": "2",
-                            "SousMontantBrut": 400000.00,
-                            "SousMontantGaranties": 100000.00,
-                            "SousMontantProvisions": 25000.00,
-                            "SousMontantRisquePonderes": 275000.00
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "PersonnesLiees": {
-                    "PersonneLiee": [
-                      {
-                        "NIF": "123456789012345",
-                        "NomPersonneliee": "DOE JOHN",
-                        "Capital": 250000.00
-                      }
-                    ]
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+    {
+        "CodeDeclaration": "DGR",
+        "Frequence": "quarterly",
+        "created_at": "Wed, 11 Feb 2026 14:31:15 GMT",
+        "date_arrete": "2023-03-31",
+        "deleted_at": null,
+        "etablissement_declarant": "025",
+        "fprDateArrete": "105500.75",
+        "fprDateArretePrecedente": "102000.50",
+        "id": 3,
+        "is_deleted": false,
+        "status": "COMPLETED",
+        "updated_at": "Wed, 11 Feb 2026 14:31:15 GMT"
     },
-    "Signature": [
-      {
-        "SignedBy": "RegulatoryAuthority",
-        "SignatureDate": "2025-04-05"
-      }
-    ]
-  }
-}
+    {
+        "CodeDeclaration": "DGR",
+        "Frequence": "annual",
+        "created_at": "Wed, 11 Feb 2026 14:31:15 GMT",
+        "date_arrete": "2023-12-31",
+        "deleted_at": null,
+        "etablissement_declarant": "025",
+        "fprDateArrete": "120000.00",
+        "fprDateArretePrecedente": null,
+        "id": 4,
+        "is_deleted": false,
+        "status": "IN_PROCESS",
+        "updated_at": "Wed, 11 Feb 2026 14:31:15 GMT"
+    },
+    {
+        "CodeDeclaration": "DGR",
+        "Frequence": "monthly",
+        "created_at": "Wed, 11 Feb 2026 14:31:15 GMT",
+        "date_arrete": "2023-02-28",
+        "deleted_at": null,
+        "etablissement_declarant": "025",
+        "fprDateArrete": "91000.50",
+        "fprDateArretePrecedente": "88000.25",
+        "id": 5,
+        "is_deleted": false,
+        "status": "IN_PROCESS",
+        "updated_at": "Wed, 11 Feb 2026 14:31:15 GMT"
+    },
+    {
+        "CodeDeclaration": "DGR",
+        "Frequence": "quarterly",
+        "created_at": "Wed, 11 Feb 2026 14:31:15 GMT",
+        "date_arrete": "2023-06-30",
+        "deleted_at": null,
+        "etablissement_declarant": "025",
+        "fprDateArrete": "118000.00",
+        "fprDateArretePrecedente": "115000.00",
+        "id": 6,
+        "is_deleted": false,
+        "status": "COMPLETED",
+        "updated_at": "Wed, 11 Feb 2026 14:31:15 GMT"
+    },
+    {
+        "CodeDeclaration": "DGR",
+        "Frequence": "monthly",
+        "created_at": "Wed, 11 Feb 2026 14:31:15 GMT",
+        "date_arrete": "2023-04-30",
+        "deleted_at": null,
+        "etablissement_declarant": "025",
+        "fprDateArrete": "97000.00",
+        "fprDateArretePrecedente": null,
+        "id": 7,
+        "is_deleted": false,
+        "status": "IN_PROCESS",
+        "updated_at": "Wed, 11 Feb 2026 14:31:15 GMT"
+    },
+    {
+        "CodeDeclaration": "DGR",
+        "Frequence": "annual",
+        "created_at": "Wed, 11 Feb 2026 14:31:15 GMT",
+        "date_arrete": "2022-12-31",
+        "deleted_at": null,
+        "etablissement_declarant": "025",
+        "fprDateArrete": "95000.00",
+        "fprDateArretePrecedente": "90000.00",
+        "id": 8,
+        "is_deleted": false,
+        "status": "COMPLETED",
+        "updated_at": "Wed, 11 Feb 2026 14:31:15 GMT"
+    },
+    {
+        "CodeDeclaration": "DGR",
+        "Frequence": "monthly",
+        "created_at": "Wed, 11 Feb 2026 14:31:15 GMT",
+        "date_arrete": "2023-05-31",
+        "deleted_at": null,
+        "etablissement_declarant": "025",
+        "fprDateArrete": "108000.25",
+        "fprDateArretePrecedente": "105000.75",
+        "id": 9,
+        "is_deleted": false,
+        "status": "IN_PROCESS",
+        "updated_at": "Wed, 11 Feb 2026 14:31:15 GMT"
+    },
+    {
+        "CodeDeclaration": "DGR",
+        "Frequence": "monthly",
+        "created_at": "Wed, 11 Feb 2026 14:31:15 GMT",
+        "date_arrete": "2023-07-31",
+        "deleted_at": null,
+        "etablissement_declarant": "025",
+        "fprDateArrete": "102000.00",
+        "fprDateArretePrecedente": "99000.50",
+        "id": 11,
+        "is_deleted": false,
+        "status": "COMPLETED",
+        "updated_at": "Wed, 11 Feb 2026 14:31:15 GMT"
+    }
+]

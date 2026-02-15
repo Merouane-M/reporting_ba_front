@@ -20,8 +20,8 @@ export const M100_ROWS = [
   { code: 1015, label: "50% du montant des participations et autres créances assimilables à des fonds propres détenues dans d'autres banques et établissements financiers" },
   { code: 1016, label: "Dépassements des limites en matière de participations" },
 
-  { code: 1017, label: "TOTAL (1009 à 1016)", calculated: true },
-  { code: 1018, label: "FONDS PROPRES DE BASE (1008 - 1017)", calculated: true },
+  { code: 1017, label: "SOUS TOTAL (1009 à 1016)", calculated: true },
+  { code: 1018, label: "TOTAL DES FONDS PROPRES DE BASE (1008 - 1017)", calculated: true },
 
   { code: 1019, label: "50% écarts de réévaluation" },
   { code: 1020, label: "50% des plus values latentes découlant de l’évaluation à juste valeur des actifs disponibles à la vente " },
@@ -30,12 +30,12 @@ export const M100_ROWS = [
   { code: 1023, label: "Titres article 10 tiret 5 du règlement n°14-01 du 16/02/2014" },
   { code: 1024, label: "Titres subordonnés article 10 tiret 6 du règlement n°14-01 du 16/02/2014" },
 
-  { code: 1025, label: "TOTAL (1019 à 1024)", calculated: true },
+  { code: 1025, label: "TOTAL DES FONDS PROPRES COMPLEMENTAIRES (1019 à 1024)", calculated: true },
 
   { code: 1026, label: "50% du montant des participations et autres créances assimilables à des fonds propres détenues dans d'autres banques et établissements financiers" },
   { code: 1027, label: "Part des titres subordonnés dépassant la limite des 50% des fonds propres de base" },
-  { code: 1028, label: "Total complémentaire (1025 - 1026 - 1027)", calculated: true },
+  { code: 1028, label: "TOTAL DES FONDS PROPRES COMPLEMENTAIRES AVANT LIMITE GLOBALE", calculated: true },
 
-  { code: 1029, label: "MIN (1018, 1028)", calculated: true },
-  { code: 1030, label: "TOTAL FONDS PROPRES (1029 + 1018)", calculated: true },
+  { code: 1029, label: "PART DES FONDS PROPRES COMPLEMENTAIRES APRES LIMITE GLOBALE", calculated: true },
+  { code: 1030, label: "TOTAL FONDS PROPRES REGLEMENTAIRES (C+H)", calculated: true },
 ];

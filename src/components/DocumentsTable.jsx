@@ -1,8 +1,14 @@
 // src/components/DocumentsTable.jsx
 import { useEffect, useState } from "react";
-import { getDocuments, removeDocument } from "../services/document.service";
+import {
+  getDocuments,
+  removeDocument,
+  editDocument,
+  downloadDocument,
+} from "../services/document.service"; // Add editDocument import
 import { useDocument } from "../context/DocumentContext";
 import { useNavigate } from "react-router-dom"; // Add this import
+import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/outline"; // Add icons for sort
 import DocumentActions from "./DocumentsTable/DocumentActions";
 import DocumentStatus from "./DocumentsTable/DocumentStatus";
 import ConfirmModal from "./DocumentsTable/ConfirmModal";
@@ -20,6 +26,10 @@ function DocumentsTable({ type }) {
   const [filterDate, setFilterDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 15;
+
+  // Sorting state
+  const [sortColumn, setSortColumn] = useState("created_at"); // Default sort by created_at
+  const [sortDirection, setSortDirection] = useState("desc"); // Default descending
 
   // ================= FETCH DOCUMENTS =================
   const fetchData = async () => {
@@ -65,16 +75,72 @@ function DocumentsTable({ type }) {
     setSelectedId(null);
   };
 
-  const handleView = (id) => console.log("View", id, "Type:", type); // Use type
+  const handleView = async (id) => {
+    try {
+      // Update the document status to "SENT"
+      await editDocument(type, id, { status: "SENT" });
+      console.log("Status updated to SENT for document", id);
+      fetchData(); // Refresh the table to show the updated status
+    } catch (err) {
+      console.error("Erreur lors de la mise à jour du statut :", err);
+    }
+  };
+
   const handleEdit = (id) => {
     navigate(`/documents/${type}/edit/${id}`); // Navigate to edit page
   };
-  const handleDownload = (id) => console.log("Download", id, "Type:", type);
+
+  //=================Download==================
+
+  const handleDownload = async (id, dateArrete, status) => {
+    try {
+      // Convert to proper date format YYYY-MM-DD
+      const formattedDate = new Date(dateArrete).toISOString().split("T")[0];
+
+      // Trigger backend export/download
+      const result = await downloadDocument(type, id, formattedDate);
+
+      if (result.success) {
+        // Update document status to VALIDATED only if current status is "IN_PROCESS"
+        if (status === "IN_PROCESS") {
+          await editDocument(type, id, { status: "VALIDATED" });
+        }
+
+        // Refresh the table data
+        fetchData();
+      } else {
+        // Show backend error
+        alert(`Erreur: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Download or update failed:", error);
+      alert("Une erreur est survenue lors du téléchargement ou de la validation.");
+    }
+  };
+
+  // ================= SORT HANDLER =================
+  const handleSort = (column) => {
+    if (sortColumn === column) {
+      // Toggle direction if same column
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      // New column, default to desc
+      setSortColumn(column);
+      setSortDirection("desc");
+    }
+    setCurrentPage(1); // Reset to first page on sort change
+  };
 
   // ================= SORT, FILTER, PAGINATE =================
-  const sortedData = [...data].sort(
-    (a, b) => new Date(b.created_at) - new Date(a.created_at)
-  );
+  const sortedData = [...data].sort((a, b) => {
+    const aValue = new Date(a[sortColumn]);
+    const bValue = new Date(b[sortColumn]);
+    if (sortDirection === "asc") {
+      return aValue - bValue;
+    } else {
+      return bValue - aValue;
+    }
+  });
 
   const filteredData = sortedData.filter((doc) => {
     const matchesText =
@@ -99,7 +165,7 @@ function DocumentsTable({ type }) {
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
   const paginatedData = filteredData.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   // ================= LOADING =================
@@ -162,10 +228,47 @@ function DocumentsTable({ type }) {
           <thead>
             <tr className="bg-sofiblue text-white">
               <th className="p-4 text-left font-semibold">ID</th>
-              <th className="p-4 text-left font-semibold">Date d'arrêté</th>
-              <th className="p-4 text-left font-semibold">Création</th>
-              <th className="p-4 text-left font-semibold">
-                Dernière modification
+              <th
+                className="p-4 text-left font-semibold cursor-pointer hover:bg-sofiblue/80 transition"
+                onClick={() => handleSort("date_arrete")}
+              >
+                <div className="flex items-center gap-1">
+                  Date d'arrêté
+                  {sortColumn === "date_arrete" &&
+                    (sortDirection === "asc" ? (
+                      <ChevronUpIcon className="h-4 w-4" />
+                    ) : (
+                      <ChevronDownIcon className="h-4 w-4" />
+                    ))}
+                </div>
+              </th>
+              <th
+                className="p-4 text-left font-semibold cursor-pointer hover:bg-sofiblue/80 transition"
+                onClick={() => handleSort("created_at")}
+              >
+                <div className="flex items-center gap-1">
+                  Création
+                  {sortColumn === "created_at" &&
+                    (sortDirection === "asc" ? (
+                      <ChevronUpIcon className="h-4 w-4" />
+                    ) : (
+                      <ChevronDownIcon className="h-4 w-4" />
+                    ))}
+                </div>
+              </th>
+              <th
+                className="p-4 text-left font-semibold cursor-pointer hover:bg-sofiblue/80 transition"
+                onClick={() => handleSort("updated_at")}
+              >
+                <div className="flex items-center gap-1">
+                  Dernière modification
+                  {sortColumn === "updated_at" &&
+                    (sortDirection === "asc" ? (
+                      <ChevronUpIcon className="h-4 w-4" />
+                    ) : (
+                      <ChevronDownIcon className="h-4 w-4" />
+                    ))}
+                </div>
               </th>
               <th className="p-4 text-left font-semibold">Status</th>
               <th className="p-4 text-center font-semibold">Actions</th>
@@ -195,6 +298,8 @@ function DocumentsTable({ type }) {
                 <td className="p-4">
                   <DocumentActions
                     id={row.id}
+                    dateArrete={row.date_arrete}
+                    status={row.status}
                     onView={handleView}
                     onEdit={handleEdit}
                     onDownload={handleDownload}

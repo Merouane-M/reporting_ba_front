@@ -20,7 +20,6 @@ export const fetchDocumentById = async (type, id) => {
    CREATE DOCUMENT
 ========================= */
 export const createDocument = async (type, data) => {
-  console.log("data sent to create ", data)
   const res = await api.post(
     `/${type.toLowerCase()}_list/${type.toLowerCase()}_create`,
     data
@@ -50,16 +49,41 @@ export const deleteDocument = async (type, id) => {
 /* =========================
    EXPORT DOCUMENT (DOWNLOAD XML)
 ========================= */
-export const exportDocument = async (type, id) => {
-  const res = await api.get(`/${type.toLowerCase()}_list/${id}/export`, {
-    responseType: "blob",
-  });
+export const exportDocument = async (type, id, dateArrete) => {
+  try {
+    // Request the XML as a blob
+    const res = await api.get(`/${type.toLowerCase()}_list/${id}/export`, {
+      responseType: "blob",
+    });
 
-  const url = window.URL.createObjectURL(new Blob([res.data]));
-  const link = document.createElement("a");
-  link.href = url;
-  link.setAttribute("download", `${type}_${id}.xml`);
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
+    // Ensure we have a blob
+    const blob = new Blob([res.data], { type: "application/xml" });
+
+    // Custom filename: type-Sofinance-YYYY-MM-DD.xml
+    const fileName = `${type}-Sofinance-${dateArrete}.xml`;
+
+    // Create a temporary URL for the blob
+    const url = window.URL.createObjectURL(blob);
+
+    // Create a temporary <a> link and trigger click
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    return { success: true };
+  } catch (error) {
+    // Handle backend error message
+    if (error.response?.data instanceof Blob) {
+      const text = await error.response.data.text();
+      const json = JSON.parse(text);
+      return { success: false, message: json.error };
+    }
+    return { success: false, message: "Export failed" };
+  }
 };

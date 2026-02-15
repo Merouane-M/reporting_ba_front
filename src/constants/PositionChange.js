@@ -1,0 +1,15 @@
+export const FONDS_PROPRES_REFERENCES = [
+  { code: "A", designation: "Capital social" },
+  { code: "B", designation: "Réserves autres que réserves de réévaluation" },
+  { code: "C", designation: "Réserves de réévaluation (1)" },
+  { code: "D", designation: "Report à nouveau créditeur" },
+  { code: "E", designation: "Provisions pour risques bancaires généraux" },
+  { code: "F", designation: "Provisions de 5% sur les crédits à moyen et long termes" },
+  { code: "G", designation: "Titres participatifs (1)" },
+  { code: "H", designation: "Emprunts subordonnés ou participatifs" },
+  { code: "I", designation: "Part non libérée du capital social" },
+  { code: "J", designation: "Actions propres détenues" },
+  { code: "K", designation: "Report à nouveau négatif" },
+  { code: "L", designation: "Actifs incorporels y compris les frais d'établissement" },
+ // { code: "M", designation: "Autres fonds propres nets" },
+];
