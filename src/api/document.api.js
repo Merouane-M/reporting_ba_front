@@ -20,6 +20,7 @@ export const fetchDocumentById = async (type, id) => {
    CREATE DOCUMENT
 ========================= */
 export const createDocument = async (type, data) => {
+  console.log("data sent to create ", data)
   const res = await api.post(
     `/${type.toLowerCase()}_list/${type.toLowerCase()}_create`,
     data

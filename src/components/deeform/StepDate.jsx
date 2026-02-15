@@ -5,11 +5,11 @@ function StepDate({ formData, updateField }) {
     // Get last day of month
     const lastDay = new Date(year, month, 0).getDate();
 
-    // Build YYYY-MM-DD manually 
-    const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(
-      lastDay,
-    ).padStart(2, "0")}`;
+    // Build SQL Server-compatible date (YYYY-MM-DD)
+const formattedDate = `${year}-${String(month).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
 
+
+    // Send directly in correct format
     updateField("date_arrete", formattedDate);
   };
 

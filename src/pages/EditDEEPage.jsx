@@ -24,14 +24,10 @@ function EditDEEPage() {
   const lowerType = document?.toLowerCase(); // For backend API
   const docType = documentTypes.find((d) => d.abbr === upperType);
 
-  console.log("EditDEEPage mounted with context document:", document, "id:", id); // Debug
-
   // Fetch document data for editing
   useEffect(() => {
     const fetchDocument = async () => {
-      console.log("fetchDocument called with lowerType:", lowerType, "id:", id);
       if (!lowerType || !id) {
-        console.log("Skipping fetch: lowerType or id is missing");
         setLoading(false);
         return;
       }
@@ -78,13 +74,39 @@ function EditDEEPage() {
   const handleSubmit = async () => {
     setSubmitting(true);
     setError(null);
+
     try {
-      console.log("Submitting update with data:", formData);
-      await editDocument(lowerType, id, formData);
+      // Clone formData to avoid mutating state
+      const payload = { ...formData };
+
+      // Set updated_at to the current datetime (full timestamp for the DB)
+      payload.updated_at = new Date();
+
+      // Convert other date fields to Date objects for SQLAlchemy/SQL Server compatibility
+      const dateFields = ["date_arrete", "created_at"]; // Exclude updated_at since we set it above
+      dateFields.forEach((field) => {
+        if (payload[field]) {
+          // If it's a string, parse to Date; if already a Date, use as-is
+          const dateValue = typeof payload[field] === 'string' ? new Date(payload[field]) : payload[field];
+          if (dateValue instanceof Date && !isNaN(dateValue)) {
+            payload[field] = dateValue;
+          } else {
+            console.warn(`Invalid date for ${field}:`, payload[field]);
+          }
+        }
+      });
+
+      console.log("Submitting update with payload:", payload);
+
+      // Send to backend
+      await editDocument(lowerType, id, payload);
+
       navigate(`/documents/${upperType}`);
     } catch (err) {
       console.error("Failed to update document:", err);
-      setError("Erreur lors de la mise à jour. Vérifiez la console pour plus de détails.");
+      setError(
+        "Erreur lors de la mise à jour. Vérifiez la console pour plus de détails."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -122,13 +144,13 @@ function EditDEEPage() {
         <div className="p-6 text-center">
           <p className="text-red-600 font-semibold">{error}</p>
           <button
-            className="btn btn-secondary mt-4"
-            onClick={() => navigate(`/documents/${upperType}`)}
-          >
-            Retour à la liste
-          </button>
-        </div>
-      </Layout>
+        className="btn btn-secondary mt-4"
+        onClick={() => navigate(`/documents/${upperType}`)}
+      >
+        Retour à la liste
+      </button>
+    </div>
+  </Layout>
     );
   }
 
@@ -136,7 +158,7 @@ function EditDEEPage() {
     <Layout>
       <div className="p-6">
         <h1 className="text-2xl font-bold text-sofiblue mb-6">
-          Modifier la déclaration {docType.fullName} (ID: {id})
+          Modifier la {docType.fullName} (ID: {id})
         </h1>
 
         {renderStep()}
