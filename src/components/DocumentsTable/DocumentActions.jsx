@@ -3,10 +3,18 @@ import {
   CheckIcon,
   PencilIcon,
   TrashIcon,
-  ArrowDownTrayIcon
+  ArrowDownTrayIcon,
 } from "@heroicons/react/24/outline";
 
-export default function DocumentActions({ id, dateArrete, status, onView, onEdit, onDownload, onDelete }) {
+export default function DocumentActions({
+  id,
+  dateArrete,
+  status,
+  onView,
+  onEdit,
+  onDownload,
+  onDelete,
+}) {
   return (
     <div className="flex justify-center gap-2">
       {/* View button - appears only if status is VALIDATED */}
@@ -30,19 +38,20 @@ export default function DocumentActions({ id, dateArrete, status, onView, onEdit
 
       <button
         className="btn btn-secondary flex items-center gap-1"
-        onClick={() => onDownload(id, dateArrete, status)}  // Pass all three: id, dateArrete, status
+        onClick={() => onDownload(id, dateArrete, status)} // Pass all three: id, dateArrete, status
       >
         <ArrowDownTrayIcon className="h-4 w-4" />
         Valider et Télécharger
       </button>
-
-      <button
-        className="btn btn-danger flex items-center gap-1"
-        onClick={() => onDelete(id)}
-      >
-        <TrashIcon className="h-4 w-4" />
-        Supprimer
-      </button>
+      {status !== "SENT" && (
+        <button
+          className="btn btn-danger flex items-center gap-1"
+          onClick={() => onDelete(id)}
+        >
+          <TrashIcon className="h-4 w-4" />
+          Supprimer
+        </button>
+      )}
     </div>
   );
 }
