@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function formatNumber(value) {
   if (!value && value !== 0) return "";
@@ -28,14 +28,16 @@ function sanitizeValue(value) {
   return cleaned;
 }
 
-function FormattedNumberInput({ value, onChange }) {
-  const [isFocused, setIsFocused] = useState(false);
+function FormattedNumberInput({ value, onChange, onBlur }) {
+  const [inputValue, setInputValue] = useState(value || "");
 
-  // Show raw value when focused (for typing), formatted when blurred
-  const displayValue = isFocused ? (value || "") : (value ? formatNumber(value) : "");
+  // Sync with external value changes
+  useEffect(() => {
+    setInputValue(value || "");
+  }, [value]);
 
   const handleChange = (e) => {
-    let raw = sanitizeValue(e.target.value);
+    const raw = sanitizeValue(e.target.value);
 
     // Limit to 17 digits total (excluding dot and decimals)
     const [integerPart, decimalPart] = raw.split(".");
@@ -46,18 +48,31 @@ function FormattedNumberInput({ value, onChange }) {
       raw = integerPart.slice(0, maxIntegerDigits) + (decimalPart ? "." + decimalPart : "");
     }
 
-    onChange(raw);
+    setInputValue(raw); // Update local state for smooth typing
+    onChange(raw); // Send raw value to parent
+  };
+
+  const handleBlur = () => {
+    // On blur, ensure the value is properly formatted and synced
+    const formatted = inputValue ? formatNumber(inputValue) : "";
+    setInputValue(formatted); // Show formatted value
+    if (onBlur) onBlur(); // Call parent's onBlur to trigger re-render
+  };
+
+  const handleFocus = () => {
+    // On focus, show raw value for editing
+    setInputValue(value || "");
   };
 
   return (
     <input
       type="text"
       inputMode="decimal"
-      className="border rounded p-2 w-3/4 text-xl text-right"
-      value={displayValue}
+      className="border rounded p-2 w-3/4 text-right"
+      value={inputValue}
       onChange={handleChange}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
     />
   );
 }

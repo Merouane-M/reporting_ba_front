@@ -11,7 +11,7 @@ function StepDGRMain({ formData, updateField, addBeneficiaire }) {
       <div className="flex flex-row gap-1">
            <div className="flex flex-col w-1/4">
         <label className="text-base font-semibold mb-2">
-          FPR à la date d'arreté précédente
+          FPR à la date d'arreté précédente{" "}
         </label>
         <FormattedNumberInput
           value={formData.fprDateArretePrecedente}
@@ -34,8 +34,7 @@ function StepDGRMain({ formData, updateField, addBeneficiaire }) {
           </label>
           <div className="bg-sofiblue text-white rounded p-2 text-right font-bold text-lg">
             {fpr25.toLocaleString("fr-FR", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
+              maximumFractionDigits: 0,
             })}
           </div>
         </div>
@@ -46,8 +45,7 @@ function StepDGRMain({ formData, updateField, addBeneficiaire }) {
           </label>
           <div className="bg-sofiblue text-white rounded p-2 text-right font-bold text-lg">
             {fpr10.toLocaleString("fr-FR", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
+              maximumFractionDigits: 0,
             })}
           </div>
         </div>
@@ -58,8 +56,7 @@ function StepDGRMain({ formData, updateField, addBeneficiaire }) {
           </label>
           <div className="bg-sofiblue text-white rounded p-2 text-right font-bold text-lg">
             {fpr8.toLocaleString("fr-FR", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
+              maximumFractionDigits: 0,
             })}
           </div>
         </div>
@@ -70,23 +67,28 @@ function StepDGRMain({ formData, updateField, addBeneficiaire }) {
       <table className="w-full text-sm border-collapse">
         <thead className="bg-sofiblue text-white">
           <tr>
-            <th className="p-3 text-lg text-left">Nom</th>
-            <th className="p-3 text-lg text-left">Risques pondérés</th>
+            <th className="p-3 text-lg text-left">Nom des bénéficiaires</th>
+            <th className="p-3 text-lg text-center">Risques pondérés</th>
+            <th className="p-3 text-lg text-center">Risques pondérés/FPR %</th>
           </tr>
         </thead>
         <tbody>
           {formData.beneficiaires.map((b, i) => (
-            <tr key={i}>
-              <td>{b.nomBeneficiaire}</td>
-              <td>{b.montantRisquesPonderes}</td>
+            <tr className="border-b" key={i}>
+              <td className="p-3 w-2/5 text-left text-lg">{b.nomBeneficiaire}</td>
+              <td className="p-3 w-1/5 text-center text-lg">{b.montantRisquesPonderes}</td>
+              <td className="p-3 w-2/5 text-center text-lg">{Number.isFinite(b.montantRisquesPonderes/formData.fprDateArrete ) ? (b.montantRisquesPonderes/formData.fprDateArrete ).toFixed(2) : "0" } %</td>
             </tr>
           ))}
         </tbody>
       </table>
 
+<div className="flex justify-end ">
+
       <button className="btn btn-secondary mt-4" onClick={addBeneficiaire}>
         Ajouter bénéficiaire
       </button>
+</div>
     </div>
   );
 }
