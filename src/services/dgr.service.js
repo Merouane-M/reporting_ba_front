@@ -19,8 +19,18 @@ export const getBeneficiaire = async (dgrId, beneficiaireId) => {
 };
 
 export const addBeneficiaire = async (dgrId, payload) => {
-  const { data } = await dgrApi.createBeneficiaire(dgrId, payload);
-  return data;
+  try {
+    console.log("Sending payload to createBeneficiaire:", payload);
+    const response = await dgrApi.createBeneficiaire(dgrId, payload);
+    console.log("Full response from createBeneficiaire:", response);
+    console.log("response.data.id:", response.id);
+    // Removed the error check since backend returns the object on success
+
+    return response;
+  } catch (error) {
+    console.error("Error in addBeneficiaire a777:", error);
+    throw error; // Re-throw to propagate to component
+  }
 };
 
 export const editBeneficiaire = async (
@@ -45,7 +55,6 @@ export const removeBeneficiaire = async (
     beneficiaireId
   );
 };
-
 
 /* =========================
    Personne Liee

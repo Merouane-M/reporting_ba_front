@@ -1,6 +1,6 @@
 import React from "react";
 import { C33_ROWS } from "../../constants/c33Rows";
-import FormattedNumberInput from "../general/FormattedNumberInput";
+import FormattedNumberInputKDA from "../general/FormattedNumberInputKDA";
 
 function StepC33({ formData, updateField }) {
   const getSignature = (code) =>
@@ -57,7 +57,7 @@ function StepC33({ formData, updateField }) {
                 </td>
 
                 <td className="p-3 text-right">
-                  <FormattedNumberInput
+                  <FormattedNumberInputKDA
                     value={formData[`C${row.code}_SIGNATURE`]}
                     onChange={(val) =>
                       updateField(`C${row.code}_SIGNATURE`, val)
@@ -66,7 +66,7 @@ function StepC33({ formData, updateField }) {
                 </td>
 
                 <td className="p-3 text-right">
-                  <FormattedNumberInput
+                  <FormattedNumberInputKDA
                     value={formData[`C${row.code}_DEPOTS`]}
                     onChange={(val) =>
                       updateField(`C${row.code}_DEPOTS`, val)

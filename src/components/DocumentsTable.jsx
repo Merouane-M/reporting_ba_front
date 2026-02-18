@@ -31,6 +31,17 @@ function DocumentsTable({ type }) {
   const [sortColumn, setSortColumn] = useState("created_at"); // Default sort by created_at
   const [sortDirection, setSortDirection] = useState("desc"); // Default descending
 
+  // ================= HELPER FUNCTION =================
+  const parseDate = (dateStr) => {
+    if (!dateStr) return null;
+    const parts = dateStr.split('.');
+    if (parts.length === 3) {
+      const [day, month, year] = parts.map(Number);
+      return new Date(year, month - 1, day); // Month is 0-indexed
+    }
+    return new Date(dateStr); // Fallback for other formats
+  };
+
   // ================= FETCH DOCUMENTS =================
   const fetchData = async () => {
     if (!type) return; // Early return if type is not set
@@ -94,8 +105,14 @@ function DocumentsTable({ type }) {
 
   const handleDownload = async (id, dateArrete, status) => {
     try {
-      // Convert to proper date format YYYY-MM-DD
-      const formattedDate = new Date(dateArrete).toISOString().split("T")[0];
+      // Parse dateArrete (handles dd.mm.yyyy) and convert to YYYY-MM-DD
+      const parsedDate = parseDate(dateArrete);
+      const formattedDate = parsedDate ? parsedDate.toISOString().split("T")[0] : null;
+
+      if (!formattedDate) {
+        alert("Date d'arrêté invalide.");
+        return;
+      }
 
       // Trigger backend export/download
       const result = await downloadDocument(type, id, formattedDate);
@@ -133,8 +150,8 @@ function DocumentsTable({ type }) {
 
   // ================= SORT, FILTER, PAGINATE =================
   const sortedData = [...data].sort((a, b) => {
-    const aValue = new Date(a[sortColumn]);
-    const bValue = new Date(b[sortColumn]);
+    const aValue = parseDate(a[sortColumn]); // Use parseDate for date_arrete
+    const bValue = parseDate(b[sortColumn]);
     if (sortDirection === "asc") {
       return aValue - bValue;
     } else {
@@ -151,8 +168,9 @@ function DocumentsTable({ type }) {
     const matchesDate =
       !filterDateObj ||
       [doc.created_at, doc.updated_at, doc.date_arrete].some((d) => {
-        const date = new Date(d);
+        const date = parseDate(d); // Use parseDate for date_arrete
         return (
+          date &&
           date.getFullYear() === filterDateObj.getFullYear() &&
           date.getMonth() === filterDateObj.getMonth() &&
           date.getDate() === filterDateObj.getDate()
@@ -284,7 +302,7 @@ function DocumentsTable({ type }) {
               >
                 <td className="p-4 text-lg text-sofiblue">{row.id}</td>
                 <td className="p-4 text-lg font-bold text-sofiblue">
-                  {new Date(row.date_arrete).toLocaleDateString("fr-FR")}
+                  {parseDate(row.date_arrete)?.toLocaleDateString("fr-FR") || "Invalid Date"}
                 </td>
                 <td className="p-4 text-lg text-sofiblue">
                   {new Date(row.created_at).toLocaleDateString("fr-FR")}

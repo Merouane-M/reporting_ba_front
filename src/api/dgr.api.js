@@ -1,3 +1,4 @@
+// src/api/dgr.api.js
 import api from "./axios";
 
 /* =========================
@@ -38,7 +39,6 @@ export const deleteBeneficiaire = async (dgrId, beneficiaireId) => {
   );
   return res.data;
 };
-
 
 /* =========================
    PERSONNE LIEE (Nested under Beneficiaire)

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 
+
+//=================================================================================
+//            this component is used when the file specifies dinars (DPC)
+//=================================================================================
+
 function formatNumber(value) {
   if (!value && value !== 0) return "";
 
@@ -31,7 +36,7 @@ function sanitizeValue(value) {
 function FormattedNumberInput({ value, onChange, onBlur }) {
   const [inputValue, setInputValue] = useState(value || "");
 
-  // Sync with external value changes
+  // Sync with external value changes (e.g., when prop updates)
   useEffect(() => {
     setInputValue(value || "");
   }, [value]);
@@ -48,20 +53,20 @@ function FormattedNumberInput({ value, onChange, onBlur }) {
       raw = integerPart.slice(0, maxIntegerDigits) + (decimalPart ? "." + decimalPart : "");
     }
 
-    setInputValue(raw); // Update local state for smooth typing
-    onChange(raw); // Send raw value to parent
+    setInputValue(raw); // Update local state for smooth typing (no parent update yet)
   };
 
   const handleBlur = () => {
-    // On blur, ensure the value is properly formatted and synced
+    // On blur, send the raw value to parent and format for display
     const formatted = inputValue ? formatNumber(inputValue) : "";
     setInputValue(formatted); // Show formatted value
-    if (onBlur) onBlur(); // Call parent's onBlur to trigger re-render
+    onChange(inputValue); // Send raw value to parent
+    if (onBlur) onBlur(); // Call parent's onBlur if provided
   };
 
   const handleFocus = () => {
     // On focus, show raw value for editing
-    setInputValue(value || "");
+    setInputValue(value || "0");
   };
 
   return (

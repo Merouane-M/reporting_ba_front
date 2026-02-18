@@ -1,5 +1,5 @@
 import React from "react";
-import FormattedNumberInput from "../general/FormattedNumberInput";
+import FormattedNumberInputKDA from "../general/FormattedNumberInputKDA";
 
 function StepFondsPropres({ formData, updateField }) {
   const getValue = (field) => Number(formData[field] || 0);
@@ -26,7 +26,7 @@ function StepFondsPropres({ formData, updateField }) {
           <label className="text-base font-semibold mb-2">
             Fonds propres à la date d'arrêté <br/> précédente
           </label>
-          <FormattedNumberInput
+          <FormattedNumberInputKDA
             value={formData.FONDS_PROPRES_DATE_ARRETE_PRECEDENTE}
             onChange={(val) =>
               updateField(
@@ -43,7 +43,7 @@ function StepFondsPropres({ formData, updateField }) {
           <label className="text-base font-semibold mb-2">
             Accroissement des fonds propres à la date d'arrêté
           </label>
-          <FormattedNumberInput
+          <FormattedNumberInputKDA
             value={formData.ACCROISSEMENT_FONDS_PROPRES_DATE_ARRETE}
             onChange={(val) =>
               updateField(
@@ -59,7 +59,7 @@ function StepFondsPropres({ formData, updateField }) {
           <label className="text-base font-semibold mb-2">
             Diminution des fonds propres à la date d'arrêté
           </label>
-          <FormattedNumberInput
+          <FormattedNumberInputKDA
             value={formData.DIMINUTION_FONDS_PROPRES_DATE_ARRETE}
             onChange={(val) =>
               updateField(

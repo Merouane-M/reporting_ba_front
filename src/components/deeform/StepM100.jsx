@@ -1,5 +1,5 @@
 import React from "react";
-import FormattedNumberInput from "../general/FormattedNumberInput";
+import FormattedNumberInputKDA from "../general/FormattedNumberInputKDA";
 import { M100_ROWS } from "../../constants/m100Rows";
 
 function StepM100({ formData, updateField }) {
@@ -71,7 +71,7 @@ function StepM100({ formData, updateField }) {
                 {row.calculated ? (
                   calculatedValues[row.code]?.toLocaleString() || 0
                 ) : (
-                  <FormattedNumberInput
+                  <FormattedNumberInputKDA
                     value={formData[`M_${row.code}`]}
                     onChange={(val) => updateField(`M_${row.code}`, val)}
                   />
