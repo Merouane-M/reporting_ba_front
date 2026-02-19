@@ -6,16 +6,13 @@ import * as dgrApi from "../api/dgr.api";
 ========================= */
 
 export const getBeneficiaires = async (dgrId) => {
-  const { data } = await dgrApi.fetchBeneficiaires(dgrId);
-  return data;
+  // API already returns res.data, so just return it directly
+  return await dgrApi.fetchBeneficiaires(dgrId);
 };
 
 export const getBeneficiaire = async (dgrId, beneficiaireId) => {
-  const { data } = await dgrApi.fetchBeneficiaireById(
-    dgrId,
-    beneficiaireId
-  );
-  return data;
+  // API already returns res.data
+  return await dgrApi.fetchBeneficiaireById(dgrId, beneficiaireId);
 };
 
 export const addBeneficiaire = async (dgrId, payload) => {
@@ -23,103 +20,46 @@ export const addBeneficiaire = async (dgrId, payload) => {
     console.log("Sending payload to createBeneficiaire:", payload);
     const response = await dgrApi.createBeneficiaire(dgrId, payload);
     console.log("Full response from createBeneficiaire:", response);
-    console.log("response.data.id:", response.id);
-    // Removed the error check since backend returns the object on success
-
     return response;
   } catch (error) {
     console.error("Error in addBeneficiaire a777:", error);
-    throw error; // Re-throw to propagate to component
+    throw error;
   }
 };
 
-export const editBeneficiaire = async (
-  dgrId,
-  beneficiaireId,
-  payload
-) => {
-  const { data } = await dgrApi.updateBeneficiaire(
-    dgrId,
-    beneficiaireId,
-    payload
-  );
-  return data;
+export const editBeneficiaire = async (dgrId, beneficiaireId, payload) => {
+  // API already returns res.data
+  return await dgrApi.updateBeneficiaire(dgrId, beneficiaireId, payload);
 };
 
-export const removeBeneficiaire = async (
-  dgrId,
-  beneficiaireId
-) => {
-  return await dgrApi.deleteBeneficiaire(
-    dgrId,
-    beneficiaireId
-  );
+export const removeBeneficiaire = async (dgrId, beneficiaireId) => {
+  return await dgrApi.deleteBeneficiaire(dgrId, beneficiaireId);
 };
 
 /* =========================
    Personne Liee
 ========================= */
 
-export const getPersonnesLiees = async (
-  dgrId,
-  beneficiaireId
-) => {
-  const { data } = await dgrApi.fetchPersonnesLiees(
-    dgrId,
-    beneficiaireId
-  );
-  return data;
+export const getPersonnesLiees = async (dgrId, beneficiaireId) => {
+  // API already returns res.data
+  return await dgrApi.fetchPersonnesLiees(dgrId, beneficiaireId);
 };
 
-export const getPersonneLiee = async (
-  dgrId,
-  beneficiaireId,
-  personneLieeId
-) => {
-  const { data } = await dgrApi.fetchPersonneLieeById(
-    dgrId,
-    beneficiaireId,
-    personneLieeId
-  );
-  return data;
+export const getPersonneLiee = async (dgrId, beneficiaireId, personneLieeId) => {
+  // API already returns res.data
+  return await dgrApi.fetchPersonneLieeById(dgrId, beneficiaireId, personneLieeId);
 };
 
-export const addPersonneLiee = async (
-  dgrId,
-  beneficiaireId,
-  payload
-) => {
-  const { data } = await dgrApi.createPersonneLiee(
-    dgrId,
-    beneficiaireId,
-    payload
-  );
-  return data;
+export const addPersonneLiee = async (dgrId, beneficiaireId, payload) => {
+  // API already returns res.data
+  return await dgrApi.createPersonneLiee(dgrId, beneficiaireId, payload);
 };
 
-export const editPersonneLiee = async (
-  dgrId,
-  beneficiaireId,
-  personneLieeId,
-  payload
-) => {
-  const { data } = await dgrApi.updatePersonneLiee(
-    dgrId,
-    beneficiaireId,
-    personneLieeId,
-    payload
-  );
-  return data;
+export const editPersonneLiee = async (dgrId, beneficiaireId, personneLieeId, payload) => {
+  // API already returns res.data
+  return await dgrApi.updatePersonneLiee(dgrId, beneficiaireId, personneLieeId, payload);
 };
 
-export const removePersonneLiee = async (
-  dgrId,
-  beneficiaireId,
-  personneLieeId
-) => {
-  return await dgrApi.deletePersonneLiee(
-    dgrId,
-    beneficiaireId,
-    personneLieeId
-  );
+export const removePersonneLiee = async (dgrId, beneficiaireId, personneLieeId) => {
+  return await dgrApi.deletePersonneLiee(dgrId, beneficiaireId, personneLieeId);
 };

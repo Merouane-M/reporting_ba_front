@@ -2,10 +2,10 @@ function StepNavigationDGR({ step, setStep, beneficiairesCount }) {
   // Build dynamic steps
   const steps = [
     "Date",
-    "DGR - Informations générales",
+    "MOD G1000",
     ...Array.from(
       { length: beneficiairesCount },
-      (_, i) => `Bénéficiaire ${i + 1}`
+      (_, i) => `MOD G2000 -${i + 1}`
     ),
   ];
 

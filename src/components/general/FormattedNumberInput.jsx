@@ -50,7 +50,7 @@ function FormattedNumberInput({ value, onChange, onBlur }) {
     if (totalDigits > 17) {
       // Trim from the end to fit within 17 digits
       const maxIntegerDigits = decimalPart ? 17 - decimalPart.length : 17;
-      raw = integerPart.slice(0, maxIntegerDigits) + (decimalPart ? "." + decimalPart : "");
+      let raw = integerPart.slice(0, maxIntegerDigits) + (decimalPart ? "." + decimalPart : "");
     }
 
     setInputValue(raw); // Update local state for smooth typing (no parent update yet)

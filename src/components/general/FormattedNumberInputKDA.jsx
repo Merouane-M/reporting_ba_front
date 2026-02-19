@@ -31,7 +31,7 @@ function FormattedNumberInputKDA({ value, onChange, onBlur }) {
   }, [value]);
 
   const handleChange = (e) => {
-    let raw = sanitizeValue(e.target.value); // Changed to 'let' to allow reassignment
+    let raw = sanitizeValue(e.target.value); 
 
     // Limit to 17 digits total (no decimals)
     if (raw.length > 17) {
@@ -42,11 +42,12 @@ function FormattedNumberInputKDA({ value, onChange, onBlur }) {
     setDisplayValue(formatNumber(raw)); // Show formatted value with extra spaces during typing
   };
 
-  const handleBlur = () => {
-    // Send raw value to parent
-    onChange(rawValue);
+const handleBlur = () => {
+    // Convert to number before sending
+    const numValue = rawValue ? parseInt(rawValue, 10) : null;
+    onChange(numValue);  // Now sends number instead of string
     if (onBlur) onBlur();
-  };
+};
 
   const handleFocus = () => {
     // On focus, show raw value for easier editing
@@ -56,6 +57,7 @@ function FormattedNumberInputKDA({ value, onChange, onBlur }) {
   return (
     <input
       ref={inputRef}
+      placeholder="0"
       type="text"
       inputMode="numeric"
       className="border rounded p-2 w-3/4 text-right"

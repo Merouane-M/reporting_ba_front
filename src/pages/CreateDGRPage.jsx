@@ -10,6 +10,13 @@ import StepDate from "../components/dgrform/StepDate";
 import { addDocument } from "../services/document.service";
 import { addBeneficiaire, addPersonneLiee } from "../services/dgr.service";
 
+// Helper function to convert string to number
+const toNumber = (value) => {
+  if (value === null || value === undefined || value === '') return 0;
+  const num = Number(value);
+  return isNaN(num) ? 0 : Math.floor(num);
+};
+
 function CreateDGRPage() {
   const [step, setStep] = useState(0);
   const navigate = useNavigate();
@@ -32,7 +39,6 @@ function CreateDGRPage() {
     }));
   };
 
-  // Renamed to avoid confusion with API call
   const addBeneficiaireToForm = () => {
     setFormData((prev) => {
       const newBeneficiaires = [
@@ -41,18 +47,11 @@ function CreateDGRPage() {
           nomBeneficiaire: "",
           adresseBeneficiaire: "",
           nif_nin: "",
-          codeOperateur: "007",  
+          codeOperateur: "007",
           montantRisquesPonderes: 0,
           personnes_liees: [],
         },
       ];
-
-      // Step structure:
-      // 0 = Date
-      // 1 = DGR Main
-      // 2 = Benef 1
-      // 3 = Benef 2
-      // So new step index = newBeneficiaires.length + 1
 
       setStep(newBeneficiaires.length + 1);
 
@@ -66,11 +65,9 @@ function CreateDGRPage() {
   const deleteBeneficiaire = (index) => {
     setFormData((prev) => {
       const newBeneficiaires = prev.beneficiaires.filter((_, i) => i !== index);
-      // Adjust step if the deleted beneficiaire was the current one or later
       if (step > index + 1) {
         setStep(step - 1);
       } else if (step === index + 2) {
-        // If deleting the current beneficiaire, go back to DGR Main
         setStep(1);
       }
       return {
@@ -86,7 +83,6 @@ function CreateDGRPage() {
     setFormData({ ...formData, beneficiaires: updated });
   };
 
-  // Renamed to avoid confusion with API call
   const addPersonneLieeToForm = (benefIndex) => {
     const updated = [...formData.beneficiaires];
     updated[benefIndex].personnes_liees.push({
@@ -116,10 +112,7 @@ function CreateDGRPage() {
         alert("Veuillez sélectionner une date d'arrêté.");
         return;
       }
-      if (formData.beneficiaires.length === 0) {
-        alert("Veuillez ajouter au moins un bénéficiaire.");
-        return;
-      }
+
       for (let i = 0; i < formData.beneficiaires.length; i++) {
         const b = formData.beneficiaires[i];
         if (!b.nomBeneficiaire || b.nomBeneficiaire.trim() === "") {
@@ -140,47 +133,74 @@ function CreateDGRPage() {
         }
       }
 
-      console.log("Starting DGR creation process...");
 
-      // 1️⃣ Create DGR
+      // 1️⃣ Create DGR - Convert to number
       const dgrPayload = {
         CodeDeclaration: formData.CodeDeclaration,
         Frequence: formData.Frequence,
         date_arrete: formData.date_arrete,
         etablissement_declarant: formData.etablissement_declarant,
-        fprDateArrete: formData.fprDateArrete,
-        fprDateArretePrecedente: formData.fprDateArretePrecedente,
+        fprDateArrete: toNumber(formData.fprDateArrete),
+        fprDateArretePrecedente: toNumber(formData.fprDateArretePrecedente),
         status: formData.status,
       };
-      console.log("Creating DGR with payload:", dgrPayload);
       const created = await addDocument("DGR", dgrPayload);
       console.log("DGR created successfully:", created);
       const dgrId = created.id;
-      console.log("DGR ID:", dgrId);
 
-      // 2️⃣ Create Beneficiaires
-      console.log(`Creating ${formData.beneficiaires.length} beneficiaires...`);
+      // 2️⃣ Create Beneficiaires - Convert all BigInteger fields to number
       for (let i = 0; i < formData.beneficiaires.length; i++) {
         const benef = formData.beneficiaires[i];
-        const { personnes_liees, ...beneficiairePayload } = benef;
-        console.log(`Creating beneficiaire ${i + 1} with payload:`, beneficiairePayload);
+        const { personnes_liees, ...rest } = benef;
+// all string numbers        
+        // Convert to actual numbers
+        const beneficiairePayload = {
+          ...rest,
+          codeOperateur: toNumber(benef.codeOperateur),
+          montantRisquesPonderes: toNumber(benef.montantRisquesPonderes),
+          
+          // MOD G2000 fields - convert to number
+          montant_Brut_BPA: toNumber(benef.montant_Brut_BPA),
+          montant_Garanties_BPA: toNumber(benef.montant_Garanties_BPA),
+          montant_Provisions_BPA: toNumber(benef.montant_Provisions_BPA),
+          montant_Risques_Ponderes_BPA: toNumber(benef.montant_Risques_Ponderes_BPA),
+          
+          montant_Brut_T: toNumber(benef.montant_Brut_T),
+          montant_Garanties_T: toNumber(benef.montant_Garanties_T),
+          montant_Provisions_T: toNumber(benef.montant_Provisions_T),
+          montant_Risques_Ponderes_T: toNumber(benef.montant_Risques_Ponderes_T),
+          
+          montant_Brut_EF: toNumber(benef.montant_Brut_EF),
+          montant_Garanties_EF: toNumber(benef.montant_Garanties_EF),
+          montant_Provisions_EF: toNumber(benef.montant_Provisions_EF),
+          montant_Risques_Ponderes_EF: toNumber(benef.montant_Risques_Ponderes_EF),
+          
+          montant_Brut_EG: toNumber(benef.montant_Brut_EG),
+          montant_Garanties_EG: toNumber(benef.montant_Garanties_EG),
+          montant_Provisions_EG: toNumber(benef.montant_Provisions_EG),
+          montant_Risques_Ponderes_EG: toNumber(benef.montant_Risques_Ponderes_EG),
+        };
+        
 
         const createdBenef = await addBeneficiaire(dgrId, beneficiairePayload);
         console.log(`Beneficiaire ${i + 1} created:`, createdBenef);
         const benefId = createdBenef.id;
-        console.log(`Beneficiaire ${i + 1} ID:`, benefId);
 
-        // 3️⃣ Create Personnes liées
-        console.log(`Creating ${personnes_liees.length} personnes liees for beneficiaire ${i + 1}...`);
+        // 3️⃣ Create Personnes liées - Convert capital to number
         for (let j = 0; j < personnes_liees.length; j++) {
           const pl = personnes_liees[j];
-          console.log(`Creating personne liee ${j + 1} for beneficiaire ${i + 1} with payload:`, pl);
-          const createdPl = await addPersonneLiee(dgrId, benefId, pl);
+          
+          // Convert capital to number
+          const personneLieePayload = {
+            ...pl,
+            capital: toNumber(pl.capital),
+          };
+          
+          const createdPl = await addPersonneLiee(dgrId, benefId, personneLieePayload);
           console.log(`Personne liee ${j + 1} for beneficiaire ${i + 1} created:`, createdPl);
         }
       }
 
-      console.log("All creations completed successfully!");
       navigate("/documents/dgr");
     } catch (err) {
       console.error("Creation failed:", err);
@@ -205,7 +225,7 @@ function CreateDGRPage() {
         <StepDGRMain
           formData={formData}
           updateField={updateField}
-          addBeneficiaire={addBeneficiaireToForm}  // Updated prop name
+          addBeneficiaire={addBeneficiaireToForm}
           deleteBeneficiaire={deleteBeneficiaire}
         />
       );
@@ -217,7 +237,7 @@ function CreateDGRPage() {
         index={step - 2}
         data={formData.beneficiaires[step - 2]}
         updateBeneficiaire={updateBeneficiaire}
-        addPersonneLiee={addPersonneLieeToForm}  // Updated prop name
+        addPersonneLiee={addPersonneLieeToForm}
         updatePersonneLiee={updatePersonneLiee}
         deletePersonneLiee={deletePersonneLiee}
       />
