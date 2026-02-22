@@ -63,7 +63,6 @@ function CreateDPCPage() {
 
   const handleSubmit = async () => {
     try {
-      console.log("Sending DPC:", formData);
 
       await addDocument("DPC", formData);
 

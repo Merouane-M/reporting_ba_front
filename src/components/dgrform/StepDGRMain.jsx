@@ -80,11 +80,12 @@ function StepDGRMain({ formData, updateField, addBeneficiaire, deleteBeneficiair
         <tbody>
           {formData.beneficiaires.map((b, i) => (
             <tr className="border-b" key={i}>
-              <td className="p-3 w-2/5 text-left text-lg">{b.nomBeneficiaire}</td>
-              <td className="p-3 w-1/5 text-center text-lg">{b.montantRisquesPonderes}</td>
+              <td className="p-3 w-2/5 text-left text-lg">{b.nomBeneficiaire || "-"}</td>
+              <td className="p-3 w-1/5 text-center text-lg">{Math.round(b.montantRisquesPonderes || 0).toLocaleString("fr-FR")}
+</td>
               <td className="p-3 w-2/5 text-center text-lg">
                 {Number.isFinite(b.montantRisquesPonderes / formData.fprDateArrete)
-                  ? (b.montantRisquesPonderes / formData.fprDateArrete).toFixed(2)
+                  ? ((b.montantRisquesPonderes / formData.fprDateArrete)*100).toFixed(2)
                   : "0"} %
               </td>
               <td className="p-3 text-center">

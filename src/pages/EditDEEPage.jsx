@@ -35,9 +35,7 @@ function EditDEEPage() {
       setLoading(true);
       setError(null);
       try {
-        console.log("Making API call to getDocumentById");
         const data = await getDocumentById(lowerType, id);
-        console.log("API response data:", data);
         if (data && typeof data === 'object') {
           setFormData(data);
         } else {
@@ -96,7 +94,6 @@ function EditDEEPage() {
         }
       });
 
-      console.log("Submitting update with payload:", payload);
 
       // Send to backend
       await editDocument(lowerType, id, payload);

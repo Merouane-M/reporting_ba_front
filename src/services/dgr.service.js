@@ -17,12 +17,10 @@ export const getBeneficiaire = async (dgrId, beneficiaireId) => {
 
 export const addBeneficiaire = async (dgrId, payload) => {
   try {
-    console.log("Sending payload to createBeneficiaire:", payload);
     const response = await dgrApi.createBeneficiaire(dgrId, payload);
-    console.log("Full response from createBeneficiaire:", response);
     return response;
   } catch (error) {
-    console.error("Error in addBeneficiaire a777:", error);
+    console.error("Error in addBeneficiaire :", error);
     throw error;
   }
 };

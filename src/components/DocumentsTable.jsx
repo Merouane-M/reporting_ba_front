@@ -90,7 +90,6 @@ function DocumentsTable({ type }) {
     try {
       // Update the document status to "SENT"
       await editDocument(type, id, { status: "SENT" });
-      console.log("Status updated to SENT for document", id);
       fetchData(); // Refresh the table to show the updated status
     } catch (err) {
       console.error("Erreur lors de la mise à jour du statut :", err);
