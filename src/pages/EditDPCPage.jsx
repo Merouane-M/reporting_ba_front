@@ -81,7 +81,6 @@ function EditDPCPage() {
       };
 
       await editDocument("DPC", id, payload);
-      alert("DPC updated successfully!");
       navigate("/documents/dpc");
     } catch (error) {
       // Show backend error
