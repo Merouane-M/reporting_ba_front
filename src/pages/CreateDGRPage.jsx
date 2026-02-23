@@ -47,7 +47,8 @@ function CreateDGRPage() {
           nomBeneficiaire: "",
           adresseBeneficiaire: "",
           nif_nin: "",
-          codeOperateur: "007",
+          typeOperateur:"personne morale",
+          codeOperateur: "001",
           montantRisquesPonderes: 0,
           personnes_liees: [],
         },
@@ -181,6 +182,7 @@ const handleSubmit = async () => {
       status: formData.status,
     };
 
+    console.log("dgr",dgrPayload)
     const created = await addDocument("DGR", dgrPayload);
     const dgrId = created.id;
 
@@ -222,6 +224,8 @@ const handleSubmit = async () => {
           benef.montant_Risques_Ponderes_EG,
         ),
       };
+
+      console.log("beneficiare", beneficiairePayload);
 
       const createdBenef = await addBeneficiaire(dgrId, beneficiairePayload);
       const benefId = createdBenef.id;
@@ -280,9 +284,14 @@ const handleSubmit = async () => {
   return (
     <Layout>
       <div className="w-4/5 mx-auto mt-10 bg-white p-6 rounded-lg shadow">
-        <h1 className="text-3xl font-bold text-sofiblue mb-6">
+      <div className="flex flex-row justify-between">
+
+        <h1 className="text-2xl font-bold text-sofiblue mb-6">
           Nouvelle déclaration DGR
         </h1>
+
+        <p className="text-base font-semibold text-sofiblue"> Unité en KDA milliers de dinars</p>
+      </div>
 
         {renderStep()}
 

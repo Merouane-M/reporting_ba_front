@@ -1,4 +1,6 @@
+import { useState } from "react";
 import FormattedNumberInputKDA from "../general/FormattedNumberInputKDA";
+import Input from "../general/Input";
 
 function PersonnesLieesTable({
   index,
@@ -7,6 +9,41 @@ function PersonnesLieesTable({
   updatePersonneLiee,
   deletePersonneLiee,
 }) {
+  const [errors, setErrors] = useState({});
+
+  const validateNom = (value) => {
+    if (/\d/.test(value)) {
+      return "Le nom ne doit pas contenir de chiffres.";
+    }
+    return "";
+  };
+
+  const validateNif = (value) => {
+    if (!/^\d{15,20}$/.test(value)) {
+      return "Le NIF doit contenir entre 15 et 20 chiffres.";
+    }
+    return "";
+  };
+
+  const handleChange = (plIndex, field, value) => {
+    let error = "";
+
+    if (field === "pl_nom") {
+      error = validateNom(value);
+    }
+
+    if (field === "pl_nif") {
+      error = validateNif(value);
+    }
+
+    setErrors((prev) => ({
+      ...prev,
+      [`${plIndex}-${field}`]: error,
+    }));
+
+    updatePersonneLiee(index, plIndex, field, value);
+  };
+
   return (
     <div className="overflow-x-auto bg-white rounded-lg shadow">
       <div className="flex justify-between items-center p-4">
@@ -34,40 +71,35 @@ function PersonnesLieesTable({
 
         <tbody>
           {data.personnes_liees?.map((pl, plIndex) => (
-            <tr key={plIndex} className="border-b">
+            <tr key={plIndex} className="border-b align-top">
+              {/* ================= NOM ================= */}
               <td className="p-3">
-                <input
-                  className="border p-2 w-full"
+                <Input
+                  id={`pl_nom-${index}-${plIndex}`}
                   value={pl.pl_nom || ""}
-                  onChange={(e) =>
-                    updatePersonneLiee(
-                      index,
-                      plIndex,
-                      "pl_nom",
-                      e.target.value
-                    )
+                  onChange={(val) =>
+                    handleChange(plIndex, "pl_nom", val)
                   }
+                  error={errors[`${plIndex}-pl_nom`]}
                 />
               </td>
 
+              {/* ================= NIF ================= */}
               <td className="p-3">
-                <input
-                  className="border p-2 w-full"
+                <Input
+                  id={`pl_nif-${index}-${plIndex}`}
                   value={pl.pl_nif || ""}
-                  onChange={(e) =>
-                    updatePersonneLiee(
-                      index,
-                      plIndex,
-                      "pl_nif",
-                      e.target.value
-                    )
+                  onChange={(val) =>
+                    handleChange(plIndex, "pl_nif", val)
                   }
+                  error={errors[`${plIndex}-pl_nif`]}
                 />
               </td>
 
+              {/* ================= CAPITAL ================= */}
               <td className="p-3 text-right">
                 <FormattedNumberInputKDA
-                  value={pl.capital || "0"}
+                  value={pl.capital || ""}
                   onChange={(val) =>
                     updatePersonneLiee(
                       index,
@@ -79,8 +111,10 @@ function PersonnesLieesTable({
                 />
               </td>
 
+              {/* ================= ACTIONS ================= */}
               <td className="p-3 text-center">
                 <button
+                  type="button"
                   className="btn btn-danger text-sm"
                   onClick={() =>
                     deletePersonneLiee(index, plIndex)

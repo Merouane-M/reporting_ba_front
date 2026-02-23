@@ -18,7 +18,7 @@ function Navbar({ hidden, isExpanded }) {
         ${isExpanded ? "left-64 w-[calc(100%-16rem)]" : "left-16 w-[calc(100%-4rem)]"}
       `}
     >
-      <div className="h-full max-w-7xl mx-auto px-2 flex items-center justify-between">
+      <div className="h-full w-full mx-2 px-5 flex justify-between">
         {/* Left */}
         <div className="flex items-center gap-3">
           {!loadingProfile && profile ? (

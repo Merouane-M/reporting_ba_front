@@ -95,9 +95,15 @@ function EditDPCPage() {
   return (
     <Layout>
       <div className="w-4/5 mx-auto mt-10 bg-white p-6 rounded-lg shadow">
-        <h1 className="text-3xl font-bold text-sofiblue mb-6">
-          Modifier déclaration DPC
-        </h1>
+        <div className="flex flex-row justify-between">
+          <h1 className="text-2xl font-bold text-sofiblue mb-6">
+            Modifier la Declaration DPC 
+          </h1>
+          <p className="text-base font-semibold text-sofiblue">
+            
+            Unité en dinars
+          </p>
+        </div>
 
         {renderStep()}
 

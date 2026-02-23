@@ -52,9 +52,14 @@ function CreateDEEPage() {
   return (
     <Layout>
       <div className="w-4/5 mx-auto bg-white p-8 rounded-lg shadow-lg">
+      <div className="flex flex-row justify-between">
+
         <h1 className="text-2xl font-bold text-sofiblue mb-6">
           Nouvelle déclaration DEE
         </h1>
+
+        <p className="text-base font-semibold text-sofiblue"> Unité en KDA milliers de dinars</p>
+      </div>
 
         {renderStep()}
 

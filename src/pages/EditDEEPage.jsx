@@ -36,14 +36,16 @@ function EditDEEPage() {
       setError(null);
       try {
         const data = await getDocumentById(lowerType, id);
-        if (data && typeof data === 'object') {
+        if (data && typeof data === "object") {
           setFormData(data);
         } else {
           setError("Données invalides reçues du serveur.");
         }
       } catch (err) {
         console.error("Failed to fetch document:", err);
-        setError("Erreur lors du chargement des données. Vérifiez la console pour plus de détails.");
+        setError(
+          "Erreur lors du chargement des données. Vérifiez la console pour plus de détails.",
+        );
       } finally {
         setLoading(false);
       }
@@ -85,7 +87,10 @@ function EditDEEPage() {
       dateFields.forEach((field) => {
         if (payload[field]) {
           // If it's a string, parse to Date; if already a Date, use as-is
-          const dateValue = typeof payload[field] === 'string' ? new Date(payload[field]) : payload[field];
+          const dateValue =
+            typeof payload[field] === "string"
+              ? new Date(payload[field])
+              : payload[field];
           if (dateValue instanceof Date && !isNaN(dateValue)) {
             payload[field] = dateValue;
           } else {
@@ -94,7 +99,6 @@ function EditDEEPage() {
         }
       });
 
-
       // Send to backend
       await editDocument(lowerType, id, payload);
 
@@ -102,7 +106,7 @@ function EditDEEPage() {
     } catch (err) {
       console.error("Failed to update document:", err);
       setError(
-        "Erreur lors de la mise à jour. Vérifiez la console pour plus de détails."
+        "Erreur lors de la mise à jour. Vérifiez la console pour plus de détails.",
       );
     } finally {
       setSubmitting(false);
@@ -118,7 +122,9 @@ function EditDEEPage() {
       case 2:
         return <StepC33 formData={formData} updateField={updateField} />;
       case 3:
-        return <StepFondsPropres formData={formData} updateField={updateField} />;
+        return (
+          <StepFondsPropres formData={formData} updateField={updateField} />
+        );
       default:
         return null;
     }
@@ -129,7 +135,9 @@ function EditDEEPage() {
       <Layout>
         <div className="flex justify-center items-center p-6">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
-          <span className="ml-2 text-sofiblue font-bold">Chargement des données…</span>
+          <span className="ml-2 text-sofiblue font-bold">
+            Chargement des données…
+          </span>
         </div>
       </Layout>
     );
@@ -141,22 +149,28 @@ function EditDEEPage() {
         <div className="p-6 text-center">
           <p className="text-red-600 font-semibold">{error}</p>
           <button
-        className="btn btn-secondary mt-4"
-        onClick={() => navigate(`/documents/${upperType}`)}
-      >
-        Retour à la liste
-      </button>
-    </div>
-  </Layout>
+            className="btn btn-secondary mt-4"
+            onClick={() => navigate(`/documents/${upperType}`)}
+          >
+            Retour à la liste
+          </button>
+        </div>
+      </Layout>
     );
   }
 
   return (
     <Layout>
       <div className="p-6">
-        <h1 className="text-2xl font-bold text-sofiblue mb-6">
-          Modifier la {docType.fullName} (ID: {id})
-        </h1>
+        <div className="flex flex-row justify-between">
+          <h1 className="text-2xl font-bold text-sofiblue mb-6">
+            Modifier la Declaration DEE
+          </h1>
+          <p className="text-base font-semibold text-sofiblue">
+            
+            Unité en KDA milliers de dinars
+          </p>
+        </div>
 
         {renderStep()}
 

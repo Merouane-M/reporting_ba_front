@@ -97,6 +97,7 @@ function EditDGRPage() {
             adresseBeneficiaire: b.adresseBeneficiaire || "",
             nif_nin: b.nif_nin || "",
             codeOperateur: b.codeOperateur || "000",
+            typeOperateur: b.typeOperateur|| "personne morale",
             montantRisquesPonderes: b.montantRisquesPonderes || 0,
 
             // MOD G2000 fields
@@ -369,6 +370,7 @@ const handleSubmit = async () => {
         await editBeneficiaire(id, benef.id, beneficiairePayload);
         benefId = benef.id;
       } else {
+        console.log("new benef", beneficiairePayload)
         const createdBenef = await addBeneficiaire(id, beneficiairePayload);
         benefId = createdBenef.id;
       }
@@ -437,9 +439,15 @@ const handleSubmit = async () => {
   return (
     <Layout>
       <div className="w-4/5 mx-auto mt-10 bg-white p-6 rounded-lg shadow">
-        <h1 className="text-3xl font-bold text-sofiblue mb-6">
-          Modifier la déclaration DGR
-        </h1>
+        <div className="flex flex-row justify-between">
+          <h1 className="text-2xl font-bold text-sofiblue mb-6">
+            Modifier la Declaration DGR
+          </h1>
+          <p className="text-base font-semibold text-sofiblue">
+            
+            Unité en KDA milliers de dinars
+          </p>
+        </div>
 
         {renderStep()}
 
