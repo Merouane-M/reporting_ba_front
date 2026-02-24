@@ -370,7 +370,6 @@ const handleSubmit = async () => {
         await editBeneficiaire(id, benef.id, beneficiairePayload);
         benefId = benef.id;
       } else {
-        console.log("new benef", beneficiairePayload)
         const createdBenef = await addBeneficiaire(id, beneficiairePayload);
         benefId = createdBenef.id;
       }

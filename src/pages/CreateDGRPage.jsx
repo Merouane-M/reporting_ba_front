@@ -182,7 +182,6 @@ const handleSubmit = async () => {
       status: formData.status,
     };
 
-    console.log("dgr",dgrPayload)
     const created = await addDocument("DGR", dgrPayload);
     const dgrId = created.id;
 
@@ -225,7 +224,6 @@ const handleSubmit = async () => {
         ),
       };
 
-      console.log("beneficiare", beneficiairePayload);
 
       const createdBenef = await addBeneficiaire(dgrId, beneficiairePayload);
       const benefId = createdBenef.id;

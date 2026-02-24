@@ -7,12 +7,10 @@ import { documentTypes } from "../constants/documents";
 import DocumentsTable from "../components/DocumentsTable";
 import Layout from "../components/general/Layout";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import DocumentModal from "../components/deeform/DocumentModal";
 
 function DocumentsPage() {
   const { type } = useParams();
   const { document, setDocument } = useDocument();
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
   const navigate = useNavigate();
 
   const upperType = type?.toUpperCase();
@@ -40,7 +38,6 @@ function DocumentsPage() {
 
   const handleAdd = () => {
     // Navigate to /documents/:type/create using the type from context (document)
-    // Assuming document is uppercase (e.g., "DEE"), and your route param expects it that way
     navigate(`/documents/${document}/create`);
   };
 
@@ -64,11 +61,7 @@ function DocumentsPage() {
 
         <DocumentsTable type={upperType} />
       </div>
-      <DocumentModal
-        isOpen={isCreateOpen}
-        onClose={() => setIsCreateOpen(false)}
-        documentType={document}
-      />
+
     </Layout>
   );
 }
