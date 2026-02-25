@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useDocument } from "../context/DocumentContext";
 import { documentTypes } from "../constants/documents";
 import DocumentsTable from "../components/DocumentsTable";
-import Layout from "../components/general/Layout";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
 function DocumentsPage() {
@@ -28,11 +27,11 @@ function DocumentsPage() {
 
   if (!docType) {
     return (
-      <Layout>
+      < >
         <p className="p-6 text-center text-red-600 font-semibold">
           Document type introuvable
         </p>
-      </Layout>
+      </ >
     );
   }
 
@@ -42,7 +41,7 @@ function DocumentsPage() {
   };
 
   return (
-    <Layout>
+    < >
       <div className="flex flex-col w-9/10">
         <div className="flex flex-row justify-between items-center mb-6">
           <h1 className="text-xl font-bold text-sofiblue">
@@ -62,7 +61,7 @@ function DocumentsPage() {
         <DocumentsTable type={upperType} />
       </div>
 
-    </Layout>
+    </ >
   );
 }
 

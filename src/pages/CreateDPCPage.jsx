@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../components/general/Layout";
 import StepDate from "../components/dpcform/StepDate";
 import StepFondsPropres from "../components/dpcform/StepPositionChange";
 import StepNavigationDPC from "../components/dpcform/StepNavigationDPC";
@@ -73,7 +72,7 @@ function CreateDPCPage() {
   };
 
   return (
-    <Layout>
+    < >
       <div className="w-4/5 mx-auto mt-10 bg-white p-6 rounded-lg shadow">
       <div className="flex flex-row justify-between">
 
@@ -102,7 +101,7 @@ function CreateDPCPage() {
         Annuler
       </button>
       </div>
-    </Layout>
+    </ >
   );
 }
 
