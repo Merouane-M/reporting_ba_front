@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { editDocument, getDocumentById } from "../services/document.service";
-import { useDocument } from "../context/DocumentContext"; // Add this import
+import { useDocument } from "../context/DocumentContext"; 
 import { documentTypes } from "../constants/documents";
 import StepDate from "../components/deeform/StepDate";
 import StepM100 from "../components/deeform/StepM100";
@@ -19,9 +19,8 @@ function EditDEEPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  const upperType = document; // Context already has uppercase (e.g., "DEE")
-  const lowerType = document?.toLowerCase(); // For backend API
-  const docType = documentTypes.find((d) => d.abbr === upperType);
+  const upperType = document; 
+  const lowerType = document?.toLowerCase(); 
 
   // Fetch document data for editing
   useEffect(() => {
@@ -53,7 +52,7 @@ function EditDEEPage() {
     fetchDocument();
   }, [lowerType, id]);
 
-  if (!docType) {
+  if (!document) {
     return (
       < >
         <p className="p-6 text-center text-red-600 font-semibold">
