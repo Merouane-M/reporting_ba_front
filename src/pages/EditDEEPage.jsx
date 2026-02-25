@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { editDocument, getDocumentById } from "../services/document.service";
 import { useDocument } from "../context/DocumentContext"; // Add this import
 import { documentTypes } from "../constants/documents";
-import Layout from "../components/general/Layout";
 import StepDate from "../components/deeform/StepDate";
 import StepM100 from "../components/deeform/StepM100";
 import StepC33 from "../components/deeform/StepC33";
@@ -56,11 +55,11 @@ function EditDEEPage() {
 
   if (!docType) {
     return (
-      <Layout>
+      < >
         <p className="p-6 text-center text-red-600 font-semibold">
           Document type introuvable
         </p>
-      </Layout>
+      </ >
     );
   }
 
@@ -132,20 +131,20 @@ function EditDEEPage() {
 
   if (loading) {
     return (
-      <Layout>
+      < >
         <div className="flex justify-center items-center p-6">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
           <span className="ml-2 text-sofiblue font-bold">
             Chargement des données…
           </span>
         </div>
-      </Layout>
+      </ >
     );
   }
 
   if (error) {
     return (
-      <Layout>
+      < >
         <div className="p-6 text-center">
           <p className="text-red-600 font-semibold">{error}</p>
           <button
@@ -155,12 +154,12 @@ function EditDEEPage() {
             Retour à la liste
           </button>
         </div>
-      </Layout>
+      </ >
     );
   }
 
   return (
-    <Layout>
+    < >
       <div className="p-6">
         <div className="flex flex-row justify-between">
           <h1 className="text-2xl font-bold text-sofiblue mb-6">
@@ -195,7 +194,7 @@ function EditDEEPage() {
           )}
         </div>
       </div>
-    </Layout>
+    </ >
   );
 }
 

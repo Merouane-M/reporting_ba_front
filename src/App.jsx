@@ -17,7 +17,8 @@ import EditDGRPage from "./pages/EditDGRPage";
 import CreateDCSPage from "./pages/CreateDCSPage";
 import EditDCSPage from "./pages/EditDCSPage";
 
-import ProtectedRoute from "./pages/ProtectedRoute";
+import ProtectedRoute from "./components/general/ProtectedRoute";
+import Layout from "./components/general/Layout";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
 
         {/* Protected routes wrapper */}
         <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
           <Route path="/home" element={<DashboardPage />} />
 
           <Route path="/documents/:type" element={<DocumentsPage />} />
@@ -43,6 +45,7 @@ function App() {
 
           <Route path="/documents/dcs/create" element={<CreateDCSPage />} />
           <Route path="/documents/dcs/edit/:id" element={<EditDCSPage />} />
+        </Route>
 
           <Route path="*" element={<NotFound />} />
         </Route>
