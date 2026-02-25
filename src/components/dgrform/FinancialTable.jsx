@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import FormattedNumberInputKDA from "../general/FormattedNumberInputKDA";
 
+//second part of MOD G2000  
+
 function FinancialTable({ index, data, updateBeneficiaire }) {
   const num = (v) => Number(v) || 0;
   const get = (field) => num(data[field]);
@@ -52,14 +54,36 @@ function FinancialTable({ index, data, updateBeneficiaire }) {
      UPDATE JSON
   ========================== */
 
-  useEffect(() => {
+useEffect(() => {
+  ["BPA", "T"].forEach((code) => {
+    const net = calcNet(
+      get(`montant_Brut_${code}`),
+      get(`montant_Garanties_${code}`),
+      get(`montant_Provisions_${code}`)
+    );
+
     updateBeneficiaire(
       index,
-      "montantRisquesPonderes",
-      totalPond.toFixed(2)
+      `montant_Risques_Ponderes_${code}`,
+      net
     );
-  }, [totalPond, index]);
+  });
 
+  updateBeneficiaire(
+    index,
+    "montantRisquesPonderes",
+    totalPond
+  );
+}, [
+  data.montant_Brut_BPA,
+  data.montant_Garanties_BPA,
+  data.montant_Provisions_BPA,
+  data.montant_Brut_T,
+  data.montant_Garanties_T,
+  data.montant_Provisions_T,
+  totalPond,
+  index
+]);
   return (
     <div className="overflow-x-auto bg-white rounded-lg shadow">
       <table className="w-full text-sm border-collapse">
@@ -133,10 +157,14 @@ function FinancialTable({ index, data, updateBeneficiaire }) {
                 ).toLocaleString()}
               </td>
 
-              <td className="p-3 text-right">
-                <InputCell
-                  field={`montant_Risques_Ponderes_${code}`}
-                />
+              <td className="p-3 text-right text-xl">
+
+                {calcNet(
+                  get(`montant_Brut_${code}`),
+                  get(`montant_Garanties_${code}`),
+                  get(`montant_Provisions_${code}`)
+                ).toLocaleString()}
+
               </td>
             </tr>
           ))}

@@ -3,54 +3,65 @@ import React, { useState, useEffect, useRef } from "react";
 //=================================================================================
 //            this component is used when the file specifies kilo dinars (DEE, DGR)
 //=================================================================================
+
 function formatNumber(value) {
   if (!value && value !== 0) return "";
 
   // Custom formatting: add three spaces between thousands (no decimals)
   const numStr = Math.floor(Number(value)).toString();
-  return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, '  '); // Inserts three spaces
+  return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, "  ");
 }
 
 function sanitizeValue(value) {
-  // Remove everything except digits (no dots allowed since no decimals)
-  let cleaned = value.replace(/[^\d]/g, "");
-
-  return cleaned;
+  // Remove everything except digits
+  return value.replace(/[^\d]/g, "");
 }
 
-function FormattedNumberInputKDA({ value, onChange, onBlur }) {
-  const [displayValue, setDisplayValue] = useState(formatNumber(value || ""));
-  const [rawValue, setRawValue] = useState(value || "");
+function FormattedNumberInputKDA({
+  value,
+  onChange,
+  onBlur,
+  readOnly = false,
+}) {
+  const [displayValue, setDisplayValue] = useState(
+    formatNumber(value ?? "")
+  );
+  const [rawValue, setRawValue] = useState(value ?? "");
   const inputRef = useRef(null);
 
   // Sync with external value changes
   useEffect(() => {
-    const newRaw = value || "";
+    const newRaw = value ?? "";
     setRawValue(newRaw);
     setDisplayValue(formatNumber(newRaw));
   }, [value]);
 
   const handleChange = (e) => {
-    let raw = sanitizeValue(e.target.value); 
+    if (readOnly) return;
 
-    // Limit to 17 digits total (no decimals)
+    let raw = sanitizeValue(e.target.value);
+
+    // Limit to 17 digits
     if (raw.length > 17) {
       raw = raw.slice(0, 17);
     }
 
     setRawValue(raw);
-    setDisplayValue(formatNumber(raw)); // Show formatted value with extra spaces during typing
+    setDisplayValue(formatNumber(raw));
   };
 
-const handleBlur = () => {
-    // Convert to number before sending
+  const handleBlur = () => {
+    if (readOnly) return;
+
     const numValue = rawValue ? parseInt(rawValue, 10) : null;
-    onChange(numValue);  // Now sends number instead of string
+    if (onChange) onChange(numValue);
     if (onBlur) onBlur();
-};
+  };
 
   const handleFocus = () => {
-    // On focus, show raw value for easier editing
+    if (readOnly) return;
+
+    // Show raw value for easier editing
     setDisplayValue(rawValue);
   };
 
@@ -60,7 +71,12 @@ const handleBlur = () => {
       placeholder="0"
       type="text"
       inputMode="numeric"
-      className="border rounded p-2 w-3/4 text-right"
+      readOnly={readOnly}
+      className={`border rounded p-2 w-3/4 text-right ${
+        readOnly
+          ? "bg-gray-100 cursor-not-allowed text-gray-700"
+          : ""
+      }`}
       value={displayValue}
       onChange={handleChange}
       onFocus={handleFocus}

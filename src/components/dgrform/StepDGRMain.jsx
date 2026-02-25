@@ -1,5 +1,7 @@
 import FormattedNumberInputKDA from "../general/FormattedNumberInputKDA";
 
+//MOD G 1000
+
 function StepDGRMain({ formData, updateField, addBeneficiaire, deleteBeneficiaire }) {  // Added deleteBeneficiaire prop
   const fpr25 = formData.fprDateArrete * 0.25;
   const fpr10 = formData.fprDateArrete * 0.1;

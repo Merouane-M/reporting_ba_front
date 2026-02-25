@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Input from "../general/Input";
 
+// first part of MOD G 2000
+
 function BeneficiaireInfo({ index, data, updateBeneficiaire }) {
   const [errors, setErrors] = useState({});
 

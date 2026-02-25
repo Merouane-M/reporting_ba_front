@@ -1,7 +1,7 @@
 import BeneficiaireInfo from "./BeneficiaireInfo";
 import FinancialTable from "./FinancialTable";
 import PersonnesLieesTable from "./PersonnesLieesTable";
-
+// MOD G 2000
 function StepBeneficiaire(props) {
   return (
     <div className="space-y-8">

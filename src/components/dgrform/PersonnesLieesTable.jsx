@@ -2,6 +2,8 @@ import { useState } from "react";
 import FormattedNumberInputKDA from "../general/FormattedNumberInputKDA";
 import Input from "../general/Input";
 
+//third part of MOD G 2000
+
 function PersonnesLieesTable({
   index,
   data,

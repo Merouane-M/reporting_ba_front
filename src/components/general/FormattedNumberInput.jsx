@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-
-//=================================================================================
-//            this component is used when the file specifies dinars (DPC)
-//=================================================================================
-
 function formatNumber(value) {
-  if (!value && value !== 0) return "";
+  if (value === "" || value === null || value === undefined) return "";
 
-  // Format with French locale: spaces for thousands, exactly 2 decimal places
   return Number(value).toLocaleString("fr-FR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -16,17 +10,14 @@ function formatNumber(value) {
 }
 
 function sanitizeValue(value) {
-  // Remove everything except digits and dot
   let cleaned = value.replace(/[^\d.]/g, "");
 
-  // Prevent multiple dots
   const parts = cleaned.split(".");
   if (parts.length > 2) {
-    cleaned = parts[0] + "." + parts.slice(1).join(""); // Keep only the first dot
+    cleaned = parts[0] + "." + parts.slice(1).join("");
   }
 
-  // If there's a decimal part, limit to 2 digits after the dot
-  if (parts.length === 2 && parts[1].length > 2) {
+  if (parts[1]?.length > 2) {
     cleaned = parts[0] + "." + parts[1].slice(0, 2);
   }
 
@@ -34,47 +25,55 @@ function sanitizeValue(value) {
 }
 
 function FormattedNumberInput({ value, onChange, onBlur }) {
-  const [inputValue, setInputValue] = useState(value || "");
+  const [rawValue, setRawValue] = useState("");
 
-  // Sync with external value changes (e.g., when prop updates)
   useEffect(() => {
-    setInputValue(value || "");
+    if (value !== undefined && value !== null) {
+      setRawValue(String(value));
+    } else {
+      setRawValue("");
+    }
   }, [value]);
 
   const handleChange = (e) => {
-    const raw = sanitizeValue(e.target.value);
+    let raw = sanitizeValue(e.target.value);
 
-    // Limit to 17 digits total (excluding dot and decimals)
-    const [integerPart, decimalPart] = raw.split(".");
-    const totalDigits = integerPart.length + (decimalPart ? decimalPart.length : 0);
+    const [integerPart = "", decimalPart = ""] = raw.split(".");
+    const totalDigits = integerPart.length + decimalPart.length;
+
     if (totalDigits > 17) {
-      // Trim from the end to fit within 17 digits
-      const maxIntegerDigits = decimalPart ? 17 - decimalPart.length : 17;
-      let raw = integerPart.slice(0, maxIntegerDigits) + (decimalPart ? "." + decimalPart : "");
+      const allowedInteger = 17 - decimalPart.length;
+      raw =
+        integerPart.slice(0, allowedInteger) +
+        (decimalPart ? "." + decimalPart : "");
     }
 
-    setInputValue(raw); // Update local state for smooth typing (no parent update yet)
+    setRawValue(raw);
   };
 
   const handleBlur = () => {
-    // On blur, send the raw value to parent and format for display
-    const formatted = inputValue ? formatNumber(inputValue) : "";
-    setInputValue(formatted); // Show formatted value
-    onChange(inputValue); // Send raw value to parent
-    if (onBlur) onBlur(); // Call parent's onBlur if provided
+    const numValue =
+      rawValue !== "" ? parseFloat(rawValue) : null;
+
+    if (onChange) onChange(numValue);
+    if (onBlur) onBlur();
   };
 
   const handleFocus = () => {
-    // On focus, show raw value for editing
-    setInputValue(value || "0");
+    // keep raw for editing
   };
+
+  const displayValue =
+    document.activeElement?.type === "text"
+      ? rawValue
+      : formatNumber(rawValue);
 
   return (
     <input
       type="text"
       inputMode="decimal"
       className="border rounded p-2 w-3/4 text-right"
-      value={inputValue}
+      value={displayValue}
       onChange={handleChange}
       onFocus={handleFocus}
       onBlur={handleBlur}
