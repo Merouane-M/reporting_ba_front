@@ -28,7 +28,7 @@ function DocumentsTable({ type }) {
   const ITEMS_PER_PAGE = 15;
 
   // Sorting state
-  const [sortColumn, setSortColumn] = useState("created_at"); // Default sort by created_at
+  const [sortColumn, setSortColumn] = useState("id"); // Default sort by id
   const [sortDirection, setSortDirection] = useState("desc"); // Default descending
 
   // ================= HELPER FUNCTION =================
@@ -148,15 +148,29 @@ function DocumentsTable({ type }) {
   };
 
   // ================= SORT, FILTER, PAGINATE =================
-  const sortedData = [...data].sort((a, b) => {
-    const aValue = parseDate(a[sortColumn]); // Use parseDate for date_arrete
-    const bValue = parseDate(b[sortColumn]);
-    if (sortDirection === "asc") {
-      return aValue - bValue;
-    } else {
-      return bValue - aValue;
-    }
-  });
+const sortedData = [...data].sort((a, b) => {
+  let aValue;
+  let bValue;
+
+  // If sorting by ID → numeric comparison
+  if (sortColumn === "id") {
+    aValue = Number(a.id);
+    bValue = Number(b.id);
+  } 
+  // If sorting by dates → use parseDate
+  else {
+    aValue = parseDate(a[sortColumn]);
+    bValue = parseDate(b[sortColumn]);
+  }
+
+  if (!aValue || !bValue) return 0;
+
+  if (sortDirection === "asc") {
+    return aValue > bValue ? 1 : -1;
+  } else {
+    return aValue < bValue ? 1 : -1;
+  }
+});
 
   const filteredData = sortedData.filter((doc) => {
     const matchesText =
@@ -244,7 +258,20 @@ function DocumentsTable({ type }) {
         <table className="w-full border-collapse bg-white rounded-lg overflow-hidden shadow-sm">
           <thead>
             <tr className="bg-sofiblue text-white">
-              <th className="p-4 text-left font-semibold">ID</th>
+              <th
+  className="p-4 text-left font-semibold cursor-pointer hover:bg-sofiblue/80 transition"
+  onClick={() => handleSort("id")}
+>
+  <div className="flex items-center gap-1">
+    ID
+    {sortColumn === "id" &&
+      (sortDirection === "asc" ? (
+        <ChevronUpIcon className="h-4 w-4" />
+      ) : (
+        <ChevronDownIcon className="h-4 w-4" />
+      ))}
+  </div>
+</th>
               <th
                 className="p-4 text-left font-semibold cursor-pointer hover:bg-sofiblue/80 transition"
                 onClick={() => handleSort("date_arrete")}
