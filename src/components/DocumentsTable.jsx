@@ -5,9 +5,9 @@ import {
   removeDocument,
   editDocument,
   downloadDocument,
-} from "../services/document.service"; // Add editDocument import
+} from "../services/document.service"; 
 import { useDocument } from "../context/DocumentContext";
-import { useNavigate } from "react-router-dom"; // Add this import
+import { useNavigate } from "react-router-dom"; 
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/outline"; // Add icons for sort
 import DocumentActions from "./DocumentsTable/DocumentActions";
 import DocumentStatus from "./DocumentsTable/DocumentStatus";
@@ -15,14 +15,14 @@ import ConfirmModal from "./DocumentsTable/ConfirmModal";
 
 function DocumentsTable({ type }) {
   const { document } = useDocument();
-  const navigate = useNavigate(); // Add navigate hook
+  const navigate = useNavigate(); 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
   // Filters & pagination
-  const [filterText, setFilterText] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
   const [filterDate, setFilterDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 15;
@@ -173,9 +173,8 @@ const sortedData = [...data].sort((a, b) => {
 });
 
   const filteredData = sortedData.filter((doc) => {
-    const matchesText =
-      doc.id.toString().includes(filterText) ||
-      doc.status.toLowerCase().includes(filterText.toLowerCase());
+const matchesStatus =
+  !filterStatus || doc.status === filterStatus;
 
     const filterDateObj = filterDate ? new Date(filterDate) : null;
     const matchesDate =
@@ -190,7 +189,7 @@ const sortedData = [...data].sort((a, b) => {
         );
       });
 
-    return matchesText && matchesDate;
+    return matchesStatus && matchesDate;
   });
 
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
@@ -230,16 +229,19 @@ const sortedData = [...data].sort((a, b) => {
         </h2>
 
         <div className="flex flex-col md:flex-row gap-2 w-full md:w-1/2">
-          <input
-            type="text"
-            placeholder="Rechercher par ID ou status..."
-            value={filterText}
-            onChange={(e) => {
-              setFilterText(e.target.value);
-              setCurrentPage(1);
-            }}
-            className="border border-sofiblue rounded-md px-3 py-1 w-full focus:outline-none focus:ring-2 focus:ring-sofiblue"
-          />
+<select
+  value={filterStatus}
+  onChange={(e) => {
+    setFilterStatus(e.target.value);
+    setCurrentPage(1);
+  }}
+  className="border border-sofiblue rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-sofiblue bg-white"
+>
+  <option value="">filtrer par statuts</option>
+  <option value="IN_PROCESS">En cours</option>
+  <option value="VALIDATED">Validé</option>
+  <option value="SENT">Envoyé</option>
+</select>
 
           <input
             type="date"

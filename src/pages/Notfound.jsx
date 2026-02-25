@@ -6,7 +6,7 @@ function NotFound() {
   const { isAuth } = useAuthContext();
 
   const handleReturn = () => {
-    navigate(isAuth ? "/home" : "/login");
+    navigate(isAuth ? "/home" : "/");
   };
 
   return (

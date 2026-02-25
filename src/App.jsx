@@ -11,31 +11,36 @@ import CreateDPCPage from "./pages/CreateDPCPage";
 import EditDPCPage from "./pages/EditDPCPage";
 import CreateDGRPage from "./pages/CreateDGRPage";
 import EditDGRPage from "./pages/EditDGRPage";
-import { DocumentProvider } from "./context/DocumentContext";
+
+import ProtectedRoute from "./pages/ProtectedRoute";
+
 
 
 function App() {
   return (
     <Router>
-      <DocumentProvider>
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/home" element={<DashboardPage />} />
+      <Routes>
+            {/* Public route */}
+            <Route path="/" element={<LoginPage />} />
 
-          <Route path="/documents/:type" element={<DocumentsPage />} />
+            {/* Protected routes wrapper */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/home" element={<DashboardPage />} />
 
-          <Route path="/documents/dee/create" element={<CreateDEEPage />} />
-          <Route path="/documents/dee/edit/:id" element={<EditDEEPage />} />
+              <Route path="/documents/:type" element={<DocumentsPage />} />
 
-          <Route path="/documents/dpc/create" element={<CreateDPCPage />} />
-          <Route path="/documents/dpc/edit/:id" element={<EditDPCPage />} />
+              <Route path="/documents/dee/create" element={<CreateDEEPage />} />
+              <Route path="/documents/dee/edit/:id" element={<EditDEEPage />} />
 
-          <Route path="/documents/dgr/create" element={<CreateDGRPage />} />
-          <Route path="/documents/dgr/edit/:id" element={<EditDGRPage />} />
+              <Route path="/documents/dpc/create" element={<CreateDPCPage />} />
+              <Route path="/documents/dpc/edit/:id" element={<EditDPCPage />} />
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </DocumentProvider>
+              <Route path="/documents/dgr/create" element={<CreateDGRPage />} />
+              <Route path="/documents/dgr/edit/:id" element={<EditDGRPage />} />
+            <Route path="*" element={<NotFound />} />
+            </Route>
+
+          </Routes>
     </Router>
   );
 }

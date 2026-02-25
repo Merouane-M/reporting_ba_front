@@ -56,7 +56,7 @@ function EditDPCPage() {
   };
 
   const renderStep = () => {
-    if (!formData) return <div>Loading...</div>;
+    if (!formData) return <div>Chargement...</div>;
 
     switch (step) {
       case 0:
