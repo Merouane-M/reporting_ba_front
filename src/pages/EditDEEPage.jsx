@@ -2,7 +2,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { editDocument, getDocumentById } from "../services/document.service";
 import { useDocument } from "../context/DocumentContext"; 
-import { documentTypes } from "../constants/documents";
 import StepDate from "../components/deeform/StepDate";
 import StepM100 from "../components/deeform/StepM100";
 import StepC33 from "../components/deeform/StepC33";

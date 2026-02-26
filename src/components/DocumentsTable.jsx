@@ -5,9 +5,10 @@ import {
   removeDocument,
   editDocument,
   downloadDocument,
-} from "../services/document.service"; 
+  downloadPDFDocument,
+} from "../services/document.service";
 import { useDocument } from "../context/DocumentContext";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/outline"; // Add icons for sort
 import DocumentActions from "./DocumentsTable/DocumentActions";
 import DocumentStatus from "./DocumentsTable/DocumentStatus";
@@ -15,7 +16,7 @@ import ConfirmModal from "./DocumentsTable/ConfirmModal";
 
 function DocumentsTable({ type }) {
   const { document } = useDocument();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +35,7 @@ function DocumentsTable({ type }) {
   // ================= HELPER FUNCTION =================
   const parseDate = (dateStr) => {
     if (!dateStr) return null;
-    const parts = dateStr.split('.');
+    const parts = dateStr.split(".");
     if (parts.length === 3) {
       const [day, month, year] = parts.map(Number);
       return new Date(year, month - 1, day); // Month is 0-indexed
@@ -102,11 +103,13 @@ function DocumentsTable({ type }) {
 
   //=================Download==================
 
-  const handleDownload = async (id, dateArrete, status) => {
+  const handleDownloadXML = async (id, dateArrete, status) => {
     try {
       // Parse dateArrete (handles dd.mm.yyyy) and convert to YYYY-MM-DD
       const parsedDate = parseDate(dateArrete);
-      const formattedDate = parsedDate ? parsedDate.toISOString().split("T")[0] : null;
+      const formattedDate = parsedDate
+        ? parsedDate.toISOString().split("T")[0]
+        : null;
 
       if (!formattedDate) {
         alert("Date d'arrêté invalide.");
@@ -130,7 +133,28 @@ function DocumentsTable({ type }) {
       }
     } catch (error) {
       console.error("Download or update failed:", error);
-      alert("Une erreur est survenue lors du téléchargement ou de la validation.");
+      alert("Une erreur est survenue lors de la validation.");
+    }
+  };
+
+  const handleDownloadPDF = async (id, dateArrete, status) => {
+    try {
+      // Parse dateArrete (handles dd.mm.yyyy) and convert to YYYY-MM-DD
+      const parsedDate = parseDate(dateArrete);
+      const formattedDate = parsedDate
+        ? parsedDate.toISOString().split("T")[0]
+        : null;
+
+      if (!formattedDate) {
+        alert("Date d'arrêté invalide.");
+        return;
+      }
+      // Trigger backend export/download
+      await downloadPDFDocument(type, id, formattedDate);
+      fetchData();
+    } catch (error) {
+      console.error("Download or update failed:", error);
+      alert("Une erreur est survenue lors de la validation.");
     }
   };
 
@@ -148,33 +172,32 @@ function DocumentsTable({ type }) {
   };
 
   // ================= SORT, FILTER, PAGINATE =================
-const sortedData = [...data].sort((a, b) => {
-  let aValue;
-  let bValue;
+  const sortedData = [...data].sort((a, b) => {
+    let aValue;
+    let bValue;
 
-  // If sorting by ID → numeric comparison
-  if (sortColumn === "id") {
-    aValue = Number(a.id);
-    bValue = Number(b.id);
-  } 
-  // If sorting by dates → use parseDate
-  else {
-    aValue = parseDate(a[sortColumn]);
-    bValue = parseDate(b[sortColumn]);
-  }
+    // If sorting by ID → numeric comparison
+    if (sortColumn === "id") {
+      aValue = Number(a.id);
+      bValue = Number(b.id);
+    }
+    // If sorting by dates → use parseDate
+    else {
+      aValue = parseDate(a[sortColumn]);
+      bValue = parseDate(b[sortColumn]);
+    }
 
-  if (!aValue || !bValue) return 0;
+    if (!aValue || !bValue) return 0;
 
-  if (sortDirection === "asc") {
-    return aValue > bValue ? 1 : -1;
-  } else {
-    return aValue < bValue ? 1 : -1;
-  }
-});
+    if (sortDirection === "asc") {
+      return aValue > bValue ? 1 : -1;
+    } else {
+      return aValue < bValue ? 1 : -1;
+    }
+  });
 
   const filteredData = sortedData.filter((doc) => {
-const matchesStatus =
-  !filterStatus || doc.status === filterStatus;
+    const matchesStatus = !filterStatus || doc.status === filterStatus;
 
     const filterDateObj = filterDate ? new Date(filterDate) : null;
     const matchesDate =
@@ -229,19 +252,19 @@ const matchesStatus =
         </h2>
 
         <div className="flex flex-col md:flex-row gap-2 w-full md:w-1/2">
-<select
-  value={filterStatus}
-  onChange={(e) => {
-    setFilterStatus(e.target.value);
-    setCurrentPage(1);
-  }}
-  className="border border-sofiblue rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-sofiblue bg-white"
->
-  <option value="">filtrer par statuts</option>
-  <option value="IN_PROCESS">En cours</option>
-  <option value="VALIDATED">Validé</option>
-  <option value="SENT">Envoyé</option>
-</select>
+          <select
+            value={filterStatus}
+            onChange={(e) => {
+              setFilterStatus(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="border border-sofiblue rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-sofiblue bg-white"
+          >
+            <option value="">filtrer par statuts</option>
+            <option value="IN_PROCESS">En cours</option>
+            <option value="VALIDATED">Validé</option>
+            <option value="SENT">Envoyé</option>
+          </select>
 
           <input
             type="date"
@@ -261,19 +284,19 @@ const matchesStatus =
           <thead>
             <tr className="bg-sofiblue text-white">
               <th
-  className="p-4 text-left font-semibold cursor-pointer hover:bg-sofiblue/80 transition"
-  onClick={() => handleSort("id")}
->
-  <div className="flex items-center gap-1">
-    ID
-    {sortColumn === "id" &&
-      (sortDirection === "asc" ? (
-        <ChevronUpIcon className="h-4 w-4" />
-      ) : (
-        <ChevronDownIcon className="h-4 w-4" />
-      ))}
-  </div>
-</th>
+                className="p-4 text-left font-semibold cursor-pointer hover:bg-sofiblue/80 transition"
+                onClick={() => handleSort("id")}
+              >
+                <div className="flex items-center gap-1">
+                  ID
+                  {sortColumn === "id" &&
+                    (sortDirection === "asc" ? (
+                      <ChevronUpIcon className="h-4 w-4" />
+                    ) : (
+                      <ChevronDownIcon className="h-4 w-4" />
+                    ))}
+                </div>
+              </th>
               <th
                 className="p-4 text-left font-semibold cursor-pointer hover:bg-sofiblue/80 transition"
                 onClick={() => handleSort("date_arrete")}
@@ -330,7 +353,8 @@ const matchesStatus =
               >
                 <td className="p-4 text-lg text-sofiblue">{row.id}</td>
                 <td className="p-4 text-lg font-bold text-sofiblue">
-                  {parseDate(row.date_arrete)?.toLocaleDateString("fr-FR") || "Invalid Date"}
+                  {parseDate(row.date_arrete)?.toLocaleDateString("fr-FR") ||
+                    "Invalid Date"}
                 </td>
                 <td className="p-4 text-lg text-sofiblue">
                   {new Date(row.created_at).toLocaleDateString("fr-FR")}
@@ -348,7 +372,8 @@ const matchesStatus =
                     status={row.status}
                     onView={handleView}
                     onEdit={handleEdit}
-                    onDownload={handleDownload}
+                    onDownload={handleDownloadXML}
+                    onDownloadPDF={handleDownloadPDF}
                     onDelete={() => handleDeleteClick(row.id)}
                   />
                 </td>
