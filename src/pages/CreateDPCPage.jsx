@@ -88,11 +88,11 @@ function CreateDPCPage() {
         <StepNavigationDPC step={step} setStep={setStep} />
 
         <div className="flex justify-end mt-6 gap-3">
-          {step === 1 && (
+
             <button className="btn btn-primary" onClick={handleSubmit}>
               Soumettre
             </button>
-          )}
+
         </div>
               <button
         className="btn btn-secondary"

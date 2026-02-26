@@ -26,7 +26,7 @@ function CreateDEEPage() {
 
   const handleSubmit = async () => {
     try {
-      await addDocument("DEE", formData); // ✅ use service layer
+      await addDocument("DEE", formData); 
       navigate("/documents/dee");
     } catch (error) {
       console.error("Creation failed:", error);
@@ -76,14 +76,14 @@ function CreateDEEPage() {
             Annuler
           </button>
 
-          {step === 3 && (
+
             <button
               className="btn btn-primary"
               onClick={handleSubmit}
             >
               Soumettre
             </button>
-          )}
+
         </div>
       </div>
     </ >

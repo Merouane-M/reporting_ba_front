@@ -5,6 +5,7 @@ import {
   updateDocument,
   deleteDocument,
   exportDocument, 
+  exportPDFDocument,
 } from "../api/document.api";
 
 /* =========================
@@ -53,4 +54,8 @@ export const removeDocument = async (type, id) => {
 
 export const downloadDocument = async (type, id, dateArrete) => {
   return await exportDocument(type, id, dateArrete);
+};
+
+export const downloadPDFDocument = async (type, id, dateArrete) => {
+  return await exportPDFDocument(type, id, dateArrete);
 };

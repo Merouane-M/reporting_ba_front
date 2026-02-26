@@ -22,7 +22,7 @@ export const fetchDocumentById = async (type, id) => {
 export const createDocument = async (type, data) => {
   const res = await api.post(
     `/${type.toLowerCase()}_list/${type.toLowerCase()}_create`,
-    data
+    data,
   );
   return res.data;
 };
@@ -31,10 +31,7 @@ export const createDocument = async (type, data) => {
    UPDATE DOCUMENT
 ========================= */
 export const updateDocument = async (type, id, data) => {
-  const res = await api.put(
-    `/${type.toLowerCase()}_list/${id}/update`,
-    data
-  );
+  const res = await api.put(`/${type.toLowerCase()}_list/${id}/update`, data);
   return res.data;
 };
 
@@ -61,6 +58,48 @@ export const exportDocument = async (type, id, dateArrete) => {
 
     // Custom filename: type-Sofinance-YYYY-MM-DD.xml
     const fileName = `${type}-Sofinance-${dateArrete}.xml`;
+
+    // Create a temporary URL for the blob
+    const url = window.URL.createObjectURL(blob);
+
+    // Create a temporary <a> link and trigger click
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+
+    return { success: true };
+  } catch (error) {
+    // Handle backend error message
+    if (error.response?.data instanceof Blob) {
+      const text = await error.response.data.text();
+      const json = JSON.parse(text);
+      return { success: false, message: json.error };
+    }
+    return { success: false, message: "Export failed" };
+  }
+};
+
+/* =========================
+   EXPORT DOCUMENT (DOWNLOAD PDF)
+========================= */
+export const exportPDFDocument = async (type, id, dateArrete) => {
+  try {
+    // Request the XML as a blob
+    const res = await api.get(`/${type.toLowerCase()}_list/${id}/exportPDF`, {
+      responseType: "blob",
+    });
+
+    // Ensure we have a blob
+    const blob = new Blob([res.data], { type: "application/pdf" });
+
+    // Custom filename: type-Sofinance-YYYY-MM-DD.xml
+    const fileName = `${type}-Sofinance-${dateArrete}.pdf`;
 
     // Create a temporary URL for the blob
     const url = window.URL.createObjectURL(blob);

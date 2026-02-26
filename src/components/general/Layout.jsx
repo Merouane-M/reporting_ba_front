@@ -29,7 +29,7 @@ function Layout() {
           isExpanded ? "md:ml-64 ml-0" : "md:ml-16 ml-0"
         }`}
       >
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <Navbar isExpanded={isExpanded} />
         </div>
 
