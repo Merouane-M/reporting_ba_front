@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Layout from "../components/general/Layout";
 
 import StepDGRMain from "../components/dgrform/StepDGRMain";
 import StepBeneficiaire from "../components/dgrform/StepBeneficiaire";
@@ -436,7 +435,7 @@ const handleSubmit = async () => {
   };
 
   return (
-    <Layout>
+    < >
       <div className="w-4/5 mx-auto mt-10 bg-white p-6 rounded-lg shadow">
         <div className="flex flex-row justify-between">
           <h1 className="text-2xl font-bold text-sofiblue mb-6">
@@ -472,7 +471,7 @@ const handleSubmit = async () => {
           </button>
         </div>
       </div>
-    </Layout>
+    </ >
   );
 }
 

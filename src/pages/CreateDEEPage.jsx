@@ -6,8 +6,7 @@ import StepM100 from "../components/deeform/StepM100";
 import StepC33 from "../components/deeform/StepC33";
 import StepFondsPropres from "../components/deeform/StepFondsPropres";
 import StepNavigation from "../components/deeform/StepNavigation";
-import Layout from "../components/general/Layout";
-import { addDocument } from "../services/document.service"; // ✅ correct import
+import { addDocument } from "../services/document.service"; 
 
 function CreateDEEPage() {
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ function CreateDEEPage() {
 
   const handleSubmit = async () => {
     try {
-      await addDocument("DEE", formData); // ✅ use service layer
+      await addDocument("DEE", formData); 
       navigate("/documents/dee");
     } catch (error) {
       console.error("Creation failed:", error);
@@ -50,7 +49,7 @@ function CreateDEEPage() {
   };
 
   return (
-    <Layout>
+    < >
       <div className="w-4/5 mx-auto bg-white p-8 rounded-lg shadow-lg">
       <div className="flex flex-row justify-between">
 
@@ -77,17 +76,17 @@ function CreateDEEPage() {
             Annuler
           </button>
 
-          {step === 3 && (
+
             <button
               className="btn btn-primary"
               onClick={handleSubmit}
             >
               Soumettre
             </button>
-          )}
+
         </div>
       </div>
-    </Layout>
+    </ >
   );
 }
 

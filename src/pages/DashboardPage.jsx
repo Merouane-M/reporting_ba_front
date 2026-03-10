@@ -1,4 +1,3 @@
-import Layout from '../components/general/Layout';
 import { documentTypes } from '../constants/documents'; 
 import { useNavigate } from "react-router-dom";
 
@@ -6,7 +5,7 @@ function Dashboard() {
   const navigate = useNavigate();
 
   return (
-    <Layout>
+    < >
       <div className="w-full h-full p-24">
         {/* Top text */}
         <h1 className="text-center text-2xl font-semibold mb-6 text-gray-800">
@@ -31,7 +30,7 @@ function Dashboard() {
           ))}
         </div>
       </div>
-    </Layout>
+    </ >
   );
 }
 

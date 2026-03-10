@@ -13,6 +13,7 @@ export default function DocumentActions({
   onView,
   onEdit,
   onDownload,
+  onDownloadPDF,
   onDelete,
 }) {
   return (
@@ -27,7 +28,7 @@ export default function DocumentActions({
           Terminer
         </button>
       )}
-
+      
       <button
         className="btn btn-primary flex items-center gap-1"
         onClick={() => onEdit(id)}
@@ -38,11 +39,18 @@ export default function DocumentActions({
 
       <button
         className="btn btn-secondary flex items-center gap-1"
-        onClick={() => onDownload(id, dateArrete, status)} // Pass all three: id, dateArrete, status
+        onClick={() => onDownload(id, dateArrete, status)}
       >
         <ArrowDownTrayIcon className="h-4 w-4" />
-        Valider et Télécharger
+        XML
       </button>
+      {/* <button
+        className="btn btn-secondary flex items-center gap-1"
+        onClick={() => onDownloadPDF(id, dateArrete)}
+      >
+        <ArrowDownTrayIcon className="h-4 w-4" />
+        PDF
+      </button> */}
       {status !== "SENT" && (
         <button
           className="btn btn-danger flex items-center gap-1"

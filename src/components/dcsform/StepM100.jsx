@@ -1,7 +1,7 @@
 import React from "react";
 import FormattedNumberInputKDA from "../general/FormattedNumberInputKDA";
 import { M100_ROWS } from "../../constants/m100Rows";
-// s1000 dee
+// s1000 dcs
 function StepM100({ formData, updateField }) {
   const getValue = (code) => Number(formData[`M_${code}`] || 0);
 

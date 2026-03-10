@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Layout from "../components/general/Layout";
 import StepDate from "../components/dpcform/StepDate";
 import StepFondsPropres from "../components/dpcform/StepPositionChange";
 import StepNavigationDPC from "../components/dpcform/StepNavigationDPC";
@@ -90,10 +89,10 @@ function EditDPCPage() {
     }
   };
 
-  if (!formData) return <Layout>Loading DPC...</Layout>;
+  if (!formData) return < >Loading DPC...</ >;
 
   return (
-    <Layout>
+    < >
       <div className="w-4/5 mx-auto mt-10 bg-white p-6 rounded-lg shadow">
         <div className="flex flex-row justify-between">
           <h1 className="text-2xl font-bold text-sofiblue mb-6">
@@ -128,7 +127,7 @@ function EditDPCPage() {
       </button>
 
       </div>
-    </Layout>
+    </ >
   );
 }
 

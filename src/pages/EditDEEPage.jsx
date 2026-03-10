@@ -1,9 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { editDocument, getDocumentById } from "../services/document.service";
-import { useDocument } from "../context/DocumentContext"; // Add this import
-import { documentTypes } from "../constants/documents";
-import Layout from "../components/general/Layout";
+import { useDocument } from "../context/DocumentContext"; 
 import StepDate from "../components/deeform/StepDate";
 import StepM100 from "../components/deeform/StepM100";
 import StepC33 from "../components/deeform/StepC33";
@@ -20,9 +18,8 @@ function EditDEEPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  const upperType = document; // Context already has uppercase (e.g., "DEE")
-  const lowerType = document?.toLowerCase(); // For backend API
-  const docType = documentTypes.find((d) => d.abbr === upperType);
+  const upperType = document; 
+  const lowerType = document?.toLowerCase(); 
 
   // Fetch document data for editing
   useEffect(() => {
@@ -54,13 +51,13 @@ function EditDEEPage() {
     fetchDocument();
   }, [lowerType, id]);
 
-  if (!docType) {
+  if (!document) {
     return (
-      <Layout>
+      < >
         <p className="p-6 text-center text-red-600 font-semibold">
           Document type introuvable
         </p>
-      </Layout>
+      </ >
     );
   }
 
@@ -132,20 +129,20 @@ function EditDEEPage() {
 
   if (loading) {
     return (
-      <Layout>
+      < >
         <div className="flex justify-center items-center p-6">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
           <span className="ml-2 text-sofiblue font-bold">
             Chargement des données…
           </span>
         </div>
-      </Layout>
+      </ >
     );
   }
 
   if (error) {
     return (
-      <Layout>
+      < >
         <div className="p-6 text-center">
           <p className="text-red-600 font-semibold">{error}</p>
           <button
@@ -155,12 +152,12 @@ function EditDEEPage() {
             Retour à la liste
           </button>
         </div>
-      </Layout>
+      </ >
     );
   }
 
   return (
-    <Layout>
+    < >
       <div className="p-6">
         <div className="flex flex-row justify-between">
           <h1 className="text-2xl font-bold text-sofiblue mb-6">
@@ -195,7 +192,7 @@ function EditDEEPage() {
           )}
         </div>
       </div>
-    </Layout>
+    </ >
   );
 }
 
