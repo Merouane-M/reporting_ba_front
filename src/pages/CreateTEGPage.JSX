@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-import StepNavigation from "../components/deeform/StepNavigation";
+import StepDate from "../components/tegform/StepDate";
+import StepNavigation from "../components/tegform/StepNavigation";
+import MoyTeg from "../components/tegform/MoyTeg";
 import { addDocument } from "../services/document.service"; 
 
 function CreateTEGPage() {
@@ -59,7 +60,7 @@ function CreateTEGPage() {
         <StepNavigation
           step={step}
           setStep={setStep}
-          maxStep={3}
+          maxStep={1}
         />
 
         <div className="flex justify-end gap-3 mt-6">
