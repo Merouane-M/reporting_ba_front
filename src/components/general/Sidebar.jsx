@@ -70,7 +70,8 @@ function Sidebar({ isExpanded, isPinned, setIsPinned }) {
                   className="w-full text-left rounded px-3 py-2 text-sm
                              hover:bg-white/10 transition"
                 >
-                  {doc.abbr + " : " + doc.fullName}
+                  {doc.abbr}
+                  {/* {doc.abbr + " : " + doc.fullName} */}
                 </button>
               ))}
             </div>
