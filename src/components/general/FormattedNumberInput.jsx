@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 function formatNumber(value) {
   if (value === "" || value === null || value === undefined) return "";
@@ -24,18 +24,31 @@ function sanitizeValue(value) {
   return cleaned;
 }
 
-function FormattedNumberInput({ value, onChange, onBlur }) {
-  const [rawValue, setRawValue] = useState("");
+function FormattedNumberInput({
+  value,
+  onChange,
+  onBlur,
+  readOnly = false,
+}) {
+  const [displayValue, setDisplayValue] = useState(formatNumber(value ?? ""));
+  const [rawValue, setRawValue] = useState(value ?? "");
+  const inputRef = useRef(null);
 
-  useEffect(() => {
-    if (value !== undefined && value !== null) {
-      setRawValue(String(value));
-    } else {
-      setRawValue("");
-    }
-  }, [value]);
+  // Sync external changes
+useEffect(() => {
+  if (value === null || value === undefined || value === 0) {
+    setRawValue("");
+    setDisplayValue("");
+  } else {
+    const newRaw = String(value);
+    setRawValue(newRaw);
+    setDisplayValue(formatNumber(newRaw));
+  }
+}, [value]);
 
   const handleChange = (e) => {
+    if (readOnly) return;
+
     let raw = sanitizeValue(e.target.value);
 
     const [integerPart = "", decimalPart = ""] = raw.split(".");
@@ -49,30 +62,36 @@ function FormattedNumberInput({ value, onChange, onBlur }) {
     }
 
     setRawValue(raw);
+    setDisplayValue(raw);
   };
 
   const handleBlur = () => {
-    const numValue =
-      rawValue !== "" ? parseFloat(rawValue) : null;
+    if (readOnly) return;
+
+    const numValue = rawValue !== "" ? parseFloat(rawValue) : null;
 
     if (onChange) onChange(numValue);
     if (onBlur) onBlur();
+
+    setDisplayValue(formatNumber(rawValue));
   };
 
-  const handleFocus = () => {
-    // keep raw for editing
-  };
+const handleFocus = () => {
+  if (readOnly) return;
 
-  const displayValue =
-    document.activeElement?.type === "text"
-      ? rawValue
-      : formatNumber(rawValue);
+  setDisplayValue(rawValue || "");
+};
 
   return (
     <input
+      ref={inputRef}
       type="text"
       inputMode="decimal"
-      className="border rounded p-2 w-3/4 text-right"
+      placeholder="0.00"
+      readOnly={readOnly}
+      className={`border rounded p-2 w-3/4 text-right ${
+        readOnly ? "bg-gray-100 cursor-not-allowed text-gray-700" : ""
+      }`}
       value={displayValue}
       onChange={handleChange}
       onFocus={handleFocus}
