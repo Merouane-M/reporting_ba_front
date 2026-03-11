@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { editDocument, getDocumentById } from "../services/document.service";
-import { useDocument } from "../context/DocumentContext"; 
+import { useDocument } from "../context/DocumentContext";
 import StepDate from "../components/dcsform/StepDate";
 import StepNavigation from "../components/dcsform/StepNavigation";
 import StepM100 from "../components/dcsform/StepM100.jsx";
@@ -10,7 +10,7 @@ import StepS2000B from "../components/dcsform/StepS2000B.jsx";
 import StepS2000C from "../components/dcsform/StepS2000C.jsx";
 import StepS3000 from "../components/dcsform/StepS3000.jsx";
 
-function EditDCSPage () {
+function EditDCSPage() {
   const { id } = useParams(); // Only get id from params
   const navigate = useNavigate();
   const { document } = useDocument(); // Get type from context
@@ -20,7 +20,7 @@ function EditDCSPage () {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  const upperType = document; 
+  const upperType = document;
   const lowerType = document?.toLowerCase(); // For backend API
 
   // Fetch document data for editing
@@ -55,11 +55,11 @@ function EditDCSPage () {
 
   if (!document) {
     return (
-      < >
+      <>
         <p className="p-6 text-center text-red-600 font-semibold">
           Document type introuvable
         </p>
-      </ >
+      </>
     );
   }
 
@@ -133,44 +133,41 @@ function EditDCSPage () {
 
   if (loading) {
     return (
-      < >
-
+      <>
         <div className="flex justify-center items-center p-6">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
           <span className="ml-2 text-sofiblue font-bold">
             Chargement des données…
           </span>
         </div>
-  
-      </ >
+      </>
     );
   }
 
   if (error) {
     return (
-      < >
+      <>
         <div className="p-6 text-center">
           <p className="text-red-600 font-semibold">{error}</p>
           <button
             className="btn btn-secondary mt-4"
             onClick={() => navigate(`/documents/${upperType}`)}
-            >
+          >
             Retour à la liste
           </button>
         </div>
-      </ >
+      </>
     );
   }
 
   return (
-    < >
-            <div className="w-4/5 mx-auto bg-white p-8 rounded-lg shadow-lg">
+    <>
+      <div className="w-4/5 mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div className="flex flex-row justify-between">
           <h1 className="text-2xl font-bold text-sofiblue mb-6">
             Modifier la Declaration DCS
           </h1>
           <p className="text-base font-semibold text-sofiblue">
-            
             Unité en KDA milliers de dinars
           </p>
         </div>
@@ -183,22 +180,22 @@ function EditDCSPage () {
           <button
             className="btn btn-secondary"
             onClick={() => navigate(`/documents/${upperType}`)}
-            >
+          >
             Annuler
           </button>
 
           {step === 5 && (
             <button
-            className="btn btn-primary"
-            onClick={handleSubmit}
-            disabled={submitting}
+              className="btn btn-primary"
+              onClick={handleSubmit}
+              disabled={submitting}
             >
               {submitting ? "Mise à jour…" : "Mettre à jour"}
             </button>
           )}
         </div>
       </div>
-    </ >
+    </>
   );
 }
 
