@@ -7,7 +7,7 @@ export const S2000_reference = [
   { code: 2050 , title: "Valeurs en caisse et assimilées", cells_number: 2 },
   { code: 2051 , title: "Dépôts auprès des services financiers d'Algérie Poste", cells_number: 2 },
   { code: 2052 , title: "Valeurs en recouvrement pour le compte de la banque", cells_number: 2 },
- // { code: 2053 , title: "Immobilisations nettes", cells_number: 2 },
+  { code: 2053 , title: "Immobilisations nettes", cells_number: 2 },
   { code: 2054 , title: "Titres de propriété et de créances (article 14, point 9 du règlement 14-01 du 16/02/2014)", cells_number: 2 },
   { code: 2055 , title: "Comptes de liaison", cells_number: 2 },
   { code: 2056 , title: "Débiteurs divers (hors avances d'impôts)", cells_number: 2 },
