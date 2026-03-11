@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import StepDate from "../components/tegform/StepDate";
 import StepNavigation from "../components/tegform/StepNavigation";
 import MoyTeg from "../components/tegform/MoyTeg";
-import { addDocument } from "../services/document.service"; 
+import { addDocument } from "../services/document.service";
 
 function CreateTEGPage() {
   const navigate = useNavigate();
@@ -24,7 +24,11 @@ function CreateTEGPage() {
 
   const handleSubmit = async () => {
     try {
-      await addDocument("TEG", formData); 
+      formData.created_at = new Date()
+      formData.updated_at = new Date()
+
+
+      await addDocument("TEG", formData);
       navigate("/documents/teg");
     } catch (error) {
       console.error("Creation failed:", error);
@@ -37,7 +41,7 @@ function CreateTEGPage() {
         return <StepDate formData={formData} updateField={updateField} />;
       case 1:
         return <MoyTeg formData={formData} updateField={updateField} />;
- 
+
       default:
         return null;
     }
@@ -46,14 +50,14 @@ function CreateTEGPage() {
   return (
     < >
       <div className="w-4/5 mx-auto bg-white p-8 rounded-lg shadow-lg">
-      <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between">
 
-        <h1 className="text-2xl font-bold text-sofiblue mb-6">
-          Nouvelle déclaration TEG
-        </h1>
+          <h1 className="text-2xl font-bold text-sofiblue mb-6">
+            Nouvelle déclaration TEG
+          </h1>
 
-        <p className="text-base font-semibold text-sofiblue"> Unité en KDA milliers de dinars</p>
-      </div>
+          <p className="text-base font-semibold text-sofiblue"> Unité en KDA milliers de dinars</p>
+        </div>
 
         {renderStep()}
 
@@ -72,12 +76,12 @@ function CreateTEGPage() {
           </button>
 
 
-            <button
-              className="btn btn-primary"
-              onClick={handleSubmit}
-            >
-              Soumettre
-            </button>
+          <button
+            className="btn btn-primary"
+            onClick={handleSubmit}
+          >
+            Soumettre
+          </button>
 
         </div>
       </div>

@@ -40,22 +40,29 @@ function EditTEGPage() {
   };
 
   const handleSubmit = async () => {
-    setSubmitting(true);
+  setSubmitting(true);
 
-    try {
-      const payload = { ...formData };
+  try {
+    const payload = { ...formData };
 
-    //   payload.updated_at = new Date();
-
-      await editDocument("teg", id, payload);
-
-      navigate("/documents/teg");
-    } catch (error) {
-      console.error("Update failed:", error);
-    } finally {
-      setSubmitting(false);
+    if (payload.date_arrete) {
+      payload.date_arrete = new Date(payload.date_arrete)
+        .toISOString()
+        .split("T")[0];
     }
-  };
+
+     delete payload.created_at;
+     delete payload.updated_at;
+
+    await editDocument("teg", id, payload);
+
+    navigate("/documents/teg");
+  } catch (error) {
+    console.error("Update failed:", error);
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   const renderStep = () => {
     switch (step) {
