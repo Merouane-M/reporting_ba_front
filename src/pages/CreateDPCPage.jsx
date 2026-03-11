@@ -12,24 +12,6 @@ function CreateDPCPage() {
   const [formData, setFormData] = useState({
     CodeDeclaration: "DPC",
     Frequence: "Monthly",
-    date_arrete: null,
-    deleted_at: null,
-    etablissement_declarant: "025",
-
-    // Numeric fields
-    fpn_A: 0,
-    fpn_B: 0,
-    fpn_C: 0,
-    fpn_D: 0,
-    fpn_E: 0,
-    fpn_F: 0,
-    fpn_G: 0,
-    fpn_H: 0,
-    fpn_I: 0,
-    fpn_J: 0,
-    fpn_K: 0,
-    fpn_L: 0,
-    fpn_M: 0,
 
     status: "IN_PROCESS",
     is_deleted: false,
@@ -54,7 +36,9 @@ function CreateDPCPage() {
       case 0:
         return <StepDate formData={formData} updateField={updateField} />;
       case 1:
-        return <StepFondsPropres formData={formData} updateField={updateField} />;
+        return (
+          <StepFondsPropres formData={formData} updateField={updateField} />
+        );
       default:
         return null;
     }
@@ -62,6 +46,10 @@ function CreateDPCPage() {
 
   const handleSubmit = async () => {
     try {
+      if (!formData.date_arrete) {
+        alert("Veuillez sélectionner une date d'arrêté.");
+        return;
+      }
 
       await addDocument("DPC", formData);
 
@@ -72,36 +60,36 @@ function CreateDPCPage() {
   };
 
   return (
-    < >
+    <>
       <div className="w-4/5 mx-auto mt-10 bg-white p-6 rounded-lg shadow">
-      <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between">
+          <h1 className="text-2xl font-bold text-sofiblue mb-6">
+            Nouvelle déclaration DPC
+          </h1>
 
-        <h1 className="text-2xl font-bold text-sofiblue mb-6">
-          Nouvelle déclaration DPC
-        </h1>
-
-        <p className="text-base font-semibold text-sofiblue"> Unité en dinars</p>
-      </div>
+          <p className="text-base font-semibold text-sofiblue">
+            {" "}
+            Unité en dinars
+          </p>
+        </div>
 
         {renderStep()}
 
         <StepNavigationDPC step={step} setStep={setStep} />
 
         <div className="flex justify-end mt-6 gap-3">
-
-            <button className="btn btn-primary" onClick={handleSubmit}>
-              Soumettre
-            </button>
-
+          <button className="btn btn-primary" onClick={handleSubmit}>
+            Soumettre
+          </button>
         </div>
-              <button
-        className="btn btn-secondary"
-        onClick={() => navigate("/documents/dpc")}
-      >
-        Annuler
-      </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => navigate("/documents/dpc")}
+        >
+          Annuler
+        </button>
       </div>
-    </ >
+    </>
   );
 }
 
