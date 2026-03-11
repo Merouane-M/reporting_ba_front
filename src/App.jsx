@@ -17,6 +17,9 @@ import EditDGRPage from "./pages/EditDGRPage";
 import CreateDCSPage from "./pages/CreateDCSPage";
 import EditDCSPage from "./pages/EditDCSPage";
 
+import CreateTEGPage from "./pages/CreateTEGPage";
+import EditTEGPage from "./pages/EditTEGPage";
+
 import ProtectedRoute from "./components/general/ProtectedRoute";
 import Layout from "./components/general/Layout";
 
@@ -45,6 +48,9 @@ function App() {
 
           <Route path="/documents/dcs/create" element={<CreateDCSPage />} />
           <Route path="/documents/dcs/edit/:id" element={<EditDCSPage />} />
+
+          <Route path="/documents/teg/create" element={<CreateTEGPage />} />
+          <Route path="/documents/teg/edit/:id" element={<EditTEGPage />} />
         </Route>
 
           <Route path="*" element={<NotFound />} />
