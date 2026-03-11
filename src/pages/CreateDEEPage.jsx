@@ -6,7 +6,7 @@ import StepM100 from "../components/deeform/StepM100";
 import StepC33 from "../components/deeform/StepC33";
 import StepFondsPropres from "../components/deeform/StepFondsPropres";
 import StepNavigation from "../components/deeform/StepNavigation";
-import { addDocument } from "../services/document.service"; 
+import { addDocument } from "../services/document.service";
 
 function CreateDEEPage() {
   const navigate = useNavigate();
@@ -26,7 +26,11 @@ function CreateDEEPage() {
 
   const handleSubmit = async () => {
     try {
-      await addDocument("DEE", formData); 
+      if (!formData.date_arrete) {
+        alert("Veuillez sélectionner une date d'arrêté.");
+        return;
+      }
+      await addDocument("DEE", formData);
       navigate("/documents/dee");
     } catch (error) {
       console.error("Creation failed:", error);
@@ -42,31 +46,31 @@ function CreateDEEPage() {
       case 2:
         return <StepC33 formData={formData} updateField={updateField} />;
       case 3:
-        return <StepFondsPropres formData={formData} updateField={updateField} />;
+        return (
+          <StepFondsPropres formData={formData} updateField={updateField} />
+        );
       default:
         return null;
     }
   };
 
   return (
-    < >
+    <>
       <div className="w-4/5 mx-auto bg-white p-8 rounded-lg shadow-lg">
-      <div className="flex flex-row justify-between">
+        <div className="flex flex-row justify-between">
+          <h1 className="text-2xl font-bold text-sofiblue mb-6">
+            Nouvelle déclaration DEE
+          </h1>
 
-        <h1 className="text-2xl font-bold text-sofiblue mb-6">
-          Nouvelle déclaration DEE
-        </h1>
-
-        <p className="text-base font-semibold text-sofiblue"> Unité en KDA milliers de dinars</p>
-      </div>
+          <p className="text-base font-semibold text-sofiblue">
+            {" "}
+            Unité en KDA milliers de dinars
+          </p>
+        </div>
 
         {renderStep()}
 
-        <StepNavigation
-          step={step}
-          setStep={setStep}
-          maxStep={3}
-        />
+        <StepNavigation step={step} setStep={setStep} maxStep={3} />
 
         <div className="flex justify-end gap-3 mt-6">
           <button
@@ -76,17 +80,12 @@ function CreateDEEPage() {
             Annuler
           </button>
 
-
-            <button
-              className="btn btn-primary"
-              onClick={handleSubmit}
-            >
-              Soumettre
-            </button>
-
+          <button className="btn btn-primary" onClick={handleSubmit}>
+            Soumettre
+          </button>
         </div>
       </div>
-    </ >
+    </>
   );
 }
 

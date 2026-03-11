@@ -5,7 +5,10 @@ import { useDocument } from "../context/DocumentContext";
 import StepDate from "../components/dcsform/StepDate";
 import StepNavigation from "../components/dcsform/StepNavigation";
 import StepM100 from "../components/dcsform/StepM100.jsx";
-
+import StepS2000A from "../components/dcsform/StepS2000A.jsx";
+import StepS2000B from "../components/dcsform/StepS2000B.jsx";
+import StepS2000C from "../components/dcsform/StepS2000C.jsx";
+import StepS3000 from "../components/dcsform/StepS3000.jsx";
 
 function EditDCSPage () {
   const { id } = useParams(); // Only get id from params
@@ -109,41 +112,36 @@ function EditDCSPage () {
     }
   };
 
-    const renderStep = () => {
-        switch (step) {
-            case 0:
-                return <StepDate formData={formData} updateField={updateField}/>;
-            case 1:
-                return <StepM100 formData={formData} updateField={updateField}/>; 
-            case 2:
-                return <StepDate formData={formData} updateField={updateField}/>;       
-            case 3:
-                return <StepDate formData={formData} updateField={updateField}/>;       
-            case 4:
-                return <StepDate formData={formData} updateField={updateField}/>;       
-            case 5:
-                return <StepDate formData={formData} updateField={updateField}/>;       
-            case 6:
-                return <StepDate formData={formData} updateField={updateField}/>;       
-            case 7:
-                return <StepDate formData={formData} updateField={updateField}/>;       
-            case 8:
-                return <StepDate formData={formData} updateField={updateField}/>;       
-            case 9:
-                return <StepDate formData={formData} updateField={updateField}/>;       
-            default:
-                return null;
-        }};
+  const renderStep = () => {
+    switch (step) {
+      case 0:
+        return <StepDate formData={formData} updateField={updateField} />;
+      case 1:
+        return <StepM100 formData={formData} updateField={updateField} />;
+      case 2:
+        return <StepS2000A formData={formData} updateField={updateField} />;
+      case 3:
+        return <StepS2000B formData={formData} updateField={updateField} />;
+      case 4:
+        return <StepS2000C formData={formData} updateField={updateField} />;
+      case 5:
+        return <StepS3000 formData={formData} updateField={updateField} />;
+      default:
+        return null;
+    }
+  };
 
   if (loading) {
     return (
       < >
+
         <div className="flex justify-center items-center p-6">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
           <span className="ml-2 text-sofiblue font-bold">
             Chargement des données…
           </span>
         </div>
+  
       </ >
     );
   }
@@ -156,7 +154,7 @@ function EditDCSPage () {
           <button
             className="btn btn-secondary mt-4"
             onClick={() => navigate(`/documents/${upperType}`)}
-          >
+            >
             Retour à la liste
           </button>
         </div>
@@ -166,7 +164,7 @@ function EditDCSPage () {
 
   return (
     < >
-      <div className="p-6">
+            <div className="w-4/5 mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div className="flex flex-row justify-between">
           <h1 className="text-2xl font-bold text-sofiblue mb-6">
             Modifier la Declaration DCS
@@ -179,21 +177,21 @@ function EditDCSPage () {
 
         {renderStep()}
 
-        <StepNavigation step={step} setStep={setStep} maxStep={3} />
+        <StepNavigation step={step} setStep={setStep} maxStep={5} />
 
         <div className="flex justify-end mt-6 gap-3">
           <button
             className="btn btn-secondary"
             onClick={() => navigate(`/documents/${upperType}`)}
-          >
+            >
             Annuler
           </button>
 
-          {step === 3 && (
+          {step === 5 && (
             <button
-              className="btn btn-primary"
-              onClick={handleSubmit}
-              disabled={submitting}
+            className="btn btn-primary"
+            onClick={handleSubmit}
+            disabled={submitting}
             >
               {submitting ? "Mise à jour…" : "Mettre à jour"}
             </button>
