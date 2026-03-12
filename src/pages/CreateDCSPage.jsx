@@ -33,7 +33,7 @@ function CreateDCSPage() {
         return;
       }
       await addDocument("DCS", formData);
-      navigate("/documents/dcs");
+      navigate("/documents/DCS");
     } catch (error) {
       console.error("creation failed:", error);
     }
@@ -59,7 +59,6 @@ function CreateDCSPage() {
   };
   return (
     <>
-    {console.log("doc context", document)}
       <div className="w-4/5 mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div className="flex flex-row justify-between">
           <h1 className="text-2xl font-bold text-sofiblue mb-6">

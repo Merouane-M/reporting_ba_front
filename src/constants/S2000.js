@@ -13,7 +13,7 @@ export const S2000_reference = [
   { code: 2056 , title: "Débiteurs divers (hors avances d'impôts)", cells_number: 2 },
   { code: 2057 , title: "Autres actifs", cells_number: 2 },
 
-  { code: 2014 , title: "Créances sur les grandes et moyennes entreprises", cells_number: 2 },
+  { code: 2014 , title: "Créances sur les grandes et moyennes entreprises (Pas de notation)", cells_number: 2 },
   { code: 2020 , title: "Créances sur le Trésor Public", cells_number: 2 },
   { code: 2021 , title: "Créances sur la Banque d'Algérie", cells_number: 2 },
   { code: 2022 , title: "Créances sur les administrations centrales", cells_number: 2 },
