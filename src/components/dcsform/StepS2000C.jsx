@@ -47,12 +47,16 @@ function StepS2000C({ formData, updateField }) {
                     />
                   </td>
 
-                  <td className="p-3 text-right">
-                    <FormattedNumberInputKDA
-                      value={formData[prKey]}
-                      onChange={(val) => updateField(prKey, val)}
-                    />
-                  </td>
+                  {row.code !== 2053 ? (
+                    <td className="p-3 text-right">
+                      <FormattedNumberInputKDA
+                        value={formData[prKey]}
+                        onChange={(val) => updateField(prKey, val)}
+                      />
+                    </td>
+                  ) : (
+                    <td className="p-3 text-right"></td>
+                  )}
 
                   <td className="p-3 text-right font-bold text-lg">
                     {result.toLocaleString()}
@@ -66,7 +70,10 @@ function StepS2000C({ formData, updateField }) {
 
       {/* Code 2073 Section */}
       <div className="mt-6 bg-white rounded-lg shadow p-4">
-        <span className="text-2xl font-bold text-white bg-sofiblue p-1 rounded"> S2000 D </span>
+        <span className="text-2xl font-bold text-white bg-sofiblue p-1 rounded">
+          {" "}
+          S2000 D{" "}
+        </span>
         <div className="flex items-center gap-4 my-4">
           <span className="text-lg font-bold ">2073 :</span>
           <span className="text-lg"> Entreprises installées en Algérie</span>
