@@ -20,6 +20,9 @@ import EditDCSPage from "./pages/EditDCSPage";
 import CreateTEGPage from "./pages/CreateTEGPage";
 import EditTEGPage from "./pages/EditTEGPage";
 
+import CreateCFPPage from "./pages/CreateCFPPage";
+import EditCFPPage from "./pages/EditCFPPage";
+
 import ProtectedRoute from "./components/general/ProtectedRoute";
 import Layout from "./components/general/Layout";
 
@@ -51,6 +54,11 @@ function App() {
 
           <Route path="/documents/teg/create" element={<CreateTEGPage />} />
           <Route path="/documents/teg/edit/:id" element={<EditTEGPage />} />
+
+          <Route path="/documents/cfp/create" element={<CreateCFPPage />} />
+          <Route path="/documents/cfp/edit/:id" element={<EditCFPPage />} />
+
+          
         </Route>
 
           <Route path="*" element={<NotFound />} />

@@ -1,4 +1,4 @@
-// m100Rows.js
+// used in DEE and DCS equivalent to S1000 in excel
 
 export const M100_ROWS = [
   { code: 1001, label: "Capital social ou dotation" },

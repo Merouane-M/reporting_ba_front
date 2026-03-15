@@ -1,4 +1,5 @@
 export const S2000_reference = [
+  //used in DCS
   { code: 2040 , title: "Prêts immobiliers à usage résidentiel (crédits à l'habitat)", cells_number: 6 },
   { code: 2041 , title: "Autres créances classées", cells_number: 9 },
 

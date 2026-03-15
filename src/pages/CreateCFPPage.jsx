@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import StepDate from "../components/tegform/StepDate";
-import StepNavigation from "../components/tegform/StepNavigation";
-import MoyTeg from "../components/tegform/MoyTeg";
+import StepDate from "../components/cfpform/StepDate";
+import StepNavigation from "../components/cfpform/StepNavigation";
+import Step4001 from "../components/cfpform/Step4001";
+import Step4002 from "../components/cfpform/Step4002";
 import { addDocument } from "../services/document.service";
 
-function CreateTEGPage() {
+function CreateCFPPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
 
   const [formData, setFormData] = useState({
-    CodeDeclaration: "TEG",
+    CodeDeclaration: "CFP",
     Frequence: "MONTHLY",
   });
 
@@ -31,8 +32,8 @@ function CreateTEGPage() {
       formData.created_at = new Date();
       formData.updated_at = new Date();
 
-      await addDocument("TEG", formData);
-      navigate("/documents/teg");
+      await addDocument("CFP", formData);
+      navigate("/documents/cfp");
     } catch (error) {
       console.error("Creation failed:", error);
     }
@@ -43,7 +44,9 @@ function CreateTEGPage() {
       case 0:
         return <StepDate formData={formData} updateField={updateField} />;
       case 1:
-        return <MoyTeg formData={formData} updateField={updateField} />;
+        return <Step4001 formData={formData} updateField={updateField} />;
+      case 2:
+        return <Step4002 formData={formData} updateField={updateField} />;
 
       default:
         return null;
@@ -55,7 +58,7 @@ function CreateTEGPage() {
       <div className="w-4/5 mx-auto bg-white p-8 rounded-lg shadow-lg">
         <div className="flex flex-row justify-between">
           <h1 className="text-2xl font-bold text-sofiblue mb-6">
-            Nouvelle déclaration TEG
+            Nouvelle déclaration CFP
           </h1>
 
           <p className="text-base font-semibold text-sofiblue">
@@ -66,12 +69,12 @@ function CreateTEGPage() {
 
         {renderStep()}
 
-        <StepNavigation step={step} setStep={setStep} maxStep={1} />
+        <StepNavigation step={step} setStep={setStep} maxStep={3} />
 
         <div className="flex justify-end gap-3 mt-6">
           <button
             className="btn btn-secondary"
-            onClick={() => navigate("/documents/teg")}
+            onClick={() => navigate("/documents/cfp")}
           >
             Annuler
           </button>
@@ -85,4 +88,4 @@ function CreateTEGPage() {
   );
 }
 
-export default CreateTEGPage;
+export default CreateCFPPage;

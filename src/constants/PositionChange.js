@@ -1,4 +1,5 @@
 export const FONDS_PROPRES_REFERENCES = [
+  //used in DPC
   { code: "A", designation: "Capital social" },
   { code: "B", designation: "Réserves autres que réserves de réévaluation" },
   { code: "C", designation: "Réserves de réévaluation (1)" },
