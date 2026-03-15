@@ -24,6 +24,6 @@ dist-ssr
 *.sw?
 
 #json to test
-#json_examples/*
+json_examples/*
 
 .env*

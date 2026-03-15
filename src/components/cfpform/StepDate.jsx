@@ -1,18 +1,26 @@
+import { useState, useEffect } from "react";
+
 function StepDate({ formData, updateField }) {
+  const [year, setYear] = useState("");
+
+  useEffect(() => {
+    if (formData.date_arrete) {
+      setYear(formData.date_arrete.slice(0, 4));
+    }
+  }, [formData.date_arrete]);
+
   const handleYearChange = (e) => {
-    const year = Number(e.target.value);
+    const value = e.target.value;
 
-    if (!year) return;
+    // allow typing freely
+    setYear(value);
 
-    // Last day of the year
-    const formattedDate = `${year}-12-31`;
-
-    updateField("date_arrete", formattedDate);
+    // only update final date when 4 digits are entered
+    if (value.length === 4) {
+      const formattedDate = `${value}-12-31`;
+      updateField("date_arrete", formattedDate);
+    }
   };
-
-  const currentYearValue = formData.date_arrete
-    ? formData.date_arrete.slice(0, 4)
-    : "";
 
   return (
     <div className="bg-white flex justify-center rounded-lg shadow p-6 w-full">
@@ -22,20 +30,18 @@ function StepDate({ formData, updateField }) {
         </label>
 
         <p className="text-sm text-gray-500">
-          Sélectionnez une année. La date sera automatiquement fixée au dernier
-          jour de l'année (31 décembre).
+          Sélectionnez une année. La date sera automatiquement fixée au
+          31 décembre.
         </p>
 
         <input
           type="number"
-          min="1900"
-          max="2100"
           placeholder="YYYY"
           className="border border-gray-300 rounded-md p-3 w-64 
                      focus:outline-none focus:ring-2 
                      focus:ring-sofiblue focus:border-sofiblue
                      transition duration-200"
-          value={currentYearValue}
+          value={year}
           onChange={handleYearChange}
         />
 
