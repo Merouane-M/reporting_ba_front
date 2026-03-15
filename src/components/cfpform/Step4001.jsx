@@ -112,7 +112,7 @@ function Step4001({ formData, updateField }) {
             return (
               <React.Fragment key={row.code}>
 
-                <tr className="border-b">
+                <tr className={`border-b ${ isCalculated ? " border-white border-b" : ""}`}>
 
                   <td
                     className={`p-3 ${

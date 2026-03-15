@@ -88,7 +88,7 @@ function Step4002({ formData, updateField }) {
             const isCalculated = calculatedRows.includes(row.code);
 
             return (
-              <tr key={row.code} className="border-b">
+              <tr key={row.code} className={`border-b ${ isCalculated ? " border-white border-b-8" : ""}`}>
                 <td
                   className={`p-3 w-3/5 text-left ${
                     isCalculated ? "bg-sofiblue text-white font-bold text-lg" : "text-lg"
