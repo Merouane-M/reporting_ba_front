@@ -23,6 +23,9 @@ import EditTEGPage from "./pages/EditTEGPage";
 import CreateCFPPage from "./pages/CreateCFPPage";
 import EditCFPPage from "./pages/EditCFPPage";
 
+import CreateRCCPage from "./pages/CreateRCCPage";
+import EditRCCPage from "./pages/EditRCCPage";
+
 import ProtectedRoute from "./components/general/ProtectedRoute";
 import Layout from "./components/general/Layout";
 
@@ -57,6 +60,9 @@ function App() {
 
           <Route path="/documents/cfp/create" element={<CreateCFPPage />} />
           <Route path="/documents/cfp/edit/:id" element={<EditCFPPage />} />
+
+          <Route path="/documents/rcc/create" element={<CreateRCCPage />} />
+          <Route path="/documents/rcc/edit/:id" element={<EditRCCPage />} />
 
           
         </Route>

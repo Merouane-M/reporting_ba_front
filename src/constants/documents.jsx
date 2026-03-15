@@ -9,7 +9,7 @@ export const documentTypes = [
   // { abbr: 'CBR', fullName: "Etat des Cinquantes (50) plus Gros Clients ayant Bénéficié d’un Rééchelonnement", frequency:"Semestrielle" },
   // { abbr: 'CPD', fullName: 'Liste des Cinquante (50) Plus Gros Clients Douteux du Secteur Prive', frequency:"Semestrielle" },
   // { abbr: 'PEI', fullName: ' Déclaration des prêts et emprunts interbancaires', frequency:"Semestrielle" },
-  // { abbr: 'RCC', fullName: ' Répartition des créances et engagements classés' , frequency:"Trimestrielle"},
+  { abbr: 'RCC', fullName: ' Répartition des créances et engagements classés' , frequency:"Trimestrielle"},
   // { abbr: 'SFE', fullName: " Déclaration des crédits rééchelonnés au titre du soutien financier de l'Etat", frequency:"Mensuelle" },
 
 ];
