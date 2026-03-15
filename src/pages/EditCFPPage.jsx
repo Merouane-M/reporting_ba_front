@@ -98,7 +98,10 @@ function EditCFPPage() {
             Modifier la déclaration CFP
           </h1>
 
-          <p className="text-base font-semibold text-sofiblue">Unité en %</p>
+          <p className="text-base font-semibold text-sofiblue">
+            {" "}
+            Unité en KDA milliers de dinars
+          </p>
         </div>
 
         {renderStep()}
