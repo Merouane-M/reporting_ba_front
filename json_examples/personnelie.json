@@ -1,0 +1,9 @@
+{
+    "beneficiaire_id": 1,
+    "capital": "10000.00",
+    "deleted_at": null,
+    "id": 1,
+    "is_deleted": false,
+    "pl_nif": "00987654321001",
+    "pl_nom": "John Doe"
+}

@@ -1,0 +1,51 @@
+[
+    {
+        "CodeDeclaration": "PEI",
+        "Frequence": "001",
+        "PEIbank": [
+            {
+                "CompOrdinaireCrediteur": 0,
+                "CompOrdinaireDebiteurs": 0,
+                "bank_code": "101",
+                "bank_name": "National Bank Updated",
+                "created_at": "Thu, 05 Mar 2026 12:52:27 GMT",
+                "deleted_at": null,
+                "id": 3,
+                "is_deleted": false,
+                "periode_A_ME": 0,
+                "periode_A_MP": 200000,
+                "periode_B_ME": 0,
+                "periode_B_MP": 0,
+                "periode_C_ME": 0,
+                "periode_C_MP": 0,
+                "updated_at": "Thu, 05 Mar 2026 12:52:27 GMT"
+            },
+            {
+                "CompOrdinaireCrediteur": 975555,
+                "CompOrdinaireDebiteurs": 64448,
+                "bank_code": "102",
+                "bank_name": "Credit Bank Updated",
+                "created_at": "Thu, 05 Mar 2026 12:52:27 GMT",
+                "deleted_at": "Thu, 05 Mar 2026 13:22:32 GMT",
+                "id": 4,
+                "is_deleted": false,
+                "periode_A_ME": 1000,
+                "periode_A_MP": 150000,
+                "periode_B_ME": 0,
+                "periode_B_MP": 32000,
+                "periode_C_ME": 90000,
+                "periode_C_MP": 25000,
+                "updated_at": "Thu, 05 Mar 2026 13:21:37 GMT"
+            }
+        ],
+        "created_at": "Thu, 05 Mar 2026 12:52:27 GMT",
+        "date_arrete": "Tue, 30 Jun 2026 00:00:00 GMT",
+        "deleted_at": null,
+        "etablissement_declarant": "001",
+        "id": 1,
+        "is_deleted": false,
+        "status": "VALIDATED",
+        "updated_at": "Thu, 05 Mar 2026 12:52:27 GMT"
+    
+    }
+]

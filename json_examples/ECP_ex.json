@@ -1,0 +1,73 @@
+[
+    {
+        "CodeDeclaration": "ECP",
+        "beneficiaires": [
+            {
+                "created_at": "Thu, 05 Mar 2026 13:28:23 GMT",
+                "date_autorisation": "Fri, 10 Jan 2025 00:00:00 GMT",
+                "date_echeance": "Sun, 10 Jan 2027 00:00:00 GMT",
+                "deleted_at": null,
+                "destination_credit": "Industrial Equipment",
+                "id": 1,
+                "is_deleted": false,
+                "montant_autorise": "2000000.00",
+                "montant_utilise": "1500000.00",
+                "nature_credit": "Investment Loan",
+                "nif": "123456789",
+                "raison_sociale": "SARL Atlas Construction",
+                "updated_at": "Thu, 05 Mar 2026 13:28:23 GMT"
+            },
+            {
+                "created_at": "Thu, 05 Mar 2026 13:28:23 GMT",
+                "date_autorisation": "Sat, 15 Mar 2025 00:00:00 GMT",
+                "date_echeance": "Thu, 31 Dec 2026 00:00:00 GMT",
+                "deleted_at": null,
+                "destination_credit": "Transport Fleet Expansion",
+                "id": 2,
+                "is_deleted": false,
+                "montant_autorise": "1000000.00",
+                "montant_utilise": "600000.00",
+                "nature_credit": "Working Capital",
+                "nif": "987654321",
+                "raison_sociale": "Entreprise Sahara Logistics",
+                "updated_at": "Thu, 05 Mar 2026 13:28:23 GMT"
+            }
+        ],
+        "created_at": "Thu, 05 Mar 2026 13:28:23 GMT",
+        "date_arrete": "Sat, 31 Jan 2026 00:00:00 GMT",
+        "deleted_at": null,
+        "fonds_propres": 5000000,
+        "id": 1,
+        "is_deleted": false,
+        "status": "IN_PROCESS",
+        "updated_at": "Thu, 05 Mar 2026 13:28:23 GMT"
+    },
+    {
+        "CodeDeclaration": "ECP",
+        "beneficiaires": [
+            {
+                "created_at": "Thu, 05 Mar 2026 13:29:12 GMT",
+                "date_autorisation": "Wed, 15 May 2024 00:00:00 GMT",
+                "date_echeance": "Wed, 15 May 2030 00:00:00 GMT",
+                "deleted_at": null,
+                "destination_credit": "Solar farm construction",
+                "id": 5,
+                "is_deleted": false,
+                "montant_autorise": "4500000.00",
+                "montant_utilise": "3000000.00",
+                "nature_credit": "Project Financing",
+                "nif": "111222333",
+                "raison_sociale": "Atlas Renewable Energy",
+                "updated_at": "Thu, 05 Mar 2026 13:32:11 GMT"
+            }
+        ],
+        "created_at": "Thu, 05 Mar 2026 13:29:12 GMT",
+        "date_arrete": "Wed, 31 Dec 2025 00:00:00 GMT",
+        "deleted_at": null,
+        "fonds_propres": 10000000,
+        "id": 3,
+        "is_deleted": false,
+        "status": "IN_PROCESS",
+        "updated_at": "Thu, 05 Mar 2026 13:31:58 GMT"
+    }
+]
