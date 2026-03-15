@@ -28,7 +28,6 @@ export const getDocumentById = async (type, id) => {
 export const addDocument = async (type, data) => {
   const payload = {
     ...data,
-    etablissement_declarant: "025", 
   };
 
   return await createDocument(type, payload);
