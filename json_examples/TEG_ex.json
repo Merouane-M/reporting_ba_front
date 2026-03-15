@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "CodeDeclaration": "TEG",
+  "Frequence": "semestrielle",
+  "date_arrete": "2026-06-30",
+  "etablissement_declarant": "025",
+  "status": "IN_PROCESS",
+  "created_at": "2026-03-10T14:30:00Z",
+  "updated_at": "2026-03-10T14:30:00Z",
+  "taux": 2.50,
+  "is_deleted": false,
+  "deleted_at": null
+}
