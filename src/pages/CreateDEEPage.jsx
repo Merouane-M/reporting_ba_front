@@ -15,6 +15,7 @@ function CreateDEEPage() {
   const [formData, setFormData] = useState({
     CodeDeclaration: "DEE",
     Frequence: "MONTHLY",
+    etablissement_declarant: "025",
   });
 
   const updateField = (key, value) => {

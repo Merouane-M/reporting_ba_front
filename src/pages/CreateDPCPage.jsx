@@ -12,6 +12,7 @@ function CreateDPCPage() {
   const [formData, setFormData] = useState({
     CodeDeclaration: "DPC",
     Frequence: "Monthly",
+    etablissement_declarant: "025",
 
     status: "IN_PROCESS",
     is_deleted: false,

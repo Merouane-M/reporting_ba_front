@@ -7,7 +7,7 @@ function Input({ id, label, value, onChange, error }) {
 
       <input
         id={id}
-        className={`border p-2 w-full rounded 
+        className={`border p-2 w-full rounded
           ${error ? "border-red-500 bg-red-50" : "border-sofiblue"}`}
         value={value}
         onChange={(e) => onChange(e.target.value)}

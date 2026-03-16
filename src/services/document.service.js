@@ -28,15 +28,15 @@ export const getDocumentById = async (type, id) => {
 export const addDocument = async (type, data) => {
   const payload = {
     ...data,
-    etablissement_declarant: "025", 
   };
-
+  console.log("add doc of type", type, "data",payload)
   return await createDocument(type, payload);
 };
 /* =========================
    UPDATE
 ========================= */
 export const editDocument = async (type, id, data) => {
+  console.log("edit doc of type", type, "data",data)
   return await updateDocument(type, id, data);
 };
 
