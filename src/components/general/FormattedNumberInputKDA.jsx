@@ -5,15 +5,14 @@ import React, { useState, useEffect, useRef } from "react";
 //=================================================================================
 
 function formatNumber(value) {
-  if (!value && value !== 0) return "";
+  if (!value || Number(value) === 0) return "";
 
-  // Custom formatting: add three spaces between thousands (no decimals)
   const numStr = Math.floor(Number(value)).toString();
   return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, "  ");
 }
 
 function sanitizeValue(value) {
-  // Remove everything except digits
+  // Only allow digits (no minus sign)
   return value.replace(/[^\d]/g, "");
 }
 
@@ -23,15 +22,21 @@ function FormattedNumberInputKDA({
   onBlur,
   readOnly = false,
 }) {
-  const [displayValue, setDisplayValue] = useState(
-    formatNumber(value ?? "")
-  );
-  const [rawValue, setRawValue] = useState(value ?? "");
   const inputRef = useRef(null);
 
-  // Sync with external value changes
+  const normalize = (v) => {
+    if (v === 0 || v === "0" || v == null) return "";
+    return String(v);
+  };
+
+  const [rawValue, setRawValue] = useState(normalize(value));
+  const [displayValue, setDisplayValue] = useState(
+    formatNumber(normalize(value))
+  );
+
+  // Sync external value
   useEffect(() => {
-    const newRaw = value ?? "";
+    const newRaw = normalize(value);
     setRawValue(newRaw);
     setDisplayValue(formatNumber(newRaw));
   }, [value]);
@@ -46,23 +51,32 @@ function FormattedNumberInputKDA({
       raw = raw.slice(0, 17);
     }
 
+    // Treat 0 as empty
+    if (raw === "0") raw = "";
+
     setRawValue(raw);
-    setDisplayValue(formatNumber(raw));
+    setDisplayValue(raw);
   };
 
   const handleBlur = () => {
     if (readOnly) return;
 
     const numValue = rawValue ? parseInt(rawValue, 10) : null;
+
     if (onChange) onChange(numValue);
     if (onBlur) onBlur();
+
+    setDisplayValue(formatNumber(rawValue));
   };
 
   const handleFocus = () => {
     if (readOnly) return;
 
-    // Show raw value for easier editing
-    setDisplayValue(rawValue);
+    // If value is 0 treat as empty
+    const raw = rawValue === "0" ? "" : rawValue;
+
+    setRawValue(raw);
+    setDisplayValue(raw);
   };
 
   return (

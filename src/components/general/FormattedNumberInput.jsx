@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 function formatNumber(value) {
-  if (value === "" || value === null || value === undefined) return "";
+  if (!value || Number(value) === 0) return "";
 
   return Number(value).toLocaleString("fr-FR", {
     minimumFractionDigits: 2,
@@ -10,13 +10,17 @@ function formatNumber(value) {
 }
 
 function sanitizeValue(value) {
+  // allow only digits and decimal point
   let cleaned = value.replace(/[^\d.]/g, "");
 
   const parts = cleaned.split(".");
+
+  // allow only one decimal point
   if (parts.length > 2) {
     cleaned = parts[0] + "." + parts.slice(1).join("");
   }
 
+  // limit decimals to 2
   if (parts[1]?.length > 2) {
     cleaned = parts[0] + "." + parts[1].slice(0, 2);
   }
@@ -30,21 +34,22 @@ function FormattedNumberInput({
   onBlur,
   readOnly = false,
 }) {
-  const [displayValue, setDisplayValue] = useState(formatNumber(value ?? ""));
-  const [rawValue, setRawValue] = useState(value ?? "");
   const inputRef = useRef(null);
 
+  const normalize = (v) => {
+    if (v === null || v === undefined || Number(v) === 0) return "";
+    return String(v);
+  };
+
+  const [rawValue, setRawValue] = useState(normalize(value));
+  const [displayValue, setDisplayValue] = useState(formatNumber(normalize(value)));
+
   // Sync external changes
-useEffect(() => {
-  if (value === null || value === undefined || value === 0) {
-    setRawValue("");
-    setDisplayValue("");
-  } else {
-    const newRaw = String(value);
+  useEffect(() => {
+    const newRaw = normalize(value);
     setRawValue(newRaw);
     setDisplayValue(formatNumber(newRaw));
-  }
-}, [value]);
+  }, [value]);
 
   const handleChange = (e) => {
     if (readOnly) return;
@@ -61,6 +66,9 @@ useEffect(() => {
         (decimalPart ? "." + decimalPart : "");
     }
 
+    // treat zero as empty
+    if (Number(raw) === 0) raw = "";
+
     setRawValue(raw);
     setDisplayValue(raw);
   };
@@ -68,7 +76,10 @@ useEffect(() => {
   const handleBlur = () => {
     if (readOnly) return;
 
-    const numValue = rawValue !== "" ? parseFloat(rawValue) : null;
+    let numValue = rawValue !== "" ? parseFloat(rawValue) : null;
+
+    // treat zero as empty
+    if (numValue === 0) numValue = null;
 
     if (onChange) onChange(numValue);
     if (onBlur) onBlur();
@@ -76,11 +87,11 @@ useEffect(() => {
     setDisplayValue(formatNumber(rawValue));
   };
 
-const handleFocus = () => {
-  if (readOnly) return;
+  const handleFocus = () => {
+    if (readOnly) return;
 
-  setDisplayValue(rawValue || "");
-};
+    setDisplayValue(rawValue || "");
+  };
 
   return (
     <input
