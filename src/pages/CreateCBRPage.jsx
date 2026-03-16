@@ -9,7 +9,6 @@ import { addDocument } from "../services/document.service";
 function CreateCBRPage() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
-
   const [formData, setFormData] = useState({
     CodeDeclaration: "CBR",
     beneficiaires: [],
@@ -29,18 +28,18 @@ function CreateCBRPage() {
     const newBeneficiaire = {
       beneficiaire: "",
       nif: "",
-      categorie: "",
-      categorie_avant_reechelonnement: "",
+      categorie: "C1",
+      categorie_avant_reechelonnement: "C1",
       date_octroi_credit: "",
       annees_declassement_credits: "",
-      encours_creance_bilan: "0",
-      encours_engagements_hors_bilan: "0",
-      montant_reech_gouv: "0",
-      montant_reech_autres: "0",
-      provision_avant_gouv: "0",
-      provision_avant_autres: "0",
-      provision_apres_gouv: "0",
-      provision_apres_autres: "0",
+      encours_creance_bilan: 0,
+      encours_engagements_hors_bilan: 0,
+      montant_reech_gouv: 0,
+      montant_reech_autres: 0,
+      provision_avant_gouv: 0,
+      provision_avant_autres: 0,
+      provision_apres_gouv: 0,
+      provision_apres_autres: 0,
       observations: "",
     };
 
@@ -69,27 +68,66 @@ function CreateCBRPage() {
     });
   };
 
-  const handleSubmit = async () => {
-    try {
-      if (!formData.date_arrete) {
-        alert("Veuillez sélectionner une date d'arrêté.");
+const handleSubmit = async () => {
+  try {
+    // 1️⃣ Validate date_arrete
+    if (!formData.date_arrete) {
+      alert("Veuillez sélectionner une date d'arrêté.");
+      return;
+    }
+
+    // 2️⃣ Validate each beneficiaire and NIF
+    for (let i = 0; i < formData.beneficiaires.length; i++) {
+      const b = formData.beneficiaires[i];
+      if (!b.beneficiaire?.trim()) {
+        alert(`Le nom du bénéficiaire #${i + 1} est obligatoire.`);
         return;
       }
-
-      const payload = {
-        ...formData,
-        created_at: new Date(),
-        updated_at: new Date(),
-      };
-
-      await addDocument("CBR", payload);
-
-      navigate("/documents/cbr");
-    } catch (error) {
-      console.error("Creation failed:", error);
+      if (!b.nif?.trim()) {
+        alert(`Le NIF du bénéficiaire #${i + 1} est obligatoire.`);
+        return;
+      }
+            if (!b.date_octroi_credit?.trim()) {
+        alert(`La date d'octroi du crédit du bénéficiaire #${i + 1} est obligatoire.`);
+        return;
+      }
+            if (!b.annees_declassement_credits?.trim()) {
+        alert(`L'année de déclassement du crédit du bénéficiaire #${i + 1} est obligatoire.`);
+        return;
+      }
     }
-  };
 
+    // 3️⃣ Prepare payload
+    const payload = {
+      ...formData,
+      date_arrete: new Date(formData.date_arrete).toISOString().split("T")[0],
+      created_at: new Date(),
+      updated_at: new Date(),
+      beneficiaires: formData.beneficiaires.map((b) => {
+        const { created_at, updated_at, deleted_at, is_deleted, ...cleanB } = b;
+        return {
+          ...cleanB,
+          date_octroi_credit: b.date_octroi_credit
+            ? new Date(b.date_octroi_credit).toISOString().split("T")[0]
+            : "",
+          annees_declassement_credits: b.annees_declassement_credits
+            ? new Date(b.annees_declassement_credits).toISOString().split("T")[0]
+            : "",
+        };
+      }),
+    };
+
+    // 4️⃣ Submit
+    await addDocument("CBR", payload);
+
+    // 5️⃣ Navigate back
+
+    navigate("/documents/cbr");
+  } catch (error) {
+    console.error("Création échouée :", error);
+    alert("Erreur lors de la création de la déclaration CBR.");
+  }
+};
   const renderStep = () => {
     switch (step) {
       case 0:

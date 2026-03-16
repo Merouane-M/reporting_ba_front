@@ -121,6 +121,7 @@ function DocumentsTable({ type }) {
 
       if (result.success) {
         // Update document status to VALIDATED only if current status is "IN_PROCESS"
+   
         if (status === "IN_PROCESS") {
           await editDocument(type, id, { status: "VALIDATED" });
         }
