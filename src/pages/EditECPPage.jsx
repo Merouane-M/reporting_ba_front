@@ -104,32 +104,32 @@ function EditECPPage() {
       // 2️⃣ Validate each beneficiary
       for (let i = 0; i < formData.beneficiaires.length; i++) {
         const b = formData.beneficiaires[i];
-        // if (!b.beneficiaire?.trim()) {
-        //   alert(`Le nom du bénéficiaire #${i + 1} est obligatoire.`);
-        //   setSubmitting(false);
-        //   return;
-        // }
-        // if (!b.nif?.trim()) {
-        //   alert(`Le NIF du bénéficiaire #${i + 1} est obligatoire.`);
-        //   setSubmitting(false);
-        //   return;
-        // }
-        // if (!b.date_octroi_credit?.trim()) {
-        //   alert(
-        //     `La date d'octroi du crédit du bénéficiaire #${i + 1} est obligatoire.`
-        //   );
-        //   setSubmitting(false);
-        //   return;
-        // }
-        // if (!b.annees_declassement_credits?.trim()) {
-        //   alert(
-        //     `L'année de déclassement du crédit du bénéficiaire #${
-        //       i + 1
-        //     } est obligatoire.`
-        //   );
-        //   setSubmitting(false);
-        //   return;
-        // }
+        if (!b.beneficiaire?.trim()) {
+          alert(`Le nom du bénéficiaire #${i + 1} est obligatoire.`);
+          setSubmitting(false);
+          return;
+        }
+        if (!b.nif?.trim()) {
+          alert(`Le NIF du bénéficiaire #${i + 1} est obligatoire.`);
+          setSubmitting(false);
+          return;
+        }
+        if (!b.date_octroi_credit?.trim()) {
+          alert(
+            `La date d'octroi du crédit du bénéficiaire #${i + 1} est obligatoire.`
+          );
+          setSubmitting(false);
+          return;
+        }
+        if (!b.annees_declassement_credits?.trim()) {
+          alert(
+            `L'année de déclassement du crédit du bénéficiaire #${
+              i + 1
+            } est obligatoire.`
+          );
+          setSubmitting(false);
+          return;
+        }
       }
 
       // 3️⃣ Prepare payload
