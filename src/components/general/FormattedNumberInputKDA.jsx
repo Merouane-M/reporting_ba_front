@@ -1,27 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 
-//=================================================================================
-//            this component is used when the file specifies kilo dinars (DEE, DGR)
-//=================================================================================
-
 function formatNumber(value) {
-  if (!value || Number(value) === 0) return "";
-
+  if (value === 0 || value === "0" || value === null || value === "") return "";
   const numStr = Math.floor(Number(value)).toString();
   return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, "  ");
 }
 
 function sanitizeValue(value) {
-  // Only allow digits (no minus sign)
   return value.replace(/[^\d]/g, "");
 }
 
-function FormattedNumberInputKDA({
-  value,
-  onChange,
-  onBlur,
-  readOnly = false,
-}) {
+function FormattedNumberInputKDA({ value, onChange, onBlur, readOnly = false }) {
   const inputRef = useRef(null);
 
   const normalize = (v) => {
@@ -30,9 +19,7 @@ function FormattedNumberInputKDA({
   };
 
   const [rawValue, setRawValue] = useState(normalize(value));
-  const [displayValue, setDisplayValue] = useState(
-    formatNumber(normalize(value))
-  );
+  const [displayValue, setDisplayValue] = useState(formatNumber(normalize(value)));
 
   // Sync external value
   useEffect(() => {
@@ -45,15 +32,9 @@ function FormattedNumberInputKDA({
     if (readOnly) return;
 
     let raw = sanitizeValue(e.target.value);
+    if (raw.length > 17) raw = raw.slice(0, 17);
 
-    // Limit to 17 digits
-    if (raw.length > 17) {
-      raw = raw.slice(0, 17);
-    }
-
-    // Treat 0 as empty
-    if (raw === "0") raw = "";
-
+    // Allow the field to look empty
     setRawValue(raw);
     setDisplayValue(raw);
   };
@@ -61,22 +42,22 @@ function FormattedNumberInputKDA({
   const handleBlur = () => {
     if (readOnly) return;
 
-    const numValue = rawValue ? parseInt(rawValue, 10) : null;
+    // Send 0 if the field is empty
+    const numValue = rawValue ? parseInt(rawValue, 10) : 0;
 
     if (onChange) onChange(numValue);
     if (onBlur) onBlur();
 
-    setDisplayValue(formatNumber(rawValue));
+    // Format display
+    setDisplayValue(formatNumber(numValue));
+    setRawValue(numValue === 0 ? "" : numValue);
   };
 
   const handleFocus = () => {
     if (readOnly) return;
 
-    // If value is 0 treat as empty
-    const raw = rawValue === "0" ? "" : rawValue;
-
-    setRawValue(raw);
-    setDisplayValue(raw);
+    // Show raw digits for editing
+    setDisplayValue(rawValue);
   };
 
   return (
@@ -87,9 +68,7 @@ function FormattedNumberInputKDA({
       inputMode="numeric"
       readOnly={readOnly}
       className={`border rounded p-2 w-3/4 text-right ${
-        readOnly
-          ? "bg-gray-100 cursor-not-allowed text-gray-700"
-          : ""
+        readOnly ? "bg-gray-100 cursor-not-allowed text-gray-700" : ""
       }`}
       value={displayValue}
       onChange={handleChange}
