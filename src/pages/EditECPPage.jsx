@@ -1,13 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import StepDate from "../components/cbrform/StepDate";
-import StepNavigation from "../components/cbrform/StepNavigation";
-import StepCBR from "../components/cbrform/StepCBR";
+import StepDate from "../components/ecpform/StepDate";
+import StepNavigation from "../components/ecpform/StepNavigation";
+import StepECP from "../components/ecpform/StepECP";
 
 import { editDocument, getDocumentById } from "../services/document.service";
 
-function EditCBRPage() {
+function EditECPPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -29,22 +29,19 @@ function EditCBRPage() {
   useEffect(() => {
     const fetchDocument = async () => {
       try {
-        const data = await getDocumentById("cbr", id);
-        console.log(data);
+        const data = await getDocumentById("ecp", id);
 
         setFormData({
           ...data,
           date_arrete: formatDate(data.date_arrete),
           beneficiaires: (data.beneficiaires || []).map((b) => ({
             ...b,
-            date_octroi_credit: formatDate(b.date_octroi_credit),
-            annees_declassement_credits: formatDate(
-              b.annees_declassement_credits
-            ),
+            date_autorisation: formatDate(b.date_autorisation),
+            date_echeance: formatDate(b.date_echeance ),
           })),
         });
       } catch (err) {
-        console.error("Failed to fetch CBR:", err);
+        console.error("Failed to fetch ECP:", err);
       } finally {
         setLoading(false);
       }
@@ -59,21 +56,14 @@ function EditCBRPage() {
 
   const addBeneficiaire = () => {
     const newBeneficiaire = {
-      beneficiaire: "",
+      raison_sociale: "",
       nif: "",
-      categorie: "C1",
-      categorie_avant_reechelonnement: "C1",
-      date_octroi_credit: "",
-      annees_declassement_credits: "",
-      encours_creance_bilan: 0,
-      encours_engagements_hors_bilan: 0,
-      montant_reech_gouv: 0,
-      montant_reech_autres: 0,
-      provision_avant_gouv: 0,
-      provision_avant_autres: 0,
-      provision_apres_gouv: 0,
-      provision_apres_autres: 0,
-      observations: "",
+      nature_credit: "",
+      date_autorisation: "",
+      date_echeance: "",
+      montant_autorise: 0,
+      montant_utilise: 0,
+      destination_credit: "",
     };
     setFormData((prev) => ({
       ...prev,
@@ -104,37 +94,42 @@ function EditCBRPage() {
         alert("Veuillez sélectionner une date d'arrêté.");
         setSubmitting(false);
         return;
-      }
+    }
+    if (!formData.fonds_propres){
+        alert("Veuillez remplir le fonds propres de base");
+        setSubmitting(false);
+        return;
+    }
 
       // 2️⃣ Validate each beneficiary
       for (let i = 0; i < formData.beneficiaires.length; i++) {
         const b = formData.beneficiaires[i];
-        if (!b.beneficiaire?.trim()) {
-          alert(`Le nom du bénéficiaire #${i + 1} est obligatoire.`);
-          setSubmitting(false);
-          return;
-        }
-        if (!b.nif?.trim()) {
-          alert(`Le NIF du bénéficiaire #${i + 1} est obligatoire.`);
-          setSubmitting(false);
-          return;
-        }
-        if (!b.date_octroi_credit?.trim()) {
-          alert(
-            `La date d'octroi du crédit du bénéficiaire #${i + 1} est obligatoire.`
-          );
-          setSubmitting(false);
-          return;
-        }
-        if (!b.annees_declassement_credits?.trim()) {
-          alert(
-            `L'année de déclassement du crédit du bénéficiaire #${
-              i + 1
-            } est obligatoire.`
-          );
-          setSubmitting(false);
-          return;
-        }
+        // if (!b.beneficiaire?.trim()) {
+        //   alert(`Le nom du bénéficiaire #${i + 1} est obligatoire.`);
+        //   setSubmitting(false);
+        //   return;
+        // }
+        // if (!b.nif?.trim()) {
+        //   alert(`Le NIF du bénéficiaire #${i + 1} est obligatoire.`);
+        //   setSubmitting(false);
+        //   return;
+        // }
+        // if (!b.date_octroi_credit?.trim()) {
+        //   alert(
+        //     `La date d'octroi du crédit du bénéficiaire #${i + 1} est obligatoire.`
+        //   );
+        //   setSubmitting(false);
+        //   return;
+        // }
+        // if (!b.annees_declassement_credits?.trim()) {
+        //   alert(
+        //     `L'année de déclassement du crédit du bénéficiaire #${
+        //       i + 1
+        //     } est obligatoire.`
+        //   );
+        //   setSubmitting(false);
+        //   return;
+        // }
       }
 
       // 3️⃣ Prepare payload
@@ -147,12 +142,6 @@ function EditCBRPage() {
             b;
           return {
             ...cleanB,
-            date_octroi_credit: b.date_octroi_credit
-              ? new Date(b.date_octroi_credit).toISOString().split("T")[0]
-              : "",
-            annees_declassement_credits: b.annees_declassement_credits
-              ? new Date(b.annees_declassement_credits).toISOString().split("T")[0]
-              : "",
           };
         }),
       };
@@ -166,12 +155,12 @@ function EditCBRPage() {
 
 
       // 5️⃣ Submit
-      await editDocument("cbr", id, payload);
+      await editDocument("ecp", id, payload);
 
-      navigate("/documents/cbr");
+      navigate("/documents/ecp");
     } catch (error) {
       console.error("Update failed:", error);
-      alert("Erreur lors de la mise à jour de la déclaration CBR.");
+      alert("Erreur lors de la mise à jour de la déclaration ECP.");
     } finally {
       setSubmitting(false);
     }
@@ -183,11 +172,13 @@ function EditCBRPage() {
         return <StepDate formData={formData} updateField={updateField} />;
       case 1:
         return (
-          <StepCBR
-            beneficiaires={formData.beneficiaires}
+          <StepECP
+            formData={formData}
+            updateField={updateField}
+            //beneficiaires={formData.beneficiaires}
             addBeneficiaire={addBeneficiaire}
-            updateBeneficiaire={updateBeneficiaire}
             removeBeneficiaire={removeBeneficiaire}
+            updateBeneficiaire={updateBeneficiaire}
           />
         );
       default:
@@ -210,7 +201,7 @@ function EditCBRPage() {
     <div className="w-4/5 mx-auto bg-white p-8 rounded-lg shadow-lg">
       <div className="flex flex-row justify-between">
         <h1 className="text-2xl font-bold text-sofiblue mb-6">
-          Modifier la déclaration CBR
+          Modifier la déclaration ECP
         </h1>
         <p className="text-base font-semibold text-sofiblue">
           Unité en KDA milliers de dinars
@@ -224,7 +215,7 @@ function EditCBRPage() {
       <div className="flex justify-end gap-3 mt-6">
         <button
           className="btn btn-secondary"
-          onClick={() => navigate("/documents/cbr")}
+          onClick={() => navigate("/documents/ecp")}
         >
           Annuler
         </button>
@@ -243,4 +234,4 @@ function EditCBRPage() {
   );
 }
 
-export default EditCBRPage;
+export default EditECPPage;

@@ -13,6 +13,7 @@ export const fetchDocuments = async (type) => {
 ========================= */
 export const fetchDocumentById = async (type, id) => {
   const res = await api.get(`/${type.toLowerCase()}_list/${id}`);
+  console.log("fetching",res.data);
   return res.data;
 };
 

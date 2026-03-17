@@ -29,6 +29,9 @@ import EditRCCPage from "./pages/EditRCCPage";
 import CreateCBRPage from "./pages/CreateCBRPage";
 import EditCBRPage from "./pages/EditCBRPage";
 
+import CreateECPPage from "./pages/CreateECPPage";
+import EditECPPage from "./pages/EditECPPage";
+
 import ProtectedRoute from "./components/general/ProtectedRoute";
 import Layout from "./components/general/Layout";
 
@@ -69,6 +72,9 @@ function App() {
 
           <Route path="/documents/cbr/create" element={<CreateCBRPage />} />
           <Route path="/documents/cbr/edit/:id" element={<EditCBRPage />} />
+
+          <Route path="/documents/ecp/create" element={<CreateECPPage />} />
+          <Route path="/documents/ecp/edit/:id" element={<EditECPPage />} />
 
           
         </Route>
