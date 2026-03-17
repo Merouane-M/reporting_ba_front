@@ -5,11 +5,11 @@ import Input from "../general/Input";
 function StepECP({
   formData,
   updateField,
- // beneficiaires,
+  // beneficiaires,
   addBeneficiaire,
   updateBeneficiaire,
   removeBeneficiaire,
-}){
+}) {
   const [errors, setErrors] = useState({});
   const beneficiaires = formData.beneficiaires;
 
@@ -31,11 +31,8 @@ function StepECP({
   const validateConstraints = (b, index) => {
     const newErrors = {};
 
-    if (
-      Number(b.montant_utilise) > Number(b.montant_autorise)
-    ) {
-      newErrors[`${index}-montant_utilise`] =
-        "Dépasse le montant autorisé";
+    if (Number(b.montant_utilise) > Number(b.montant_autorise)) {
+      newErrors[`${index}-montant_utilise`] = "Dépasse le montant autorisé";
     }
 
     if (
@@ -43,8 +40,7 @@ function StepECP({
       b.date_echeance &&
       new Date(b.date_echeance) < new Date(b.date_autorisation)
     ) {
-      newErrors[`${index}-date_echeance`] =
-        "Doit être ≥ date autorisation";
+      newErrors[`${index}-date_echeance`] = "Doit être ≥ date autorisation";
     }
 
     return newErrors;
@@ -74,39 +70,37 @@ function StepECP({
 
   // ---------- TABLE ----------
   return (
-<div className="space-y-4">
+    <div className="space-y-4">
+      {/* FONDS PROPRES */}
+      <div className="bg-white rounded-lg shadow p-4 flex items-center gap-6">
+        <label className="text-lg font-bold text-sofiblue">
+          Fonds propres de base
+        </label>
 
-  {/* FONDS PROPRES */}
-  <div className="bg-white rounded-lg shadow p-4 flex items-center gap-6">
-    <label className="text-lg font-bold text-sofiblue">
-      Fonds propres de base
-    </label>
+        <div className="w-64">
+          <FormattedNumberInputKDA
+            value={formData?.fonds_propres || ""}
+            onChange={(val) => updateField("fonds_propres", val)}
+          />
+        </div>
+      </div>
 
-    <div className="w-64">
-      <FormattedNumberInputKDA
-        value={formData?.fonds_propres || ""}
-        onChange={(val) => updateField("fonds_propres", val)}
-      />
-    </div>
-  </div>
+      {/* HEADER */}
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl font-bold text-sofiblue">
+          Engagements par Crédit
+        </h3>
 
-  {/* HEADER */}
-  <div className="flex justify-between items-center">
-    <h3 className="text-xl font-bold text-sofiblue">
-      Engagements par Crédit
-    </h3>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={addBeneficiaire}
+        >
+          + Ajouter bénéficiaires
+        </button>
 
-    <button
-      type="button"
-      className="btn btn-primary"
-      onClick={addBeneficiaire}
-    >
-      + Ajouter bénéficiaires
-    </button>
-
-
-  {/* TABLE HERE */}
-</div>
+        {/* TABLE HERE */}
+      </div>
 
       <div className="overflow-x-auto bg-white rounded-lg shadow">
         <table className="w-full text-sm border-collapse">
@@ -142,22 +136,27 @@ function StepECP({
                 <td className="p-2">
                   <Input
                     value={b.nif || ""}
-                    onChange={(val) =>
-                      handleChange(index, "nif", val)
-                    }
+                    onChange={(val) => handleChange(index, "nif", val)}
                     error={errors[`${index}-nif`]}
                   />
                 </td>
 
                 {/* NATURE */}
-                <td className="p-2">
-                  <Input
-                    value={b.nature_credit || ""}
-                    onChange={(val) =>
-                      handleChange(index, "nature_credit", val)
-                    }
-                  />
-                </td>
+                
+                  <td className="p-2">
+                    <select
+                      className="input border rounded p-2 w-full"
+                      value={b.nature_credit ?? ""}
+                      onChange={(e) =>
+                        handleChange(index, "nature_credit", e.target.value)
+                      }
+                    >
+                      <option value="">-- Choisir --</option>
+                      <option value="Leasing">Leasing</option>
+                      <option value="CMLT">CMLT</option>
+                    </select>
+                  </td>
+                
 
                 {/* DATE AUTORISATION */}
                 <td className="p-2">
@@ -166,11 +165,7 @@ function StepECP({
                     className="input border rounded p-2 w-full"
                     value={b.date_autorisation || ""}
                     onChange={(e) =>
-                      handleChange(
-                        index,
-                        "date_autorisation",
-                        e.target.value
-                      )
+                      handleChange(index, "date_autorisation", e.target.value)
                     }
                   />
                 </td>
@@ -182,11 +177,7 @@ function StepECP({
                     className="input border rounded p-2 w-full"
                     value={b.date_echeance || ""}
                     onChange={(e) =>
-                      handleChange(
-                        index,
-                        "date_echeance",
-                        e.target.value
-                      )
+                      handleChange(index, "date_echeance", e.target.value)
                     }
                   />
                   {errors[`${index}-date_echeance`] && (
@@ -201,11 +192,7 @@ function StepECP({
                   <FormattedNumberInputKDA
                     value={b.montant_autorise ?? 0}
                     onChange={(val) =>
-                      handleChange(
-                        index,
-                        "montant_autorise",
-                        val
-                      )
+                      handleChange(index, "montant_autorise", val)
                     }
                   />
                 </td>
@@ -215,11 +202,7 @@ function StepECP({
                   <FormattedNumberInputKDA
                     value={b.montant_utilise ?? 0}
                     onChange={(val) =>
-                      handleChange(
-                        index,
-                        "montant_utilise",
-                        val
-                      )
+                      handleChange(index, "montant_utilise", val)
                     }
                   />
                   {errors[`${index}-montant_utilise`] && (
@@ -234,11 +217,7 @@ function StepECP({
                   <Input
                     value={b.destination_credit || ""}
                     onChange={(val) =>
-                      handleChange(
-                        index,
-                        "destination_credit",
-                        val
-                      )
+                      handleChange(index, "destination_credit", val)
                     }
                   />
                 </td>
