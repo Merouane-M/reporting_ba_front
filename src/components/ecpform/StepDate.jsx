@@ -85,7 +85,7 @@ function StepDate({ formData, updateField }) {
             onChange={handleMonthChange}
             className="border border-gray-300 rounded-md p-3 w-40"
           >
-            <option value="">Mois autorisé</option>
+            <option value="">Mois </option>
             <option value="02">Février (28/29)</option>
             <option value="04">Avril (30)</option>
             <option value="06">Juin (30)</option>
