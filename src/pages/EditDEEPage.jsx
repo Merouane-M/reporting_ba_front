@@ -2,11 +2,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { editDocument, getDocumentById } from "../services/document.service";
 import { useDocument } from "../context/DocumentContext"; 
-import StepDate from "../components/deeform/StepDate";
+import StepDate from "../components/general/StepDate";
 import StepM100 from "../components/deeform/StepM100";
 import StepC33 from "../components/deeform/StepC33";
 import StepFondsPropres from "../components/deeform/StepFondsPropres";
-import StepNavigation from "../components/deeform/StepNavigation";
+import StepNavigation from "../components/general/StepNavigation";
+import Loading from "../components/general/Loading";
 
 function EditDEEPage() {
   const { id } = useParams(); // Only get id from params
@@ -113,7 +114,7 @@ function EditDEEPage() {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Mensuelle" />;
       case 1:
         return <StepM100 formData={formData} updateField={updateField} />;
       case 2:
@@ -128,16 +129,7 @@ function EditDEEPage() {
   };
 
   if (loading) {
-    return (
-      < >
-        <div className="flex justify-center items-center p-6">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
-          <span className="ml-2 text-sofiblue font-bold">
-            Chargement des données…
-          </span>
-        </div>
-      </ >
-    );
+    return <Loading />;
   }
 
   if (error) {
@@ -171,7 +163,7 @@ function EditDEEPage() {
 
         {renderStep()}
 
-        <StepNavigation step={step} setStep={setStep} maxStep={3} />
+        <StepNavigation step={step} setStep={setStep} steps={["Date", "S1000", "3001", "3002"]} />
 
         <div className="flex justify-end mt-6 gap-3">
           <button

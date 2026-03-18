@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import StepDate from "../components/cfpform/StepDate";
-import StepNavigation from "../components/cfpform/StepNavigation";
+import StepDate from "../components/general/StepDate";
+import StepNavigation from "../components/general/StepNavigation";
 import Step4001 from "../components/cfpform/Step4001";
 import Step4002 from "../components/cfpform/Step4002";
 
@@ -68,7 +68,7 @@ function EditCFPPage() {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Annuelle" />;
       case 1:
         return <Step4001 formData={formData} updateField={updateField} />;
       case 2:
@@ -106,7 +106,7 @@ function EditCFPPage() {
 
         {renderStep()}
 
-        <StepNavigation step={step} setStep={setStep} maxStep={2} />
+        <StepNavigation step={step} setStep={setStep} steps={["Date", "4001", "4002"]} />
 
         <div className="flex justify-end gap-3 mt-6">
           <button

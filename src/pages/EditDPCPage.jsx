@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import StepDate from "../components/dpcform/StepDate";
+import StepDate from "../components/general/StepDate";
 import StepFondsPropres from "../components/dpcform/StepPositionChange";
-import StepNavigationDPC from "../components/dpcform/StepNavigationDPC";
+import StepNavigation from "../components/general/StepNavigation";
+import Loading from "../components/general/Loading";
 import { getDocumentById, editDocument } from "../services/document.service";
 
 function EditDPCPage() {
@@ -59,7 +60,7 @@ function EditDPCPage() {
 
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Mensuelle" />;
       case 1:
         return <StepFondsPropres formData={formData} updateField={updateField} />;
       default:
@@ -89,7 +90,7 @@ function EditDPCPage() {
     }
   };
 
-  if (!formData) return < >Loading DPC...</ >;
+  if (!formData) return <Loading />;
 
   return (
     < >
@@ -106,7 +107,7 @@ function EditDPCPage() {
 
         {renderStep()}
 
-        <StepNavigationDPC step={step} setStep={setStep} />
+        <StepNavigation step={step} setStep={setStep} steps={["Date", "Position de change II"]} />
 
 <div className="flex justify-end mt-6 gap-3">
   {step === 1 && (

@@ -1,6 +1,4 @@
-function StepNavigation({ step, setStep, maxStep }) {
-  const steps = ["Date", "S1000", "3001", "3002"];
-
+function StepNavigation({ step, setStep, steps }) {
   return (
     <div className="flex gap-2 mt-8 border-t pt-4">
       {steps.map((label, index) => (

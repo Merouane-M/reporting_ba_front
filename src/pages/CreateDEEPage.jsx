@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import StepDate from "../components/deeform/StepDate";
+import StepDate from "../components/general/StepDate";
 import StepM100 from "../components/deeform/StepM100";
 import StepC33 from "../components/deeform/StepC33";
 import StepFondsPropres from "../components/deeform/StepFondsPropres";
-import StepNavigation from "../components/deeform/StepNavigation";
+import StepNavigation from "../components/general/StepNavigation";
 import { addDocument } from "../services/document.service";
 
 function CreateDEEPage() {
@@ -41,7 +41,7 @@ function CreateDEEPage() {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Mensuelle" />;
       case 1:
         return <StepM100 formData={formData} updateField={updateField} />;
       case 2:
@@ -71,7 +71,7 @@ function CreateDEEPage() {
 
         {renderStep()}
 
-        <StepNavigation step={step} setStep={setStep} maxStep={3} />
+        <StepNavigation step={step} setStep={setStep} steps={["Date", "S1000", "3001", "3002"]} />
 
         <div className="flex justify-end gap-3 mt-6">
           <button

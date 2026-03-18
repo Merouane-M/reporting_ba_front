@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { editDocument, getDocumentById } from "../services/document.service";
 import { useDocument } from "../context/DocumentContext";
-import StepDate from "../components/dcsform/StepDate";
-import StepNavigation from "../components/dcsform/StepNavigation";
+import StepDate from "../components/general/StepDate";
+import StepNavigation from "../components/general/StepNavigation";
 import StepM100 from "../components/dcsform/StepM100.jsx";
 import StepS2000A from "../components/dcsform/StepS2000A.jsx";
 import StepS2000B from "../components/dcsform/StepS2000B.jsx";
@@ -115,7 +115,7 @@ function EditDCSPage() {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Trimestrielle" />;
       case 1:
         return <StepM100 formData={formData} updateField={updateField} />;
       case 2:
@@ -174,7 +174,7 @@ function EditDCSPage() {
 
         {renderStep()}
 
-        <StepNavigation step={step} setStep={setStep} maxStep={5} />
+        <StepNavigation step={step} setStep={setStep} steps={["Date", "S1000", "S2000 A","S2000 B","S2000 C","S3000"]} />
 
         <div className="flex justify-end mt-6 gap-3">
           <button

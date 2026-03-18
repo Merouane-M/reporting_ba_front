@@ -1,11 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
+import Loading from "./Loading";
 
 function ProtectedRoute() {
   const { isAuth, loadingProfile } = useAuthContext();
 
   if (loadingProfile) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!isAuth) {

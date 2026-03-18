@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import StepDGRMain from "../components/dgrform/StepDGRMain";
 import StepBeneficiaire from "../components/dgrform/StepBeneficiaire";
 import StepNavigation from "../components/dgrform/StepNavigation";
-import StepDate from "../components/dgrform/StepDate";
+import StepDate from "../components/general/StepDate";
 
 import { getDocumentById, editDocument } from "../services/document.service";
 import {
@@ -20,6 +20,7 @@ import {
   editPersonneLiee,
   removePersonneLiee,
 } from "../services/dgr.service";
+import Loading from "../components/general/Loading";
 
 // Helper function to convert string to number
 const toNumber = (value) => {
@@ -401,7 +402,7 @@ const handleSubmit = async () => {
 
   const renderStep = () => {
     if (loading) {
-      return <div className="text-center p-8">Chargement...</div>;
+      return <Loading />;
     }
 
     // Step 0 → Date

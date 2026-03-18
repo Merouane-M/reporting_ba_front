@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import StepDate from "../components/cbrform/StepDate";
-import StepNavigation from "../components/cbrform/StepNavigation";
+import StepDate from "../components/general/StepDate";
+import StepNavigation from "../components/general/StepNavigation";
 import StepCBR from "../components/cbrform/StepCBR";
 import { addDocument } from "../services/document.service";
 
@@ -131,7 +131,7 @@ const handleSubmit = async () => {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Semestrielle" />;
 
       case 1:
         return (
@@ -162,7 +162,7 @@ const handleSubmit = async () => {
 
       {renderStep()}
 
-      <StepNavigation step={step} setStep={setStep} maxStep={2} />
+      <StepNavigation step={step} setStep={setStep} steps={["Date", "CBR"]} />
 
       <div className="flex justify-end gap-3 mt-6">
         <button

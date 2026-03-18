@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-import StepDate from "../components/rccform/StepDate"
-import StepNavigation from "../components/rccform/StepNavigation";
+import StepDate from "../components/general/StepDate"
+import StepNavigation from "../components/general/StepNavigation";
 import StepRCC from "../components/rccform/StepRCC";
 import { addDocument } from "../services/document.service";
 
@@ -13,6 +13,7 @@ function CreateRCCPage() {
 
   const [formData, setFormData] = useState({
     CodeDeclaration: "RCC",
+    etablissement_declarant: "025",
     Frequence: "Trimestrielle",
   });
 
@@ -39,7 +40,7 @@ function CreateRCCPage() {
   const renderStep = () => {
   switch (step) {
     case 0:
-      return <StepDate formData={formData} updateField={updateField} />;
+      return <StepDate formData={formData} updateField={updateField} frequency="Trimestrielle" />;
 
     case 1:
       return (
@@ -80,7 +81,7 @@ function CreateRCCPage() {
 
         {renderStep()}
 
-        <StepNavigation step={step} setStep={setStep} maxStep={3} />
+        <StepNavigation step={step} setStep={setStep} steps={["Date", "Publique", "Privé"]} />
 
         <div className="flex justify-end gap-3 mt-6">
           <button

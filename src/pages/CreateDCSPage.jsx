@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addDocument } from "../services/document.service";
-import StepDate from "../components/dcsform/StepDate";
+import StepDate from "../components/general/StepDate";
 import { useDocument } from "../context/DocumentContext"
-import StepNavigation from "../components/dcsform/StepNavigation";
+import StepNavigation from "../components/general/StepNavigation";
 import StepM100 from "../components/dcsform/StepM100.jsx";
 import StepS2000A from "../components/dcsform/StepS2000A.jsx";
 import StepS2000B from "../components/dcsform/StepS2000B.jsx";
@@ -17,6 +17,7 @@ function CreateDCSPage() {
 
   const [formData, setFormData] = useState({
     CodeDeclaration: "DCS",
+    etablissement_declarant : "025",
     Frequence: "Quarterly",
   });
 
@@ -42,7 +43,7 @@ function CreateDCSPage() {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Trimestrielle" />;
       case 1:
         return <StepM100 formData={formData} updateField={updateField} />;
       case 2:
@@ -73,7 +74,7 @@ function CreateDCSPage() {
 
         {renderStep()}
 
-        <StepNavigation step={step} setStep={setStep} maxStep={8} />
+        <StepNavigation step={step} setStep={setStep} steps={["Date", "S1000", "S2000 A","S2000 B","S2000 C","S3000"]} />
 
         <div className="flex justify-end gap-3 mt-6">
           <button

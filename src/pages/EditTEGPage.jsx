@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import StepDate from "../components/tegform/StepDate";
-import StepNavigation from "../components/tegform/StepNavigation";
+import StepDate from "../components/general/StepDate";
+import StepNavigation from "../components/general/StepNavigation";
 import MoyTeg from "../components/tegform/MoyTeg";
+import Loading from "../components/general/Loading";
 
 import { editDocument, getDocumentById } from "../services/document.service";
 
@@ -67,7 +68,7 @@ function EditTEGPage() {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Semestrielle" />;
       case 1:
         return <MoyTeg formData={formData} updateField={updateField} />;
       default:
@@ -76,14 +77,7 @@ function EditTEGPage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center p-6">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
-        <span className="ml-2 text-sofiblue font-bold">
-          Chargement des données…
-        </span>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
@@ -102,7 +96,7 @@ function EditTEGPage() {
 
         {renderStep()}
 
-        <StepNavigation step={step} setStep={setStep} maxStep={1} />
+        <StepNavigation step={step} setStep={setStep} steps={["Date", "TEG Moyen"]} />
 
         <div className="flex justify-end gap-3 mt-6">
           <button

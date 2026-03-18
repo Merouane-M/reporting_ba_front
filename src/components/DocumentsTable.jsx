@@ -13,6 +13,7 @@ import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/outline"; //
 import DocumentActions from "./DocumentsTable/DocumentActions";
 import DocumentStatus from "./DocumentsTable/DocumentStatus";
 import ConfirmModal from "./DocumentsTable/ConfirmModal";
+import Loading from "./general/Loading";
 
 function DocumentsTable({ type }) {
   const { document } = useDocument();
@@ -224,12 +225,7 @@ function DocumentsTable({ type }) {
 
   // ================= LOADING =================
   if (loading) {
-    return (
-      <div className="flex justify-center items-center p-6">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
-        <span className="ml-2 text-sofiblue font-bold">Chargement…</span>
-      </div>
-    );
+    return <Loading />;
   }
 
   // ================= EMPTY =================

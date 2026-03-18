@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import StepDate from "../components/tegform/StepDate";
-import StepNavigation from "../components/tegform/StepNavigation";
+import StepDate from "../components/general/StepDate";
+import StepNavigation from "../components/general/StepNavigation";
 import MoyTeg from "../components/tegform/MoyTeg";
 import { addDocument } from "../services/document.service";
 
@@ -41,7 +41,7 @@ function CreateTEGPage() {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Semestrielle" />;
       case 1:
         return <MoyTeg formData={formData} updateField={updateField} />;
 
@@ -66,7 +66,7 @@ function CreateTEGPage() {
 
         {renderStep()}
 
-        <StepNavigation step={step} setStep={setStep} maxStep={1} />
+        <StepNavigation step={step} setStep={setStep} steps={["Date", "TEG Moyen"]} />
 
         <div className="flex justify-end gap-3 mt-6">
           <button

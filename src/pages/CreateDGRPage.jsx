@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import StepDGRMain from "../components/dgrform/StepDGRMain";
 import StepBeneficiaire from "../components/dgrform/StepBeneficiaire";
 import StepNavigation from "../components/dgrform/StepNavigation";
-import StepDate from "../components/dgrform/StepDate";
+import StepDate from "../components/general/StepDate";
 
 import { addDocument } from "../services/document.service";
 import { addBeneficiaire, addPersonneLiee } from "../services/dgr.service";

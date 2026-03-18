@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import StepDate from "../components/rccform/StepDate";
-import StepNavigation from "../components/rccform/StepNavigation";
+import StepDate from "../components/general/StepDate";
+import StepNavigation from "../components/general/StepNavigation";
 import StepRCC from "../components/rccform/StepRCC";
+import Loading from "../components/general/Loading";
 
 import { editDocument, getDocumentById } from "../services/document.service";
 
@@ -67,7 +68,7 @@ function EditRCCPage() {
   const renderStep = () => {
   switch (step) {
     case 0:
-      return <StepDate formData={formData} updateField={updateField} />;
+      return <StepDate formData={formData} updateField={updateField} frequency="Trimestrielle" />;
 
     case 1:
       return (
@@ -93,14 +94,7 @@ function EditRCCPage() {
 };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center p-6">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
-        <span className="ml-2 text-sofiblue font-bold">
-          Chargement des données…
-        </span>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
@@ -116,7 +110,7 @@ function EditRCCPage() {
 
       {renderStep()}
 
-      <StepNavigation step={step} setStep={setStep} maxStep={2} />
+      <StepNavigation step={step} setStep={setStep} steps={["Date", "Publique", "Privé"]} />
 
       <div className="flex justify-end gap-3 mt-6">
         <button

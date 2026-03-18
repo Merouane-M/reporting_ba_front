@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import StepDate from "../components/dpcform/StepDate";
+import StepDate from "../components/general/StepDate";
 import StepFondsPropres from "../components/dpcform/StepPositionChange";
-import StepNavigationDPC from "../components/dpcform/StepNavigationDPC";
+import StepNavigation from "../components/general/StepNavigation";
 import { addDocument } from "../services/document.service";
 
 function CreateDPCPage() {
@@ -35,7 +35,7 @@ function CreateDPCPage() {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Mensuelle" />;
       case 1:
         return (
           <StepFondsPropres formData={formData} updateField={updateField} />
@@ -76,7 +76,7 @@ function CreateDPCPage() {
 
         {renderStep()}
 
-        <StepNavigationDPC step={step} setStep={setStep} />
+        <StepNavigation step={step} setStep={setStep} steps={["Date", "Position de change II"]} />
 
         <div className="flex justify-end mt-6 gap-3">
           <button className="btn btn-primary" onClick={handleSubmit}>

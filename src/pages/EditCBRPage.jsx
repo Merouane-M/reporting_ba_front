@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import StepDate from "../components/cbrform/StepDate";
-import StepNavigation from "../components/cbrform/StepNavigation";
+import StepDate from "../components/general/StepDate";
+import StepNavigation from "../components/general/StepNavigation";
 import StepCBR from "../components/cbrform/StepCBR";
+import Loading from "../components/general/Loading";
 
 import { editDocument, getDocumentById } from "../services/document.service";
 
@@ -180,7 +181,7 @@ function EditCBRPage() {
   const renderStep = () => {
     switch (step) {
       case 0:
-        return <StepDate formData={formData} updateField={updateField} />;
+        return <StepDate formData={formData} updateField={updateField} frequency="Semestrielle" />;
       case 1:
         return (
           <StepCBR
@@ -196,14 +197,7 @@ function EditCBRPage() {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center p-6">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sofiblue"></div>
-        <span className="ml-2 text-sofiblue font-bold">
-          Chargement des données…
-        </span>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
@@ -219,7 +213,7 @@ function EditCBRPage() {
 
       {renderStep()}
 
-      <StepNavigation step={step} setStep={setStep} maxStep={2} />
+      <StepNavigation step={step} setStep={setStep} steps={["Date", "CBR"]} />
 
       <div className="flex justify-end gap-3 mt-6">
         <button
