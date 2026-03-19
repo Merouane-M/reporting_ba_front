@@ -14,6 +14,7 @@ function CreateRCCPage() {
   const [formData, setFormData] = useState({
     CodeDeclaration: "RCC",
     Frequence: "Trimestrielle",
+    etablissement_declarant: "025"
   });
 
   const updateField = (key, value) => {
