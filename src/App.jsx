@@ -32,6 +32,9 @@ import EditCBRPage from "./pages/EditCBRPage";
 import CreateECPPage from "./pages/CreateECPPage";
 import EditECPPage from "./pages/EditECPPage";
 
+import CreateSFEPage from "./pages/CreateSFEPage";
+import EditSFEPage from "./pages/EditSFEPage";
+
 import ProtectedRoute from "./components/general/ProtectedRoute";
 import Layout from "./components/general/Layout";
 
@@ -76,7 +79,9 @@ function App() {
           <Route path="/documents/ecp/create" element={<CreateECPPage />} />
           <Route path="/documents/ecp/edit/:id" element={<EditECPPage />} />
 
-          
+          <Route path="/documents/sfe/create" element={<CreateSFEPage />} />
+          <Route path="/documents/sfe/edit/:id" element={<EditSFEPage />} />
+
         </Route>
 
           <Route path="*" element={<NotFound />} />

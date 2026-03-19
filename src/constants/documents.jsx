@@ -10,7 +10,7 @@ export const documentTypes = [
   // { abbr: 'CPD', fullName: 'Liste des Cinquante (50) Plus Gros Clients Douteux du Secteur Prive', frequency:"Semestrielle" },
   // { abbr: 'PEI', fullName: ' Déclaration des prêts et emprunts interbancaires', frequency:"Semestrielle" },
   { abbr: 'RCC', fullName: ' Répartition des créances et engagements classés' , frequency:"Trimestrielle"},
-  // { abbr: 'SFE', fullName: " Déclaration des crédits rééchelonnés au titre du soutien financier de l'Etat", frequency:"Mensuelle" },
+  { abbr: 'SFE', fullName: " Déclaration des crédits rééchelonnés au titre du soutien financier de l'Etat", frequency:"Mensuelle" },
   // { abbr: 'CCC', fullName: "Etat des créances courantes et classées", frequency:"Annuelle" },
 
 ];
